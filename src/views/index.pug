@@ -1,0 +1,9 @@
+extends layout.pug
+
+block content
+  h1 Robust AAA
+  h2 Testa din sida för robustighet
+
+  form(method='GET' action='/test')
+    input(type='text' name='domain' placeholder='your.domain.tld')
+    button(type='submit') Testa

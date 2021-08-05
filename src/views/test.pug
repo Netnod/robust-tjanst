@@ -1,0 +1,16 @@
+extends layout.pug
+
+
+block content
+  - var sigil_url = absolutePath(`/sigil/${domain}/text.svg`);
+
+  h1 Results for #{domain}
+  pre #{json}
+
+  section 
+    h2 Your sigil
+    img(src=sigil_url style="border: 1px solid black" width=240 height=80 alt="Robust-AAA score for #{domain}")
+
+    h2 Embed
+    pre 
+      = `<img src="${sigil_url}" alt="Robust-AAA score for ${domain}"/>`

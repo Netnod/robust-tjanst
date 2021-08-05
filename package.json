@@ -1,0 +1,29 @@
+{
+  "name": "robust-aaa",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "npx nodemon --ext pug,js src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Netnod/robust-aaa.git"
+  },
+  "author": "",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/Netnod/robust-aaa/issues"
+  },
+  "homepage": "https://github.com/Netnod/robust-aaa#readme",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "@koa/router": "^10.1.0",
+    "koa": "^2.13.1",
+    "koa-logger": "^3.2.1",
+    "koa-views": "^7.0.1",
+    "pug": "^3.0.2",
+    "shelljs": "^0.8.4"
+  }
+}
