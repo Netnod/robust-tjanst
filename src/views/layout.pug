@@ -2,5 +2,9 @@ doctype html
 html(lang="se")
   head
     title Robust AAA - #{pageTitle}
+    link(href="/style.css", rel="stylesheet")
   body
-    block content
+    include header.pug
+
+    div(class="flex justify-center mt-8")
+        block content

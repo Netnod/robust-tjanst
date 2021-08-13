@@ -1,49 +1,18 @@
-const shell = require('shelljs')
+const runChecks = require("./lib/runChecks")
 
-shell.config.silent = true
+async function getCheck(ctx) {
+  const {domain} = ctx.request.params
+  if (!domain) throw "Boo!"
 
-function dig(str) {
-  return new Promise((resolve, reject) => {
-    shell.exec(`dig +time=1 ${str}`, {async: true}, function(code, stdout, stderr) {
-      if (code === 0) resolve(stdout)
-      else reject(stderr || stdout)
-    })
-  })
+  const json = await runChecks(domain)
+    .then(
+      result => result,
+      err => err
+    )
+    .then(obj => JSON.stringify(obj, null, 2))
+
+  await ctx.render('checks/result', {domain, json})
 }
 
 
-async function testIPv4(domain) {
-  try {
-    await dig(`-4 ${domain}`)
-    return true
-  } catch {
-    return false
-  }
-}
-
-async function testIPv6(domain) {
-  try {
-    await dig(`-6 ${domain}`)
-    return true
-  } catch {
-    return false
-  }
-}
-
-async function execute(domain) {
-  const [ipv4_dig, ipv6_dig] = await Promise.all([testIPv4(domain), testIPv6(domain)])
-
-  return {
-    ipv4_dig,
-    ipv6_dig,
-  }
-}
-
-const cache = new Map()
-
-module.exports = async function check(domain) {
-  if (cache.has(domain)) return cache.get(domain)
-  const result = await execute(domain)
-  cache.set(domain, result)
-  return result
-}
+module.exports = {getCheck}

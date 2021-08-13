@@ -16,6 +16,8 @@ RUN npm ci
 
 COPY . .
 
+RUN npm run css:build
+
 ENV PORT 3000
 EXPOSE $PORT
 

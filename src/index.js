@@ -2,13 +2,18 @@ require('dotenv').config()
 
 const path = require('path')
 const {pathToFileURL} = require('url')
+const {createPool} = require('slonik')
 
 const Koa = require('koa')
 const KoaLogger = require('koa-logger')
-const router = require('@koa/router')()
+const KoaRouter = require('@koa/router')
 const views = require('koa-views')
+const koaBody = require('koa-body')
 
-const runChecks = require('./checks')
+const accounts = require('./accounts')
+const domains = require('./domains')
+const sigil = require('./sigil')
+const checks = require('./checks')
 
 const {BASE_URL} = process.env
 
@@ -31,58 +36,35 @@ app.use(async (ctx, next) => {
   await next()
 })
 
+
+const dbPool = createPool(process.env.DATABASE_URL)
+
+app.context.dbPool = dbPool
+
+const router = new KoaRouter()
+// --- TO BE REMOVED
 router.get('/', async (ctx) => {
   await ctx.render('index')
 })
-
-router.get('/test', async (ctx, next) => {
+router.get('/test', ctx => {
   const {domain} = ctx.request.query
-  if (!domain) res.status(403).send("Booo!")
+  ctx.redirect(`/domains/test/${domain}`)
 
-  const json = await runChecks(domain)
-    .then(
-      result => result,
-      err => err
-    )
-    .then(obj => JSON.stringify(obj, null, 2))
-
-  await ctx.render('test', {domain, json})
 })
+// ----------------- // 
 
-router.get('/sigil/:domain/text.svg', async (ctx, next) => {
-  const {domain} = ctx.request.params
-  if (!domain) throw "Boo"
+router.get('/domains/top', domains.listTopDomains)
+router.get('/domains/test/:domain', domains.getCheck)
 
-  ctx.set('Content-Type', 'image/svg+xml')
-  ctx.set("Content-Dispositon","attachment; filename=" + "sigil.svg")
+router.get('/sigil/:domain/text.svg', sigil.getSigil)
 
-
-  const result = await runChecks(domain)
-  const fullScore = Object.values(result).every(value => value === true)
-  const score = fullScore ? 'good': 'bad'
-
-  ctx.body = `
-      <svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
-        <style>
-          .small { font: italic 13px sans-serif; }
-          .heavy { font: bold 30px sans-serif; }
-      
-          /* Note that the color of the text is set with the    *
-          * fill property, the color property is for HTML only */
-          .bad { font: italic 40px serif; fill: red; }
-          .good { font: italic 40px serif; fill: green; }
-        </style>
-      
-        <text x="20" y="35" class="small">My</text>
-        <text x="40" y="35" class="heavy">site</text>
-        <text x="55" y="55" class="small">is</text>
-        <text x="65" y="55" class="${score}">${score === 'good' ? 'Robust!' : 'Bad!'}</text>
-      </svg>
-    `
-})
-
+router.get('/accounts/new', accounts.newAccount)
+router.post('/accounts', koaBody(), accounts.createAccount)
 
 app.use(router.routes())
+
+
+app.use(require('koa-static')((__dirname + '/../public')))
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {

@@ -8,8 +8,12 @@ Note `.env` in the root.
 nvm install
 nvm use
 npm ci
+
 npm run start # serves on localhost:PORT
 # for devs: npm run dev
+
+npm run css:build # compiles frontend css into public/style.css
+# for devs: npm run css:watch
 ```
 
 ## Run with docker

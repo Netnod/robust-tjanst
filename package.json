@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "npx nodemon --ext pug,js src/index.js"
+    "dev": "npx nodemon --ext pug,js src/index.js",
+    "css:watch": "npx nodemon --watch frontend/ --ext css --exec npm run css:build",
+    "css:build": "postcss frontend/style.css -o public/style.css"
   },
   "repository": {
     "type": "git",
@@ -18,12 +20,22 @@
   },
   "homepage": "https://github.com/Netnod/robust-aaa#readme",
   "dependencies": {
-    "dotenv": "^10.0.0",
     "@koa/router": "^10.1.0",
+    "@tailwindcss/forms": "^0.3.3",
+    "autoprefixer": "^10.3.1",
+    "dotenv": "^10.0.0",
     "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
     "koa-logger": "^3.2.1",
     "koa-views": "^7.0.1",
+    "postcss": "^8.3.6",
+    "postcss-cli": "^8.3.1",
     "pug": "^3.0.2",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.8.4",
+    "slonik": "^24.0.0",
+    "tailwindcss": "^2.2.7"
+  },
+  "devDependencies": {
+    "koa-static": "^5.0.0"
   }
 }
