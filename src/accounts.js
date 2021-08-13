@@ -1,12 +1,15 @@
-const Router = require('@koa/router');
-const koaBody = require('koa-body')
+const { genSalt, hash } = require('bcrypt');
+const koaBody = require('koa-body');
+const passport = require('koa-passport');
 const { sql, UniqueIntegrityConstraintViolationError } = require("slonik");
 
-async function createNewUser(connection, payload) {
+async function createNewUser(connection, {name, email, password}) {
+  console.log(sql.array([name, email, password]))
   try {
     const {id} = await connection.one(sql`
-      INSERT INTO accounts (name, email)
-      VALUES (${payload.name}, ${payload.email})
+      INSERT INTO accounts (name, email, password)
+      VALUES 
+        (${sql.join([name, email, password], sql`, `)})
       RETURNING id
     `)
 
@@ -35,11 +38,22 @@ module.exports = {
   },
 
   createAccount: async (ctx) => {
-    const account = ctx.request.body?.account
+    const account = ctx.request.body
     // TODO: Validate
 
-    await createNewUser(ctx.dbPool, account)
-    await ctx.render('accounts/new', {account})
+    const salt = await genSalt(10)
+    const password = await hash(account.password, salt)
+
+
+    console.log(account)
+    const id = await createNewUser(ctx.dbPool, {...account, password})
+    await ctx.login(id)
+    ctx.redirect('/')
+
+    // return passport.authenticate('local', {
+    //   failureRedirect: '/accounts/new',
+    //   successRedirect: '/'
+    // })(ctx)
   }
 }
 

@@ -1,34 +1,44 @@
 require('dotenv').config()
 
 const path = require('path')
-const {pathToFileURL} = require('url')
-const {createPool} = require('slonik')
 
 const Koa = require('koa')
-const KoaLogger = require('koa-logger')
 const KoaRouter = require('@koa/router')
-const views = require('koa-views')
+const koaLogger = require('koa-logger')
+const koaViews = require('koa-views')
 const koaBody = require('koa-body')
+const koaSession = require('koa-session')
+
+const dbPool = require('./db')
+
+const passport = require('./middleware/auth')
 
 const accounts = require('./accounts')
 const domains = require('./domains')
 const sigil = require('./sigil')
-const checks = require('./checks')
+const auth = require('./auth')
 
-const {BASE_URL} = process.env
+const {BASE_URL, SIGNED_COOKIE_KEYS} = process.env
 
 const app = new Koa()
-app.use(KoaLogger())
-app.use(views(
+
+app.keys = SIGNED_COOKIE_KEYS.split(',')
+app.use(koaSession({}, app))
+
+app.use(koaLogger())
+
+app.use(koaViews(
   path.join(__dirname, './views'), {
     map: {pug: 'pug'},
     extension: 'pug',
   }
 ))
 
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use(async (ctx, next) => {
-  // Helpers for pug templates
-  // TODO: use URL
+  // Helpers for pug templates. They are callable functions inside views
   ctx.state.absolutePath = (relativePath) => {
     return new URL(relativePath, BASE_URL).toString()
   }
@@ -37,15 +47,20 @@ app.use(async (ctx, next) => {
 })
 
 
-const dbPool = createPool(process.env.DATABASE_URL)
 
 app.context.dbPool = dbPool
 
 const router = new KoaRouter()
 // --- TO BE REMOVED
-router.get('/', async (ctx) => {
-  await ctx.render('index')
-})
+router.get(
+  '/', 
+  async (ctx) => {
+    if (ctx.isAuthenticated())
+      await ctx.render('index')
+    else 
+      ctx.redirect('/login')
+  }
+)
 router.get('/test', ctx => {
   const {domain} = ctx.request.query
   ctx.redirect(`/domains/test/${domain}`)
@@ -61,9 +76,13 @@ router.get('/sigil/:domain/text.svg', sigil.getSigil)
 router.get('/accounts/new', accounts.newAccount)
 router.post('/accounts', koaBody(), accounts.createAccount)
 
+router.get('/login', auth.getLogin)
+router.post('/login', koaBody(), auth.createLogin)
+router.get('/logout', auth.destroyLogin)
+
 app.use(router.routes())
 
-
+// TODO: if (NODE_ENV !== 'production')
 app.use(require('koa-static')((__dirname + '/../public')))
 
 const PORT = process.env.PORT || 3000

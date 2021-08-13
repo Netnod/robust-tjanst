@@ -20,7 +20,26 @@ function getTopDomains() {
   `
 }
 
+function getLatestResult(conn, domain_name) {
+  return conn.maybeOne(sql`
+    SELECT
+      test.id,
+      test.updated_at,
+      test.final_score 
+    FROM domain_tests test
+    INNER JOIN
+      domains d ON (d.domain_name = ${domain_name})
+    WHERE
+      -- TODO: ENUM changes this
+      test.test_status = 'FIN'
+    ORDER BY
+      test.updated_at DESC
+    LIMIT 1
+  `)
+}
+
 
 module.exports = {
-  getTopDomains
+  getTopDomains,
+  getLatestResult
 }

@@ -9,7 +9,7 @@ block content
         span(class="text-gray-700") Namn
         input(
           class="mt-1 block w-full" 
-          name="account[name]"
+          name="name"
           type="text" 
           placeholder="Fyll i ditt namn"
           value=account.name
@@ -19,16 +19,25 @@ block content
         span(class="text-gray-700") E-post
         input(
           class="mt-1 block w-full" 
-          name="account[email]" 
+          name="email" 
           type="email" 
           placeholder="Fyll i din e-postadress"
           value=account.email
         )
 
+      label(class="block mt-4")
+        span(class="text-gray-700") Lösenord
+        input(
+          class="mt-1 block w-full" 
+          name="password"
+          type="password" 
+          placeholder="*****"
+        )
+
       div(class="block mt-4")
         label(class="inline-flex items-center")
           input(
-            name="account[consent]" 
+            name="consent" 
             type="checkbox"
             checked=account.consent
           )
