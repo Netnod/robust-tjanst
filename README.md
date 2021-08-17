@@ -41,3 +41,18 @@ npm run css:build # compiles frontend css into public/style.css
 ```
 docker run --rm -it -p 3000:3000 robust-aaa 
 ```
+
+# Developing
+## Setting up the database
+
+```
+createdb robust-aaa
+psql -d robust-aaa -f src/db/schema.sql
+```
+
+## Adding fake data to the database
+Convenient while developing. Adds a few accounts/websites/tests.
+
+```
+npm run db:seed
+```

@@ -7,7 +7,8 @@
     "start": "node src/index.js",
     "dev": "npx nodemon --ext pug,js src/index.js",
     "css:watch": "npx nodemon --watch frontend/ --ext css --exec npm run css:build",
-    "css:build": "postcss frontend/style.css -o public/style.css"
+    "css:build": "postcss frontend/style.css -o public/style.css",
+    "db:seed": "node ./src/db/seeds"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "tailwindcss": "^2.2.7"
   },
   "devDependencies": {
+    "faker": "^5.5.3",
     "koa-static": "^5.0.0",
     "slonik-interceptor-query-logging": "^1.3.9"
   }

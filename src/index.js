@@ -96,6 +96,9 @@ router.get('/test', ctx => {
 
 router.get('top_domains', '/domains/top', domains.listTopDomains)
 router.get('/domains/test/:domain', domains.getCheck)
+router.get('my_domains', '/domains/mine', domains.getMine)
+router.post('create_domain', '/domains', koaBody(), domains.createDomain)
+router.get('domain_page', '/domain/:id', domains.showDomain)
 
 router.get('/sigil/:domain/text.svg', sigil.getSigil)
 

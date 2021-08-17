@@ -6,12 +6,14 @@ const dbPool = require("../db");
 const { findAccount } = require("../db/queries/auth");
 
 
+// The first argument is passed by the strategy
 passport.serializeUser((id, done) => {
-  done(null, id)
+  done(null, {id})
 })
 
-passport.deserializeUser((id, done) => {
-  done(null, id)
+// The first argument is "passed by" the serializer ^
+passport.deserializeUser((serialized, done) => {
+  done(null, serialized)
 })
 
 passport.use(new LocalStrategy(

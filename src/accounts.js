@@ -1,10 +1,9 @@
-const { genSalt, hash } = require('bcrypt');
 const koaBody = require('koa-body');
 const passport = require('koa-passport');
 const { sql, UniqueIntegrityConstraintViolationError } = require("slonik");
+const { hashPassword } = require('./utils');
 
 async function createNewUser(connection, {name, email, password}) {
-  console.log(sql.array([name, email, password]))
   try {
     const {id} = await connection.one(sql`
       INSERT INTO accounts (name, email, password)
@@ -41,9 +40,7 @@ module.exports = {
     const account = ctx.request.body
     // TODO: Validate
 
-    const salt = await genSalt(10)
-    const password = await hash(account.password, salt)
-
+    const password = await hashPassword(account.password)
 
     console.log(account)
     const id = await createNewUser(ctx.dbPool, {...account, password})
@@ -54,6 +51,6 @@ module.exports = {
     //   failureRedirect: '/accounts/new',
     //   successRedirect: '/'
     // })(ctx)
-  }
+  },
 }
 
