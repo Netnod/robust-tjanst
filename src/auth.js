@@ -7,7 +7,7 @@ async function getLogin(ctx) {
 
 function createLogin(ctx) {
   return passport.authenticate('local', {
-    failureRedirect: '/login', 
+    failureRedirect: ctx.state.namedPath('login'), 
     successRedirect: '/'}
   )(ctx)
 }

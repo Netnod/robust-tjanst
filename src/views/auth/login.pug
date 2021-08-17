@@ -5,7 +5,7 @@ block content
   div(class="col-sm-12 flex flex-col")
     h1(class="text-3xl mb-8") Logga in
 
-    form(method="post" action="/login" class="flex flex-col")
+    form(method="post" action=namedPath('login') class="flex flex-col")
       label(class="block")
         span(class="text-gray-700") E-post 
         input(
@@ -32,5 +32,5 @@ block content
 
     p
       | Inget konto? 
-      a(href="/accounts/new" class="text-blue-400")
+      a(href=namedPath('register') class="text-blue-400")
         | Registrera dig då, va?

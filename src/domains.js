@@ -6,7 +6,7 @@ async function listTopDomains(ctx) {
     const domains = await connection.any(getTopDomains())
     await ctx.render(
       'domains/top_domains', 
-      {
+    {
         pageTitle: "Hall of Fame", 
         domains
       })

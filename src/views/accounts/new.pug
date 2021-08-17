@@ -4,13 +4,13 @@ block content
   div(class="col-sm-12 flex flex-col")
     h1(class="text-3xl mb-8") Skapa ett konto 
 
-    form(method="post" action="/accounts" class="flex flex-col")
+    form(method="post" action=namedPath('create_account') class="flex flex-col")
       label(class="block")
         span(class="text-gray-700") Namn
         input(
-          class="mt-1 block w-full" 
+          class="mt-1 block w-full"
           name="name"
-          type="text" 
+          type="text"
           placeholder="Fyll i ditt namn"
           value=account.name
         )
@@ -18,9 +18,9 @@ block content
       label(class="block mt-4")
         span(class="text-gray-700") E-post
         input(
-          class="mt-1 block w-full" 
-          name="email" 
-          type="email" 
+          class="mt-1 block w-full"
+          name="email"
+          type="email"
           placeholder="Fyll i din e-postadress"
           value=account.email
         )
@@ -40,6 +40,7 @@ block content
             name="consent" 
             type="checkbox"
             checked=account.consent
+            required
           )
           span(class="text-gray-700 ml-2")
             | Jag godkänner de allmänna villkoren
