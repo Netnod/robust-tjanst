@@ -10,6 +10,7 @@ const { sql } = require('slonik')
 const db = require('./index')
 
 const {hashPassword} = require('../utils')
+const { associateAccountWithDomain } = require('./queries/domains')
 
 const repeat = (times, cb) => {
   return Array.from({length: times}).map((_, i) => cb(i))
@@ -39,11 +40,12 @@ async function seed() {
     RETURNING *
   `)
 
-  console.log(accounts)
+  console.log('Account IDs and emails: ', accounts.map(a => [a.id, a.email]))
 
   const websites = []
+  // Generate 1-5 sites per account
   for (const account of accounts) {
-    const rows = repeat(5, i =>
+    const rows = repeat(faker.datatype.number({min: 1, max: 5}), i =>
       sql.join([
         `https://${account.id}.${i}.example.com`,
         faker.date.between('2021-01-17', new Date()).toISOString()
@@ -59,9 +61,24 @@ async function seed() {
 
     const account_websites = await db.many(query)
     websites.push(...account_websites)
+
+    for (const website of account_websites) {
+      await db.query(associateAccountWithDomain(account.id, website.id))
+    }
   }
 
-  console.log(websites)
+  console.log('Websites: ', websites.map(w => w.domain_name))
+
+  for (const website of websites) {
+    // Create a history of tests for each website
+    const query = sql`
+      INSERT INTO domain_tests (domain_id, created_at, test_status, final_score)
+      VALUES
+        (${website.id}, ${new Date().toISOString()}, ${'FIN'}, ${faker.datatype.number({min: 15, max: 100})})
+    `
+
+    await db.query(query)
+  }
 
   await db.end()
 }

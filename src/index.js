@@ -17,41 +17,36 @@ const accounts = require('./accounts')
 const domains = require('./domains')
 const sigil = require('./sigil')
 const auth = require('./auth')
+const { InvalidSessionError } = require('./errors')
+const { format } = require('date-fns')
 
 const {BASE_URL, SIGNED_COOKIE_KEYS, NODE_ENV} = process.env
 
 const app = new Koa()
 
+app.use(koaLogger())
 app.keys = SIGNED_COOKIE_KEYS.split(',')
 app.use(koaSession({}, app))
-
-app.use(koaLogger())
-
-app.use(koaViews(
-  path.join(__dirname, './views'), {
-    map: {pug: 'pug'},
-    extension: 'pug',
-  }
-))
-
-app.use(passport.initialize())
-app.use(passport.session())
-
-// Provide `ctx.dbPool` for routes
-app.context.dbPool = dbPool
 
 app.on('error', (err, ctx) => {
   // TODO: Sentry or some other error reporting
   console.error(err)
 })
 
-
 // Unhandled exceptions
 app.use(async (ctx, next) => {
   try {
     await next()
   } catch (err) {
+    if (err instanceof InvalidSessionError) {
+      ctx.session = null
+      // TODO: Add flash message explaining what happened
+      ctx.redirect('/')
+      return
+    }
+
     ctx.status = 500
+    console.log(err)
     if (NODE_ENV === 'production') {
       ctx.body = 'Internal Server Error'
     } else {
@@ -66,6 +61,21 @@ app.use(async (ctx, next) => {
     }
   }
 })
+
+
+
+app.use(koaViews(
+  path.join(__dirname, './views'), {
+    map: {pug: 'pug'},
+    extension: 'pug',
+  }
+))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+// Provide `ctx.dbPool` for routes
+app.context.dbPool = dbPool
 
 const router = new KoaRouter()
 
@@ -89,18 +99,18 @@ router.get(
 )
 router.get('/test', ctx => {
   const {domain} = ctx.request.query
-  ctx.redirect(`/domains/test/${domain}`)
+  ctx.redirect(router.url('test_domain', {domain: encodeURIComponent(domain)}))
 
 })
 // ----------------- // 
 
 router.get('top_domains', '/domains/top', domains.listTopDomains)
-router.get('/domains/test/:domain', domains.getCheck)
+router.get('test_domain', '/domains/test/:domain', domains.getCheck)
 router.get('my_domains', '/domains/mine', domains.getMine)
 router.post('create_domain', '/domains', koaBody(), domains.createDomain)
 router.get('domain_page', '/domain/:id', domains.showDomain)
 
-router.get('/sigil/:domain/text.svg', sigil.getSigil)
+router.get('domain_sigil', '/sigil/:domain/text.svg', sigil.getSigil)
 
 router.get('register', '/accounts/new', accounts.newAccount)
 router.post('create_account', '/accounts', koaBody(), accounts.createAccount)
@@ -127,6 +137,10 @@ app.use(async (ctx, next) => {
   ctx.state.namedURL = (name, ...args) => {
     const path = ctx.state.namedPath(name, ...args)
     return new URL(path, BASE_URL).toString()
+  }
+
+  ctx.state.formatTimestamp = (ts) => {
+    return format(new Date(ts), 'yyyy-MM-dd')
   }
 
   await next()

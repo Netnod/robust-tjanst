@@ -2,7 +2,7 @@ const {
   getTopDomains, 
   getDomainsForAccount, 
   getDomainForAccountByURL, 
-  getDomainForAccountByID,
+  getDomainByID,
   insertDomain, 
   associateAccountWithDomain,
   getTestHistoryForDomain,
@@ -32,11 +32,15 @@ async function getCheck(ctx) {
 
 async function getMine(ctx) {
   await ctx.dbPool.connect(async (connection) => {
-    console.log(ctx.state.user)
     const account_id = ctx.state.user.id
+
+    // TODO: Include status from latest test
     const domains = await connection.any(getDomainsForAccount(account_id))
 
-    await ctx.render('domains/create_first', {url: ''})
+    if (domains.length === 0)
+      return await ctx.render('domains/create_first', {url: ''})
+
+    await ctx.render('domains/mine', {domains})
   })
 }
 
@@ -69,11 +73,11 @@ async function showDomain(ctx) {
   // 1. TODO: Validate that this is a valid URL with whatever additional checks
   //   NO: -> await ctx.render('domains/create' (or create_first.. depending), {url})
   await ctx.dbPool.connect(async (connection) => {
-    const domain = await connection.one(getDomainForAccountByID(account_id, id))
+    const domain = await connection.one(getDomainByID(id))
     const history = await connection.any(getTestHistoryForDomain(id))
 
     console.log({domain, history})
-    await ctx.render('domains/show', {domain})
+    await ctx.render('domains/show', {domain, history})
   })
 }
 

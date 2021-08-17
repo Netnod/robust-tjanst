@@ -56,3 +56,5 @@ Convenient while developing. Adds a few accounts/websites/tests.
 ```
 npm run db:seed
 ```
+
+Notice that each seeded account's password is set to `example` - meaning one can login with eg. `test0@example.com`/`example`.

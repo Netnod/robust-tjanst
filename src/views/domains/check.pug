@@ -2,7 +2,7 @@ extends ../layout.pug
 
 
 block content
-  - var sigil_url = absolutePath(`/sigil/${domain}/text.svg`);
+  - var sigil_url = namedURL('domain_sigil', {domain: encodeURIComponent(domain)});
 
   div(class="flex flex-col")
     h1(class="text-3xl mb-8") Results for #{domain}

@@ -1,9 +1,11 @@
 const { compare } = require("bcrypt");
 const passport = require("koa-passport");
 const LocalStrategy = require("passport-local");
+const { sql } = require("slonik");
 
 const dbPool = require("../db");
 const { findAccount } = require("../db/queries/auth");
+const { InvalidSessionError } = require("../errors");
 
 
 // The first argument is passed by the strategy
@@ -13,7 +15,17 @@ passport.serializeUser((id, done) => {
 
 // The first argument is "passed by" the serializer ^
 passport.deserializeUser((serialized, done) => {
-  done(null, serialized)
+  const {id} = serialized
+  dbPool.connect(async (conn) => {
+    const exists = await conn.maybeOne(sql`SELECT 1 FROM accounts WHERE id = ${id}`)
+    if (exists) {
+      done(null, serialized)
+    } else {
+      // TODO: Should result in a redirect to the login page
+      // and a message about having been logged out
+      done(new InvalidSessionError("No user with ID exists"), false)
+    }
+  })
 })
 
 passport.use(new LocalStrategy(

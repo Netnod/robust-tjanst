@@ -5,7 +5,7 @@ block content
     h1(class="text-3xl mb-8") Hall of fame
 
     table
-      thead 
+      thead(class="text-left")
         tr
           th Domain 
           th Score 
@@ -13,7 +13,11 @@ block content
       tbody
         each domain in domains 
           tr
-            td= domain.domain_name 
+            td
+              a(
+                class="text-blue-400"
+                href=namedPath('domain_page', {id: domain.id})
+              )= domain.domain_name 
             td= domain.final_score 
             td= domain.last_tested_at
 

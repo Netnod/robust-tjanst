@@ -13,9 +13,11 @@ function getTopDomains() {
       SELECT id
       FROM domain_tests dt
       WHERE dt.domain_id = lt.domain_id
+      AND dt.test_status = 'FIN'
       ORDER BY created_at DESC
       LIMIT 1
     )
+    ORDER BY final_score DESC
     LIMIT 25
   `
 }
@@ -36,6 +38,17 @@ function getLatestResult(conn, domain_name) {
       test.updated_at DESC
     LIMIT 1
   `)
+}
+
+function getDomainByID(id) {
+  return sql`
+    SELECT
+      d.id,
+      d.domain_name,
+      d.created_at 
+    FROM domains d 
+    WHERE d.id = ${id}
+  `
 }
 
 function getDomainsForAccount(account_id) {
@@ -103,7 +116,9 @@ function getTestHistoryForDomain(domain_id) {
       dt.test_status,
       dt.final_score
     FROM domain_tests dt
-    WHERE dt.id = ${domain_id}
+    WHERE dt.domain_id = ${domain_id}
+    ORDER BY dt.created_at DESC
+    LIMIT 50
   `
 }
 
@@ -111,6 +126,7 @@ module.exports = {
   getTopDomains,
   getLatestResult,
   getDomainsForAccount,
+  getDomainByID,
   getDomainForAccountByURL,
   getDomainForAccountByID,
   insertDomain,

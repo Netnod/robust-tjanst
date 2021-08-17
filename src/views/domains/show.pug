@@ -3,3 +3,22 @@ extends ../layout
 block content
   div(class="col-sm-12 flex flex-col")
     h1(class="text-3xl mb-8")= domain.domain_name
+
+
+    h2(class="text-xl mb-1") Test history
+
+    table
+      thead 
+        tr(class="text-left")
+          th Test id
+          th Date
+          th Status 
+          th Score
+
+      tbody
+        each test in history 
+          tr 
+            td= test.id 
+            td= formatTimestamp(test.created_at)
+            td= test.test_status 
+            td= test.final_score
