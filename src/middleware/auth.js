@@ -7,12 +7,10 @@ const { findAccount } = require("../db/queries/auth");
 
 
 passport.serializeUser((id, done) => {
-  console.log('seria schieeet', id)
   done(null, id)
 })
 
 passport.deserializeUser((id, done) => {
-  console.log('deser schieeet', id)
   done(null, id)
 })
 
