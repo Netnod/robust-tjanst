@@ -11,6 +11,9 @@ Although any version above 11 ought to work, 13 is the one used for development.
 
 An environment variable called DATABASE_URL is expected to be a full connection string pointing to a database that can be freely used by the application. When running through Docker this is expected to be present inside the container.
 
+## Redis 6.2.x
+TODO: Which URL to use, currently whatever is standard is used
+
 ## Without Docker
 
 ```
@@ -27,6 +30,12 @@ docker build -t robust-aaa .
 ```
 
 # Running
+## pm2
+```
+npm install -g pm2
+pm2 start
+```
+
 ## Without Docker
 ```
 

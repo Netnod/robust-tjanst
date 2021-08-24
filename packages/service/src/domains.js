@@ -7,7 +7,6 @@ const {
   associateAccountWithDomain,
   getTestHistoryForDomain,
 } = require('./db/queries/domains')
-// const runChecks = require('./lib/runChecks')
 
 async function listTopDomains(ctx) {
   await ctx.dbPool.connect(async (connection) => {

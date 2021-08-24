@@ -1,0 +1,16 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "engine": "1.0.0",
+
+    "immer": "^9.0.5",
+    "import-jsx": "^4.0.0",
+    "ink": "^3.0.9",
+    "ink-task-list": "^1.1.0",
+    "react": "^16.14.0",
+    "use-immer": "^0.6.0"
+  }
+}

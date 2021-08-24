@@ -1,5 +1,4 @@
 const { getLatestResult } = require("./db/queries/domains")
-const runChecks = require("./lib/runChecks")
 
 async function getSigil(ctx) {
   const {domain} = ctx.request.params
