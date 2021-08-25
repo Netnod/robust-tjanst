@@ -6,4 +6,4 @@ const {Engine} = require('engine')
 
 const engine = new Engine()
 
-importJsx('./UI.jsx')(engine)
+importJsx('./src/UI.jsx')(engine)

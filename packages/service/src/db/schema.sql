@@ -41,7 +41,6 @@ CREATE TABLE accounts (
 	email VARCHAR NOT NULL,
 	name VARCHAR NOT NULL,
 	password VARCHAR NOT NULL,
-	-- TODO: PASSWORD
 	
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP WITH TIME ZONE,
@@ -74,23 +73,30 @@ CREATE TABLE domain_tests (
 	updated_at TIMESTAMP WITH TIME ZONE,
 	
 	-- TODO: ENUM
-	test_status VARCHAR NOT NULL,
+	test_status VARCHAR NOT NULL DEFAULT 'scheduled',
 	final_score INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE domain_test_part (
 	domain_test_id BIGINT NOT NULL REFERENCES domain_tests(id),
-	part_id VARCHAR PRIMARY KEY,
+	part_id VARCHAR,
 	
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP WITH TIME ZONE,
 	
 	-- TODO: ENUM
-	test_status VARCHAR NOT NULL
+	test_status VARCHAR NOT NULL DEFAULT 'scheduled',
+
+	UNIQUE(domain_test_id, part_id)
 );
 
 
 CREATE TRIGGER
 	set_updated_at
-	BEFORE UPDATE ON accounts
+	BEFORE UPDATE ON domain_tests
+	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();
+
+CREATE TRIGGER
+	set_updated_at
+	BEFORE UPDATE ON domain_test_part
 	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();

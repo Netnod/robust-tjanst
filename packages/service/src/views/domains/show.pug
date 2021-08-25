@@ -4,6 +4,9 @@ block content
   div(class="col-sm-12 flex flex-col")
     h1(class="text-3xl mb-8")= domain.domain_name
 
+    form(method="post" action=namedPath('create_test'))
+      input(type="hidden" name="domain_id" value=domain.id)
+      input(type="submit" class="btn btn-blue mb-4" value="Run new test")
 
     h2(class="text-xl mb-1") Test history
 

@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+  div(class="col-sm-12 flex flex-col")
+    h1(class="text-3xl mb-8")= domain.domain_name
+
+    h2(class="text-xl mb-1") Test result
+
+    table
+      thead 
+        tr(class="text-left")
+          th Test id
+          th Status 
+
+      tbody
+        each part in parts
+          tr 
+            td= part.part_id 
+            td= part.test_status 

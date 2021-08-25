@@ -1,3 +1,4 @@
+const { sql } = require('slonik')
 const {
   getTopDomains, 
   getDomainsForAccount, 
@@ -71,6 +72,7 @@ async function showDomain(ctx) {
 
   // 1. TODO: Validate that this is a valid URL with whatever additional checks
   //   NO: -> await ctx.render('domains/create' (or create_first.. depending), {url})
+  // TODO: Validate that this domain belongs to this account?
   await ctx.dbPool.connect(async (connection) => {
     const domain = await connection.one(getDomainByID(id))
     const history = await connection.any(getTestHistoryForDomain(id))

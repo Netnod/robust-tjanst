@@ -14,6 +14,7 @@ const passport = require('./middleware/auth')
 
 const accounts = require('./accounts')
 const domains = require('./domains')
+const tests = require('./tests')
 const sigil = require('./sigil')
 const auth = require('./auth')
 const { InvalidSessionError } = require('./errors')
@@ -108,6 +109,9 @@ router.get('test_domain', '/domains/test/:domain', domains.getCheck)
 router.get('my_domains', '/domains/mine', domains.getMine)
 router.post('create_domain', '/domains', koaBody(), domains.createDomain)
 router.get('domain_page', '/domain/:id', domains.showDomain)
+
+router.post('create_test', '/test', koaBody(), tests.createTest)
+router.get('test_page', '/test/:id', tests.showTest)
 
 router.get('domain_sigil', '/sigil/:domain/text.svg', sigil.getSigil)
 
