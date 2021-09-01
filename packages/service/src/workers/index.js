@@ -66,6 +66,7 @@ const worker = new Worker(TEST_QUEUE_NAME, async (job) => {
     return new Promise(async (resolve, reject) => {
       // TODO: Do we need a timeout or error handling?
       await waitForEvent(engine, 'results')
+      // TODO: Write to domain_tests
       return Promise.all(statements).then(resolve, reject)
     })
   })

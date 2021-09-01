@@ -115,6 +115,7 @@ router.get('test_page', '/test/:id', tests.showTest)
 
 router.get('domain_sigil', '/sigil/:domain/text.svg', sigil.getSigil)
 
+// TODO: Auth check & enforce
 router.get('register', '/accounts/new', accounts.newAccount)
 router.post('create_account', '/accounts', koaBody(), accounts.createAccount)
 
