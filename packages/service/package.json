@@ -1,5 +1,5 @@
 {
-  "name": "robust-aaa",
+  "name": "service",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Netnod/robust-aaa.git"
+    "url": "git+https://github.com/Netnod/robust-tjanst.git"
   },
   "author": "",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/Netnod/robust-aaa/issues"
+    "url": "https://github.com/Netnod/robust-tjanst/issues"
   },
-  "homepage": "https://github.com/Netnod/robust-aaa#readme",
+  "homepage": "https://github.com/Netnod/robust-tjanst#readme",
   "dependencies": {
     "@koa/router": "^10.1.0",
     "bcrypt": "^5.0.1",

@@ -1,3 +1,4 @@
+throw new Error("Not here!")
 const {Engine} = require('engine')
 
 const { TEST_QUEUE_NAME } = require('./config')
@@ -70,7 +71,7 @@ const worker = new Worker(TEST_QUEUE_NAME, async (job) => {
       return Promise.all(statements).then(resolve, reject)
     })
   })
-})
+}, {connection: process.env.REDIS_URL})
 
 
 worker.on('completed', (job, value) => {

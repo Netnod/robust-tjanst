@@ -3,7 +3,7 @@
 */
 
 if (process.env.NODE_ENV === 'production') throw new Error("Do not run seeds in production!")
-require('dotenv').config()
+// require('dotenv').config()
 
 const faker = require('faker')
 const { sql } = require('slonik')
