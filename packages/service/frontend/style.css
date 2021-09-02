@@ -5,14 +5,106 @@
 
 @layer components {
   .btn {
-    @apply px-4 py-2 rounded cursor-pointer;
+    @apply px-4 py-2 rounded cursor-pointer transition-all;
   }
 
   .btn-blue {
     @apply bg-blue-600 text-white hover:bg-blue-400;
   }
+
+  .btn-yellow {
+    @apply bg-yellow text-black hover:bg-gray hover:text-white;
+  }
 }
 
 html, body {
   min-height: 100vh;
+}
+
+.flips {
+  position: relative;
+}
+
+.flips > span {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.flips > span:first-child {
+  opacity: 1;
+  animation-name: slideout;
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-fill-mode: forwards;
+}
+
+.flips > span:nth-child(2) {
+  opacity: 0;
+  animation-name: slidein;
+  animation-duration: 2s;
+  animation-delay: 2.1s;
+}
+
+.flips > span:nth-child(3) {
+  opacity: 0;
+  animation-name: slidein;
+  animation-duration: 2s;
+  animation-delay: 4.2s;
+}
+
+.flips > span:nth-child(4) {
+  opacity: 0;
+  animation-name: slidein;
+  animation-duration: 2s;
+  animation-delay: 6.3s;
+}
+
+.flips > span:nth-child(5) {
+  opacity: 0;
+  animation-name: slidein;
+  animation-duration: 2s;
+  animation-delay: 8.4s;
+}
+
+.flips > span:nth-child(6) {
+  opacity: 0;
+  animation-name: slidein-last;
+  animation-duration: 2s;
+  animation-delay: 10.5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes slidein {
+  0% {
+    opacity: 0.0;
+  }
+
+  50% {
+    opacity: 1.0;
+  }
+
+  100% {
+    opacity: 0.0;
+  }
+}
+
+@keyframes slideout {
+  from {
+    opacity: 1.0;
+  }
+
+  to {
+    opacity: 0.0;
+  }
+}
+
+@keyframes slidein-last {
+  0% {
+    opacity: 0.0;
+  }
+
+  100% {
+    opacity: 1.0;
+  }
 }

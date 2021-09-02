@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  div(class="col-sm-12 flex flex-col")
+    h1(class="text-3xl mb-8") Lägg till en ny sajt
+
+    form(method="post" action=namedPath('create_domain') class="flex flex-col")
+      label(class="block")
+        span(class="text-gray-700") URL
+        input(
+          class="mt-1 block w-full"
+          name="url"
+          type="url"
+          placeholder="URL"
+        )
+
+      div(class="block mt-4")
+        input(class="btn btn-blue w-full" type="submit" value="Nästa steg")

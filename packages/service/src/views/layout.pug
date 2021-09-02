@@ -1,10 +1,10 @@
-doctype html
-html(lang="se")
-  head
-    title Robust AAA - #{pageTitle}
-    link(href="/style.css", rel="stylesheet")
-  body
-    include header.pug
+extends base.pug
 
-    div(class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-8")
-        block content
+block head
+  title Robust AAA - #{pageTitle}
+
+block body
+  include header.pug
+
+  div(class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mt-8")
+    block content

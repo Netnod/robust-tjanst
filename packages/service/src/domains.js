@@ -82,4 +82,8 @@ async function showDomain(ctx) {
   })
 }
 
-module.exports = {listTopDomains, getCheck, getMine, createDomain, showDomain}
+async function getNew(ctx) {
+  await ctx.render('domains/new')
+}
+
+module.exports = {listTopDomains, getCheck, getMine, createDomain, showDomain, getNew}

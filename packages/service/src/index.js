@@ -20,6 +20,8 @@ const domains = require('./domains')
 const tests = require('./tests')
 const sigil = require('./sigil')
 const auth = require('./auth')
+const fake = require('./fake')
+
 const { InvalidSessionError } = require('./errors')
 const { format } = require('date-fns')
 
@@ -97,7 +99,8 @@ router.get(
     if (ctx.isAuthenticated())
       await ctx.render('index')
     else 
-      ctx.redirect('/login')
+      await ctx.render('landing')
+      // ctx.redirect('/login')
   }
 )
 router.get('/test', ctx => {
@@ -110,6 +113,7 @@ router.get('/test', ctx => {
 router.get('top_domains', '/domains/top', domains.listTopDomains)
 router.get('test_domain', '/domains/test/:domain', domains.getCheck)
 router.get('my_domains', '/domains/mine', domains.getMine)
+router.get('new_domain', '/domains/new', domains.getNew)
 router.post('create_domain', '/domains', koaBody(), domains.createDomain)
 router.get('domain_page', '/domain/:id', domains.showDomain)
 
@@ -125,6 +129,8 @@ router.post('create_account', '/accounts', koaBody(), accounts.createAccount)
 router.get('login', '/login', auth.getLogin)
 router.post('/login', koaBody(), auth.createLogin)
 router.get('logout', '/logout', auth.destroyLogin)
+
+router.get('fake_test', 'results', fake.test)
 
 
 

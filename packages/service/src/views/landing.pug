@@ -1,0 +1,79 @@
+extends base.pug
+
+block body
+  div(class="pt-8 flex flex-col" style="height: 72vh;")
+    div(class="ml-4 md:ml-0 md:text-center text-4xl mb-8 tracking-wider")
+      h1(class="inline-block") 
+        | Robust&nbsp;
+      h1(class="flips inline-block")
+        | &nbsp;
+        span Tjänst
+        span Hemsida
+        span App
+        span Hosting
+        span Domän
+        span(class="underline") Service
+
+    div(
+      class="px-4 my-12 flex flex-col items-center justify-center flex-grow"
+    )
+      form(method="get" action=namedPath('fake_test') class="w-full lg:w-3/4 flex flex-row" ) 
+        input(class="flex-grow p-4" autofocus type="text" name="url" placeholder="http://din.sida.se")
+        input(type="submit" class="ml-2 w-24 btn btn-yellow" value="Testa")
+      p(class="mt-4") Håller <em>din</em> sida måttet?
+
+  div
+    section(class="px-4 py-14 sm:px-14 pb-0 flex flex-row items-end")
+      h2(class="text-4xl") Så fungerar det
+      span(class="text-4xl text-yellow ml-2 animate-bounce") ↓
+
+    section(
+      class="bg-gray text-white p-20 flex flex-row items-center" 
+      style=`
+        min-height: 50vh; 
+    `)
+      span(class="text-8xl text-yellow mr-12") 1
+      div(
+        class="pt-2 flex flex-row flex-grow" 
+      )
+        div(class="text-lg")
+          h3(class="text-4xl mb-4") Vi håller koll
+          p Genom reguljära tester av bland annat
+          ul(class="mt-8")
+            li IPv6
+            li DNSSEC
+            li HTTPS
+            li Tillgänglihet
+            li Rättvishet
+
+
+    section(
+      class="p-20 flex flex-row justify-end items-center" 
+      style=`
+        min-height: 50vh;
+      `
+    )
+      div(class="pt-2")
+        h3(class="text-4xl mb-4") Vi följer med
+        p Teknologier kommer och går varje år, det är inte lätt att hålla koll.
+        br
+        p(class="mt-8") Därför har vi byggt denna tjänst, så att 
+        ul(class="list-disc pl-4")
+          li <strong>Du</strong> kan fokusera på din affär
+          li Vi håller dig uppdaterad när ny teknologi bör adopteras
+          li Vi skapar material som förklar hur man gör
+      span(class="text-8xl ml-12") 2
+
+    section(
+      class="bg-gray text-white p-20 flex flex-row items-center" 
+      style=`
+        min-height: 50vh;
+      `
+    )
+      span(class="text-8xl text-yellow mr-12") 3
+      div(class="pt-2")
+        h3(class="text-2xl mb-4") Vi lär ut
+        p Vår mission är att hjälpa Sverige på alla möjliga sätt 🇸🇪
+
+  footer(class="bg-black text-center py-8 text-white")
+    | (C) Robust Tjänst 2021
