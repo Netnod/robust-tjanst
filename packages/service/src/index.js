@@ -130,7 +130,7 @@ router.get('login', '/login', auth.getLogin)
 router.post('/login', koaBody(), auth.createLogin)
 router.get('logout', '/logout', auth.destroyLogin)
 
-router.get('fake_test', 'results', fake.test)
+router.get('fake_test', '/results', fake.test)
 
 
 

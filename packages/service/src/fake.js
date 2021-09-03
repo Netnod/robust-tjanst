@@ -1,7 +1,7 @@
 async function test(ctx) {
-  const {domain} = ctx.request.params
+  const {url} = ctx.request.query
 
-  await ctx.render('fake/test', {domain})
+  await ctx.render('fake/test', {url})
 }
 
 module.exports = { test }

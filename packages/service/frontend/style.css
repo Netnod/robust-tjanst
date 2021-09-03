@@ -108,3 +108,34 @@ html, body {
     opacity: 1.0;
   }
 }
+
+
+.test {
+  /* background-color: #ddd; */
+}
+
+.test .test__description {
+  max-height: 0;
+  transition: max-height .35s;
+  overflow: hidden;
+}
+
+.test.open .test__description {
+  /* visibility: visible; */
+  max-height: none;
+  @apply mt-4;
+}
+
+
+.test .toggler > .icon {
+  transform: rotate(180deg);
+  transition: transform .2s;
+}
+
+.test.open .toggler > .icon {
+  transform: rotate(0deg);
+}
+
+
+
+

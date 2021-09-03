@@ -1,0 +1,139 @@
+extends ../layout.pug
+
+mixin toggles
+  button(class="toggler flex flex-grow items-center text-left pl-4 self-stretch"  data-toggle)
+    span(class="icon inline-block") ⌃
+
+mixin test(title, state='loading')
+  div(class=`test ${state}`)
+    div(class=`flex items-center flex-row hover:bg-indigo-100 px-4 border-b-2 border-yellow`)
+      h2(class=`text-xl py-5`)= title
+      +toggles
+      if state === 'loading'
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:block;" width="64px" height="64px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+          <g transform="rotate(0 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(30 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.8333333333333334s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(60 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.75s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(90 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.6666666666666666s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(120 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5833333333333334s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(150 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(180 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.4166666666666667s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(210 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.3333333333333333s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(240 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.25s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(270 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.16666666666666666s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(300 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.08333333333333333s" repeatCount="indefinite"></animate>
+            </rect>
+          </g><g transform="rotate(330 50 50)">
+            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
+              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animate>
+            </rect>
+          </g>
+        </svg>
+
+    div(class="test__description mx-4")
+      block
+
+block content
+  h1(class="mt-8 ml-4 md:ml-0 md:text-center text-4xl mb-8")
+    | Resultat för #{url}
+
+  div(class="results")
+    section(class="test-group mb-8")
+      h1(class="text-3xl mb-2") Åtkomst genom modern internet-teknologi
+
+      +test('IPv6 DNS Record')
+        p Suspendisse potenti. Cras efficitur nibh nisl, eget lobortis augue auctor a. Mauris libero libero, aliquet id ante sed, fermentum lobortis libero. In gravida semper finibus. Nam ac libero feugiat, consequat massa nec, blandit quam. Donec leo leo, vehicula nec lobortis vel, dapibus nec ex. Cras sit amet bibendum erat, semper suscipit tellus. Curabitur turpis lacus, dapibus ac felis non, pretium vulputate nisl. Sed ut laoreet dolor. Nulla finibus, ipsum non.
+
+      +test('IPv6 Access')
+        p Vestibulum fringilla in erat ut venenatis. Integer fermentum pellentesque lacus in posuere. Vivamus eleifend tortor neque, a pellentesque quam sagittis sit amet. Pellentesque hendrerit mi neque, ut sollicitudin neque ultrices non. Aenean nec libero in arcu semper condimentum. Vestibulum id eros porta, pretium odio id, facilisis eros. Vestibulum convallis nunc ex, vel egestas ligula placerat non. Pellentesque suscipit massa quis ullamcorper aliquet. Sed ac convallis lacus, id porta quam. Phasellus.
+
+    section(class="test-group mb-8")
+      h1(class="text-3xl") Säker åtkomst
+
+      +test('HTTPS Anslutning')
+        p Hejpe
+
+      +test('Automatisk vidarebefordran till HTTPS')
+        p Hojpe
+      +test('Moderna kryptoalgoritmer')
+        p Hejpa
+      +test('Utdaterade kryptoalgoritmer')
+        p Ble
+
+    section(class="test-group mb-8")
+      h1(class="text-3xl") Domänsäkerhet
+
+      +test('DNSSEC existans')
+        p Hejpe
+      +test('DNSSEC korrekt')
+        p Hojpe
+
+block script
+  script(type="application/javascript").
+
+
+    const tests = document.querySelectorAll('.test-group > .test')
+    for (const test of tests) {
+      const togglers = test.querySelectorAll('[data-toggle]')
+      for (const t of togglers) {
+        t.addEventListener('click', function() {
+          if (!test.classList.contains('loading'))
+            test.classList.toggle('open')
+        })
+      }
+    }
+
+
+    const groups = document.querySelectorAll('.test-group')
+    for (const group of groups) {
+      const queue = Array.from(group.querySelectorAll('.test.loading'))
+
+      const MAX_TIME = 1000
+      const MIN_TIME = 500
+
+      function pop() {
+        if (queue.length === 0) return
+        const test = queue.shift()
+        setTimeout(
+          () => {
+            test.classList.remove('loading')
+            test.querySelector('svg').remove()
+            pop()
+          },
+          Math.random() * (MAX_TIME - MIN_TIME) + MIN_TIME
+        )
+      }
+      pop()
+    }
