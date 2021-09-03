@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta13
+kind: Config
+metadata:
+  name: robust-tjanst
+build:
+  artifacts:
+  - image: iteam1337/robust-service
+    docker:
+      dockerfile: Dockerfile.service
+deploy:
+  kubectl:
+    defaultNamespace: dev
+    manifests:
+    - k8s/postgres.yaml
+    - k8s/redis.yaml
+    - k8s/service.yaml
