@@ -1,0 +1,18 @@
+extends layout.pug
+
+block content
+  div(class="flex flex-col")
+    h1(class="text-3xl mb-0") Robust Tjänst
+    h2(class="text-xl mb-8") Testa din sida för robustighet
+
+    form(class="flex flex-col" method='GET' action='/test')
+      label(class="block")
+        input(
+          class="mt-1 block w-full" 
+          name="domain"
+          type="text" 
+          placeholder="your.domain.tld"
+        )
+
+      div(class="block mt-4")
+        input(class="btn btn-blue w-full" type="submit" value="Testa")

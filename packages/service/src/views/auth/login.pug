@@ -1,0 +1,36 @@
+extends ../layout.pug
+
+
+block content 
+  div(class="col-sm-12 flex flex-col")
+    h1(class="text-3xl mb-8") Logga in
+
+    form(method="post" action=namedPath('login') class="flex flex-col")
+      label(class="block")
+        span(class="text-gray-700") E-post 
+        input(
+          class="mt-1 block w-full" 
+          name="email"
+          type="email" 
+          placeholder="Fyll i din e-post"
+          value=login.username
+          required
+        )
+
+      label(class="block mt-4")
+        span(class="text-gray-700") Lösenord
+        input(
+          class="mt-1 block w-full" 
+          name="password" 
+          type="password" 
+          required
+        )
+
+      div(class="block mt-4")
+        input(class="btn btn-blue w-full" type="submit" value="Logga in")
+
+
+    p
+      | Inget konto? 
+      a(href=namedPath('register') class="text-blue-400")
+        | Registrera dig då, va?

@@ -1,0 +1,23 @@
+extends ../layout.pug
+
+block content
+  div(class="flex flex-col")
+    h1(class="text-3xl mb-8") Hall of fame
+
+    table
+      thead(class="text-left")
+        tr
+          th Domain 
+          th Score 
+          th Last tested at
+      tbody
+        each domain in domains 
+          tr
+            td
+              a(
+                class="text-blue-400"
+                href=namedPath('domain_page', {id: domain.id})
+              )= domain.domain_name 
+            td= domain.final_score 
+            td= domain.last_tested_at
+

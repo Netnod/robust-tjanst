@@ -1,0 +1,9 @@
+{
+  "name": "engine",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "shelljs": "^0.8.4"
+  }
+}

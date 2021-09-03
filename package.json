@@ -1,0 +1,9 @@
+{
+  "license": "BSD-3-Clause",
+  "private": true,
+  "workspaces": [
+    "packages/cli",
+    "packages/engine",
+    "packages/service"
+  ]
+}

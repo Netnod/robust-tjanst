@@ -1,0 +1,49 @@
+extends ../layout.pug 
+
+block content 
+  div(class="col-sm-12 flex flex-col")
+    h1(class="text-3xl mb-8") Skapa ett konto 
+
+    form(method="post" action=namedPath('create_account') class="flex flex-col")
+      label(class="block")
+        span(class="text-gray-700") Namn
+        input(
+          class="mt-1 block w-full"
+          name="name"
+          type="text"
+          placeholder="Fyll i ditt namn"
+          value=account.name
+        )
+
+      label(class="block mt-4")
+        span(class="text-gray-700") E-post
+        input(
+          class="mt-1 block w-full"
+          name="email"
+          type="email"
+          placeholder="Fyll i din e-postadress"
+          value=account.email
+        )
+
+      label(class="block mt-4")
+        span(class="text-gray-700") Lösenord
+        input(
+          class="mt-1 block w-full" 
+          name="password"
+          type="password" 
+          placeholder="*****"
+        )
+
+      div(class="block mt-4")
+        label(class="inline-flex items-center")
+          input(
+            name="consent" 
+            type="checkbox"
+            checked=account.consent
+            required
+          )
+          span(class="text-gray-700 ml-2")
+            | Jag godkänner de allmänna villkoren
+
+      div(class="block mt-4")
+        input(class="btn btn-blue w-full" type="submit")
