@@ -1,3 +1,6 @@
+# Attention
+The documentation is already slightly incorrect, but we'll be updating it soon. See `packages/service/.env.template` for how to set up its .env file.
+
 
 # Setup
 ## Local
