@@ -37,10 +37,6 @@ spec:
             - name: postgres-data
               mountPath: "/data"
               subPath: "postgres"
-#          lifecycle:
-#            postStart:
-#              exec:
-#                command: ["sh", "-c", "createdb ${POSTGRES_DB} && psql -d ${POSTGRES_DB} -f packages/service/src/db/schema.sql "]
   volumeClaimTemplates:
     - metadata:
         name: postgres-data
