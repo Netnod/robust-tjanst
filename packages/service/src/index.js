@@ -1,9 +1,6 @@
 const path = require('path')
 require('dotenv').config({path: path.join(__dirname, "../.env")})
 
-console.log(process.env.DATABASE_URL)
-console.log(process.env.REDIS_URL)
-
 const Koa = require('koa')
 const KoaRouter = require('@koa/router')
 const koaLogger = require('koa-logger')

@@ -21,14 +21,20 @@ html, body {
   min-height: 100vh;
 }
 
+p > a {
+  @apply text-blue-400 hover:text-blue-600 cursor-pointer;
+}
+
 .flips {
-  position: relative;
+  @apply relative w-full mt-8;
 }
 
 .flips > span {
   position: absolute;
   left: 0;
   top: 0;
+  right: 0;
+  text-align: center;
 }
 
 .flips > span:first-child {
@@ -123,7 +129,7 @@ html, body {
 .test.open .test__description {
   /* visibility: visible; */
   max-height: none;
-  @apply mt-4;
+  @apply mt-4 mb-4;
 }
 
 

@@ -10,95 +10,156 @@ mixin test(title, state='loading')
       h2(class=`text-xl py-5`)= title
       +toggles
       if state === 'loading'
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:block;" width="64px" height="64px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-          <g transform="rotate(0 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(30 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.8333333333333334s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(60 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.75s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(90 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.6666666666666666s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(120 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5833333333333334s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(150 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.5s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(180 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.4166666666666667s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(210 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.3333333333333333s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(240 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.25s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(270 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.16666666666666666s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(300 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.08333333333333333s" repeatCount="indefinite"></animate>
-            </rect>
-          </g><g transform="rotate(330 50 50)">
-            <rect x="47" y="24" rx="3" ry="6" width="6" height="12" fill="#fab900">
-              <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite"></animate>
-            </rect>
-          </g>
-        </svg>
+        img(src="/loading-spinner.svg" class="spinner")
 
     div(class="test__description mx-4")
       block
+
+mixin result_summary 
+  div(class="test__summary mx-4 mb-2 mt-4")
+    block
 
 block content
   h1(class="mt-8 ml-4 md:ml-0 md:text-center text-4xl mb-8")
     | Resultat för #{url}
 
-  div(class="results")
-    section(class="test-group mb-8")
+  div(class="results flex flex-col")
+    section(class="test-group mb-8 mt-8")
       h1(class="text-3xl mb-2") Åtkomst genom modern internet-teknologi
+      p(class="mt-1") IPv4, den fjärde versionen av internetprotokollet som har varit i allmänt bruk sedan 1990-talet, har ett storasyskon: IPv6.
+      p(class="mt-2") 
+        | Den fjärde versionen är ganska lätt att känna igen, en address kan se ut till exempel såhär: 192.168.0.1. 
+        | Problemet med den här versionen är att endast fyra miljarder unika adresser är möjliga. Inte ens en adress per person. 
+        | IPv6, som använder 128 bits för sina adresser istället för 32, erbjuder nästan oändligt många: nästan 340,3 <a href="https://sv.wikipedia.org/wiki/Sextiljon">sextiljoner</a>.
+      p(class="mt-2") Vi anser att en hemsida ska kunna nås genom IPv6 för bästa resultat.
+
+      +result_summary
+        p <b>Resultat: </b> Vad synd! Användare kan <em>inte</em> nå din sida med en modern internetadress (IPv6.) Det kanske går att lösa? Läs vår artikel <a href="#">Hur: IPv6</a> för att lösa problemen.
 
       +test('IPv6 DNS Record')
-        p Suspendisse potenti. Cras efficitur nibh nisl, eget lobortis augue auctor a. Mauris libero libero, aliquet id ante sed, fermentum lobortis libero. In gravida semper finibus. Nam ac libero feugiat, consequat massa nec, blandit quam. Donec leo leo, vehicula nec lobortis vel, dapibus nec ex. Cras sit amet bibendum erat, semper suscipit tellus. Curabitur turpis lacus, dapibus ac felis non, pretium vulputate nisl. Sed ut laoreet dolor. Nulla finibus, ipsum non.
+        p Åtminstone två stycken DNS-servrar som är listade för ditt domän kan nås med IPv6. Här är DNS-servrarna vi fann för ditt domän:
+        table(class="table-fixed")
+          thead
+            tr 
+              th(class="w-1/2 text-left border-b border-gray") Namnserver
+              th(class="w-1/4 text-left border-b border-gray") IPv6 adress
+              th(class="w-1/4 text-left border-b border-gray") IPv4 adress
+          tbody 
+            tr 
+              td pns11.cloudns.net
+              td -
+              td 185.136.97.133
+            tr 
+              td pns12.cloudns.net
+              td -
+              td 185.136.99.133
+          
+            tr
+              td pns13.cloudns.net
+              td -
+              td 185.136.98.133
+            tr
+              td pns14.cloudns.net
+              td -
+              td 185.136.96.133
 
       +test('IPv6 Access')
-        p Vestibulum fringilla in erat ut venenatis. Integer fermentum pellentesque lacus in posuere. Vivamus eleifend tortor neque, a pellentesque quam sagittis sit amet. Pellentesque hendrerit mi neque, ut sollicitudin neque ultrices non. Aenean nec libero in arcu semper condimentum. Vestibulum id eros porta, pretium odio id, facilisis eros. Vestibulum convallis nunc ex, vel egestas ligula placerat non. Pellentesque suscipit massa quis ullamcorper aliquet. Sed ac convallis lacus, id porta quam. Phasellus.
+        p Alla DNS-servrar med IPv6-adresser kan nås för namnförfrågan.
 
-    section(class="test-group mb-8")
+        p(class="mt-2") <b>Tillvägagångssätt:</b> För varje IPv6 adress vi fick fram i föregående test, så ser vi om vi kan köra ett DNS-lookup.
+        
+
+    section(class="test-group mb-8 mt-8")
       h1(class="text-3xl") Säker åtkomst
+      p(class="mt-1") HTTPS, den krypterade versionen av HTTP, är en viktig utgångspunkt för en säker tjänst. Det gör att användaren kan lita på webbservern och att ingen kan snoka på kommunikationen för att snappa upp t.ex. adresser och kreditkorsinformation.
+
+      +result_summary
+        p <b>Resultat: </b> Det verkar som att #{url} inte stödjer HTTPS alls. Vi rekommenderar <a href="https://letsencrypt.org">Let's Encrypt</a> för att generera ert certifikat. Läs mer i vår artikel <a href="#">Hur: HTTPS</a>!
 
       +test('HTTPS Anslutning')
-        p Hejpe
+        p Vi försökte ansluta till din hemsida med hjälp av HTTPS.
+
+        p(class="mt-2") Eftersom det inte gick kunde vi inte testa mer, men nedan ser du vilka tester vi skulle ha gjort.
 
       +test('Automatisk vidarebefordran till HTTPS')
-        p Hojpe
-      +test('Moderna kryptoalgoritmer')
-        p Hejpa
-      +test('Utdaterade kryptoalgoritmer')
-        p Ble
+        p Eftersom all trafik bör vara krypterad idag anser vi att alla webbservrar borde omdirigera användaren till en HTTPS-version av sidan.
 
-    section(class="test-group mb-8")
+        p(class="mt-2") <b>Tillvägagångssätt:</b> Vi försöker alltså ansluta med HTTP och se ifall HTTP-headern <em>Location</em> finns med i svaret och innehåller en HTTPS-adress.
+        p Ifall vi inte kan nå hemsidan på HTTP, men kan nå den på HTTPS, så anser vi att det är okej också.
+
+      +test('Utdaterade kryptoalgoritmer')
+        p En webbserver kan erbjuda flera olika sätt att utföra den krypterade kommunikationen på. Vartefter nya attack- och försvars-vektorer upptäcks bör vissa algoritmer pensioneras.
+
+        p(class="mt-2") <b>Tillvägagångssätt:</b> Här är en lista på såna som vi anser bör vara pensionerade redan: 
+        ul(class="list-disc list-inside") 
+          li ECDHE-ECDSA-DES-CBC3-SHA
+          li ECDHE-RSA-DES-CBC3-SHA
+          li DHE-RSA-DES-CBC3-SHA
+          li AES256-GCM-SHA384
+          li AES128-GCM-SHA256
+          li AES256-SHA256
+          li AES256-SHA
+          li AES128-SHA256
+          li AES128-SHA
+          li DES-CBC3-SHA
+
+      +test('Moderna kryptoalgoritmer')
+        p Nya algoritmer tas fram och ska helst adopteras så snart de rekommenderas.
+
+        p(class="mt-2") <b>Tillvägagångssätt:</b> Här är en lista på algoritmer som redan ska vara i bruk: 
+        ul(class="list-disc list-inside") 
+          li ECDHE-ECDSA-AES256-SHA384
+          li ECDHE-ECDSA-AES256-SHA
+          li ECDHE-ECDSA-AES128-SHA256
+          li ECDHE-ECDSA-AES128-SHA
+          li ECDHE-RSA-AES256-SHA384
+          li ECDHE-RSA-AES256-SHA
+          li ECDHE-RSA-AES128-SHA256
+          li ECDHE-RSA-AES128-SHA
+          li DHE-RSA-AES256-GCM-SHA384
+          li DHE-RSA-CHACHA20-POLY1305
+          li DHE-RSA-AES128-GCM-SHA256
+          li DHE-RSA-AES256-SHA256
+          li DHE-RSA-AES256-SHA
+          li DHE-RSA-AES128-SHA256
+          li DHE-RSA-AES128-SHA
+
+        p(class="mt-2") De här rekommenderar vi men ser dem inte som ett krav: 
+        ul(class="list-disc list-inside") 
+          li ECDHE-ECDSA-AES256-SHA
+          li ECDHE-ECDSA-AES256-SHA384
+          li ECDHE-ECDSA-AES128-SHA256
+          li ECDHE-ECDSA-AES128-SHA
+          li ECDHE-RSA-AES256-SHA384
+          li ECDHE-RSA-AES256-SHA
+          li ECDHE-RSA-AES128-SHA256
+          li ECDHE-RSA-AES128-SHA
+          li DHE-RSA-AES256-GCM-SHA384
+          li DHE-RSA-CHACHA20-POLY1305
+          li DHE-RSA-AES128-GCM-SHA256
+          li DHE-RSA-AES256-SHA256
+          li DHE-RSA-AES256-SHA
+          li DHE-RSA-AES128-SHA256
+          li DHE-RSA-AES128-SHA
+
+    section(class="test-group mb-8 mt-8")
       h1(class="text-3xl") Domänsäkerhet
+      p(class="mt-1")
+        | Moderna webbläsare och verktyg vet hur man validerar svar från DNS-servern genom kryptografiska signaturer. 
+        | Därmed kan webbläsaren vara säker på att svaret inte manipulerats utan kommer från den korrekta källan.
+
+
+      +result_summary 
+        p <b>Resultat: </b> Snyggt! För #{url} är det redan kirrat.
 
       +test('DNSSEC existans')
-        p Hejpe
+        p Är DNSSEC påslaget?
+
+        p(class="mt-2") <b>Tillvägagångssätt:</b> Vi letar efter domänets SOA record och kollar om det är signerat med DNSSEC.
+
+
       +test('DNSSEC korrekt')
-        p Hojpe
+        p Är signaturen korrekt?
 
 block script
   script(type="application/javascript").
@@ -129,7 +190,7 @@ block script
         setTimeout(
           () => {
             test.classList.remove('loading')
-            test.querySelector('svg').remove()
+            test.querySelector('img.spinner').remove()
             pop()
           },
           Math.random() * (MAX_TIME - MIN_TIME) + MIN_TIME
