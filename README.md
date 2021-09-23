@@ -1,17 +1,16 @@
 # Robust by Netnod
-Let's make the Internet a better place!
-Robust is a test tool for web sites.
+Robust is a test tool for web sites with the intention of making the internet a better place.
 
-## Create a minimum level
+### Create a minimum level
 We want to create a minimum level for what is an acceptable level of security. Passing should be easy, and failing should be bad.
 
-## Spread knowledge
+### Spread knowledge
 We want to explain why not passing this minimum level is bad, in words that can be understood by those who are not experts.
 
-## Help fix
+### Help people be better
 We want to help people reach the minimum acceptable level by giving clear instructions.
 
-## Contribute
+### Contribute
 Currently we would like feedback on what tests _you_ think should be included in this minimum level,
 
 We welcome pull requests and issues on https://github.com/Netnod/robust-tjanst/
