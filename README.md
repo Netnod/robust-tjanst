@@ -1,8 +1,24 @@
-# Attention
-The documentation is already slightly incorrect, but we'll be updating it soon. See `packages/service/.env.template` for how to set up its .env file.
+# Robust by Netnod
+Let's make the Internet a better place!
+Robust is a test tool for web sites.
 
+## Create a minimum level
+We want to create a minimum level for what is an acceptable level of security. Passing should be easy, and failing should be bad.
+
+## Spread knowledge
+We want to explain why not passing this minimum level is bad, in words that can be understood by those who are not experts.
+
+## Help fix
+We want to help people reach the minimum acceptable level by giving clear instructions.
+
+## Contribute
+Currently we would like feedback on what tests _you_ think should be included in this minimum level,
+
+We welcome pull requests and issues on https://github.com/Netnod/robust-tjanst/
+Code is released under the [BSD 3-Clause License](LICENSE).
 
 # Setup
+_The documentation is already slightly incorrect, but we'll be updating it soon. See `packages/service/.env.template` for how to set up its .env file._
 ## Local
 ### Postgres 13 and Redis
 Both are expected to be running on localhost at default ports. DATBASE_URL and REDIS_URL can be overriden if required.
