@@ -24,17 +24,17 @@ To make it easier to use we are also planning to create a live badge for you to 
 
 We are just getting started. These are some milestones that we think will be important. 
 
-[x] Basic site 
-[x] Scheduling tests running safely in Kubernetes
-[x] Name of the project: Robust Tjänst
-[x] Template for test runners
-[ ] Build an open source community <- we/you are here ❤️
-[ ] Logotype and badge design
-[ ] Implement basic tests for minimum requirements
-[ ] Register and run tests in background
-[ ] Launch 🎉
-[ ] Continue developing as open source
-[ ] Spread the word
+- [x] Basic site 
+- [x] Scheduling tests running safely in Kubernetes
+- [x] Name of the project: Robust Tjänst
+- [x] Template for test runners
+- [ ] Build an open source community <- we/you are here ❤️
+- [ ] Logotype and badge design
+- [ ] Implement basic tests for minimum requirements
+- [ ] Register and run tests in background
+- [ ] Launch 🎉
+- [ ] Continue developing as open source
+- [ ] Spread the word
 
 # How to contribute
 
@@ -50,10 +50,10 @@ A good minimum level is what is an acceptable level of security. Passing should 
 
 When the minimum level for a site isn't reached we want it to be very easy to understand:
 
-1. Why it is bad in words that can be understood by those who are not experts.
-2. What to do to fix it
-3. Why it is a good idea to invest in fixing the problems
-4. A carrot when they are fixed (the ❤️ badge)
+  1. Why it is bad in words that can be understood by those who are not experts.
+  2. What to do to fix it
+  3. Why it is a good idea to invest in fixing the problems
+  4. A carrot when they are fixed (the ❤️ badge)
 
 ### Help people be better
 We want to help people reach the minimum acceptable level by giving clear instructions.
