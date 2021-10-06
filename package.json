@@ -4,6 +4,8 @@
   "workspaces": [
     "packages/cli",
     "packages/engine",
-    "packages/service"
+    "packages/service",
+    "packages/board",
+    "packages/tests"
   ]
 }
