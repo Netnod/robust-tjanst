@@ -10,9 +10,9 @@ build:
   - image: iteam1337/robust-admin
     docker:
       dockerfile: packages/admin/Dockerfile
-  - image: iteam1337/test-dns
+  - image: iteam1337/robust-dns
     docker:
-      dockerfile: packages/tests/containers/dns/Dockerfile
+      dockerfile: packages/tests/dns/Dockerfile
 deploy:
   helm:
     releases:
