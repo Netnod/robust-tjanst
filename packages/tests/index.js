@@ -12,5 +12,7 @@ module.exports = {
   queues: queues(connection)
 }
 
-// move to web 
-//dns.add('DNS: www.iteam.se', {url: 'https://www.iteam.se'})
+// example usage:
+//
+// const {queues: {dns}} = require('tests')
+// dns.add('DNS: www.iteam.se', {url: 'https://www.iteam.se'})

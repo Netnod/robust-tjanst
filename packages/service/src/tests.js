@@ -1,7 +1,7 @@
 const { sql } = require('slonik')
 const { getDomainByID } = require('./db/queries/domains')
 const { getTestByID, getTestPartsByTestID } = require('./db/queries/tests')
-
+const { queues } = require('tests')
 
 function upsertURL(url) {
   return sql`
@@ -27,15 +27,11 @@ async function createTest(ctx) {
   const {url} = ctx.request.body
   // // TODO: "Owned" URLs are perhaps "private"
 
-  // const id = await ctx.dbPool.connect(async (connection) => {
-  //   const {domain_id} = await connection.one(upsertURL(url));
-
-  //   const {id} = await connection.one(insertNewTest(domain_id))
-  //   return id
-  // })
-  // ctx.redirect(ctx.state.namedPath('test_page', {url, id}))
 
   // // K8S: Schedule!
+  const job = await queues.dns.add('DNS: iteam.se', {url})
+  console.log(job)
+
   const domain = {domain_name: url} 
   const parts = [
     {part_id: 'dns', test_status: 'FIN'}
