@@ -1,2 +1,0 @@
-Make sure you're logged in to the cluster in kubectl.
-Use skaffold to deploy, `skaffold dev` will watch and deploy any changes you make
