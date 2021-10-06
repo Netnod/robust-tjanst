@@ -74,9 +74,9 @@ To deploy the solution you will need Skaffold and make sure you are in the right
 
     cd packages/tests/[test name]
     docker build -t [test name] .
-    docker run -rm [test name]
+    docker run --rm [test name] https://example.com
 
-You can create your own test by adapting some of our examples. Each test should return a zero if succeeded and a non-zero if failed. Also it should emit a json explaining the steps that failed and a short description on how to mitigate the errors. The format of the returned JSON is not decided yet. We aim to find a standard here on a parsable format which is both readable in a command line and can be used to help users in the website.
+You can create your own test by adapting some of our examples. Each test should return a zero if succeeded and a non-zero if failed. Also it should emit a json explaining the steps that failed and a short description on how to mitigate the errors. The format of the returned JSON is not decided yet. _We aim to find a standard here on a parsable format which is both readable in a command line and can be used to help users in the website_.
 
 ## Development of the website
 
