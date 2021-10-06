@@ -31,5 +31,4 @@ deploy:
     defaultNamespace: dev
     manifests:
     - k8s/admin.yaml
-    #- k8s/postgres.yaml
-    #- k8s/web.yaml
+    - k8s/web.yaml

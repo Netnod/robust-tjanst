@@ -58,6 +58,10 @@ When the minimum level for a site isn't reached we want it to be very easy to un
 ### Help people be better
 We want to help people reach the minimum acceptable level by giving clear instructions.
 
+### Security considerations
+
+We have designed the solution so that you can use the tests separately when you want to test your domain/website without leaking any information to anyone else. The isolation model with the tests run in a isolated namespace with limited access to both Internet and the rest of the environment. This way we can make sure we both secure your and our data and infrastructure.
+
 # Setup solution
 
 To set up the whole solution you will need a Kubernetes cluster, either a local one (Minikube, MicroK8s or Docker Desktop) or a cloud environment such as GKE, EKS, AKS.
