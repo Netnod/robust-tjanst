@@ -10,9 +10,9 @@ We aim to establish a minimum level of requirements, a de facto standard, for al
 
 These are some examples of what we aim to create: 
 
-    docker run -rm netnod/robust-dns https://www.example.com
-    docker run -rm netnod/robust-tls https://www.example.com
-    docker run -rm netnod/robust-ipv6 https://www.example.com
+    docker run --rm netnod/robust-dns https://www.example.com
+    docker run --rm netnod/robust-tls https://www.example.com
+    docker run --rm netnod/robust-ipv6 https://www.example.com
 
 and maybe combine them to one test:
 
