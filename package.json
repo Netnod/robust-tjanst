@@ -8,8 +8,5 @@
     "packages/board",
     "packages/tests"
   ],
-  "name": "robust-tjanst",
-  "devDependencies": {
-    "lerna": "^4.0.0"
-  }
+  "name": "robust-tjanst"
 }

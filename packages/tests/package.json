@@ -1,0 +1,14 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "Test runner for BullMQ to Kubernetes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node start"
+  },
+  "author": "Iteam Solutions AB",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@kubernetes/client-node": "^0.15.1"
+  }
+}
