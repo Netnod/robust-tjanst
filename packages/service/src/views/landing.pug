@@ -18,7 +18,7 @@ block body
     div(
       class="px-4 my-12 flex flex-col items-center justify-center flex-grow"
     )
-      form(method="get" action=namedPath('fake_test') class="w-full lg:w-3/4 flex flex-row" ) 
+      form(method="post" action=namedPath('create_test') class="w-full lg:w-3/4 flex flex-row" ) 
         input(class="flex-grow p-4" autofocus type="text" name="url" placeholder="http://din.sida.se")
         input(type="submit" class="ml-2 w-24 btn btn-yellow" value="Testa")
       p(class="mt-4") Håller <em>din</em> sida måttet?

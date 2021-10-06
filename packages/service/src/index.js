@@ -8,7 +8,7 @@ const koaViews = require('koa-views')
 const koaBody = require('koa-body')
 const koaSession = require('koa-session')
 
-const dbPool = require('./db')
+// const dbPool = require('./db')
 
 const passport = require('./middleware/auth')
 
@@ -27,8 +27,8 @@ const {BASE_URL, SIGNED_COOKIE_KEYS, NODE_ENV} = process.env
 const app = new Koa()
 
 app.use(koaLogger())
-app.keys = SIGNED_COOKIE_KEYS.split(',')
-app.use(koaSession({}, app))
+// app.keys = SIGNED_COOKIE_KEYS.split(',')
+// app.use(koaSession({}, app))
 
 app.on('error', (err, ctx) => {
   // TODO: Sentry or some other error reporting
@@ -64,8 +64,6 @@ app.use(async (ctx, next) => {
   }
 })
 
-
-
 app.use(koaViews(
   path.join(__dirname, './views'), {
     map: {pug: 'pug'},
@@ -77,14 +75,14 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Provide `ctx.dbPool` for routes
-app.context.dbPool = dbPool
+// app.context.dbPool = dbPool
 
 const router = new KoaRouter()
 
 router.get(
   '/_health_check',
   async (ctx) => {
-    await dbPool.connect()
+    // await dbPool.connect()
     ctx.body = 'OK'
   }
 )
@@ -115,7 +113,7 @@ router.post('create_domain', '/domains', koaBody(), domains.createDomain)
 router.get('domain_page', '/domain/:id', domains.showDomain)
 
 router.post('create_test', '/test', koaBody(), tests.createTest)
-router.get('test_page', '/test/:id', tests.showTest)
+router.get('test_page', '/test/:url/:id', tests.showTest)
 
 router.get('domain_sigil', '/sigil/:domain/text.svg', sigil.getSigil)
 

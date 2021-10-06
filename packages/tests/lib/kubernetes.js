@@ -3,9 +3,9 @@ const kc = new k8s.KubeConfig()
 kc.loadFromDefault(); // reads from local kubectl config, use when running outside k8s
 //kc.loadFromCluster() // read service account info from pod, use when running in k8s
 const k8sApi = kc.makeApiClient(k8s.CoreV1Api)
-const request = require('request')
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function spec(image, name, labels = {}, environment = {}) {
+const spec = (image, name, labels = {}, environment = {}) => {
   return {
     apiVersions: "core/v1",
     kind: "Pod",
@@ -24,7 +24,7 @@ function spec(image, name, labels = {}, environment = {}) {
           command: [
             "/usr/local/bin/bash",
             "-c",
-            "sleep 1s && if (( $RANDOM % 2 == 0 )); then echo '{name:test0 status:pass}'; else echo {name:test0 status:fail}; fi",
+            "sleep 1s && if (( $RANDOM % 2 == 0 )); then echo '{\"name\":\"Test DNS\" \"status\":\"pass\" description:\"Your DNS is good\" }'; else echo {\"name\":\"Test DNS\", \"status\":\"fail\" \"description\":\"Your DNS is not good enough\"}; fi",
           ],
         },
       ],
@@ -32,8 +32,8 @@ function spec(image, name, labels = {}, environment = {}) {
   };
 }
 
-function startTest(image, name, id, environment) {
-  namespace = 'tests'
+const namespace = 'tests'
+const startTest = (image, name, id, environment) => {
   const body = spec(image, name, { job_id: id }, environment)
   console.log('scheduling test', name, body)
 
@@ -41,17 +41,46 @@ function startTest(image, name, id, environment) {
     .createNamespacedPod(namespace, body)
     .then((res) => {
       //console.log(res.body)
-      return {
-        log: k8sApi.readNamespacedPodLog(name, namespace, null, true),
-        status: k8sApi.readNamespacedPodStatus(name, namespace, 'true')
+      const pod = {
+        log: () => k8sApi.readNamespacedPodLog(name, namespace, null, true).then(({response}) => response.body),
+        status: () => k8sApi.readNamespacedPodStatus(name, namespace, 'true'),
+        done: () => waitUntilSucceeded(pod)
       }
+      return pod
     })
-    .catch(err => {
-      console.error('kubernetes error')
+    .catch(({response: {body: {status, reason, message} = {}} = {}}) => {
+      console.error(`kubernetes error: ${status}: ${reason} - ${message}`)
       return Promise.reject(err)
     })
 }
 
+const deleteTest = (name) => {
+  return k8sApi.deleteNamespacedPod(name, namespace)
+}
+
+
+const waitUntilSucceeded = async (pod, tries = 0) => {
+  if (tries >= 60) return Promise.reject('Timeout')
+
+  const response = await pod.status()
+  const phase = response.body?.status.phase
+
+  switch(phase){
+    case 'Succeeded': return phase
+    case 'Failed':
+    case 'Unknown':
+      return Promise.reject(phase)
+    default:
+      await wait(1000)
+      return waitUntilSucceeded(pod, ++tries)
+  }
+}
+
+const log = pod => pod.log()
+
 module.exports = {
   startTest,
-};
+  deleteTest,
+  waitUntilSucceeded,
+  log
+}

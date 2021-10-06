@@ -8,7 +8,7 @@ const serverAdapter = new ExpressAdapter()
 serverAdapter.setBasePath('')
 
 createBullBoard({
-  queues: Object.values(tests).map(queue => new BullMQAdapter(queue)),
+  queues: Object.values(tests.queues).map(queue => new BullMQAdapter(queue)),
   serverAdapter: serverAdapter
 })
 
