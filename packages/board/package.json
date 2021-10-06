@@ -1,0 +1,19 @@
+{
+  "name": "board",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "Christian Landgren, Iteam",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "@bull-board/api": "^3.6.0",
+    "@bull-board/express": "^3.6.0",
+    "bull": "^3.29.2",
+    "bullmq": "^1.48.3",
+    "express": "^4.17.1",
+    "tests": "^1.0.0"
+  }
+}

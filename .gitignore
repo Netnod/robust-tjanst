@@ -1,3 +1,5 @@
 node_modules/
 public/
 .env
+lerna-debug.log
+package-lock.json

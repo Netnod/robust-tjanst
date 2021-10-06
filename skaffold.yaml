@@ -11,6 +11,6 @@ deploy:
   kubectl:
     defaultNamespace: dev
     manifests:
-    - k8s/postgres.yaml
+    #- k8s/postgres.yaml
     - k8s/redis.yaml
-    - k8s/service.yaml
+    #- k8s/service.yaml
