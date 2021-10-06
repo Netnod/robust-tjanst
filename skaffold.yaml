@@ -13,6 +13,9 @@ build:
   - image: iteam1337/robust-dns
     docker:
       dockerfile: packages/tests/dns/Dockerfile
+  - image: iteam1337/robust-tls
+    docker:
+      dockerfile: packages/tests/tls/Dockerfile
 deploy:
   helm:
     releases:
