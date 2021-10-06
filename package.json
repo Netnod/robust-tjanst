@@ -7,5 +7,9 @@
     "packages/service",
     "packages/board",
     "packages/tests"
-  ]
+  ],
+  "name": "robust-tjanst",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
 }
