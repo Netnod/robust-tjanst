@@ -8,7 +8,8 @@ const connection = {
 }
 
 module.exports = {
-  workers: workers(connection),
+  connection,
+  workers,
   queues: queues(connection)
 }
 

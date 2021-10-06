@@ -3,6 +3,9 @@ const { getDomainByID } = require('./db/queries/domains')
 const { getTestByID, getTestPartsByTestID } = require('./db/queries/tests')
 const { queues } = require('tests')
 
+const queue = queues.dns
+
+
 function upsertURL(url) {
   return sql`
     INSERT INTO domains (domain_name)
@@ -22,6 +25,9 @@ function insertNewTest(domain_id) {
   `
 }
 
+const { Job, QueueEvents } = require('bullmq')
+const queueEvents = new QueueEvents('dns')
+
 async function createTest(ctx) {
   // // TODO: Validate URL
   const {url} = ctx.request.body
@@ -29,8 +35,15 @@ async function createTest(ctx) {
 
 
   // // K8S: Schedule!
-  const job = await queues.dns.add('DNS: iteam.se', {url})
-  console.log(job)
+  try {
+    await queues.dns.add('DNS: ' + url, {url})
+  } catch (err) {
+    console.error(err)
+  }
+  queueEvents.on('completed', async ({jobId}) => {
+    const job = await Job.fromId(queues.dns, jobId)
+    console.log("job!", job.returnvalue)
+  })
 
   const domain = {domain_name: url} 
   const parts = [
@@ -48,6 +61,7 @@ async function showTest(ctx) {
     const parts = await connection.any(getTestPartsByTestID(id))
 
     await ctx.render('tests/show', {test, domain, parts})
+
   })
 }
 
