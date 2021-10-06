@@ -1,0 +1,25 @@
+FROM node:16.6-alpine3.14
+
+ENV APP_HOME /app
+WORKDIR $APP_HOME
+
+# toolchain for deps (bcrypt)
+RUN apk add --no-cache python3 make g++
+
+# npm deps
+COPY package.json .
+COPY yarn.lock .
+COPY packages/web/package.json ./packages/web/package.json
+
+RUN yarn workspace web install
+
+COPY packages/web/ ./packages/web/
+
+WORKDIR $APP_HOME/packages/web/
+
+RUN yarn run css:build
+
+ENV PORT 3000
+EXPOSE $PORT
+
+ENTRYPOINT yarn run start

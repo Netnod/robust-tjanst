@@ -4,7 +4,7 @@
   "description": "Test runner for BullMQ to Kubernetes",
   "main": "index.js",
   "scripts": {
-    "start": "node start"
+    "start": "node runner.js"
   },
   "author": "Iteam Solutions AB",
   "license": "BSD-3-Clause",

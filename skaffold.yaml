@@ -6,11 +6,27 @@ build:
   artifacts:
   - image: iteam1337/robust-service
     docker:
-      dockerfile: Dockerfile.service
+      dockerfile: packages/web/Dockerfile
+  - image: iteam1337/robust-admin
+    docker:
+      dockerfile: packages/admin/Dockerfile
+  - image: iteam1337/test-dns
+    docker:
+      dockerfile: packages/tests/containers/dns/Dockerfile
 deploy:
+  helm:
+    releases:
+      - name: redis
+        remoteChart: bitnami/redis
+      - name: postgresql
+        remoteChart: bitnami/postgresql
+        # https://github.com/bitnami/charts/tree/master/bitnami/postgresql/#installing-the-chart
+        #setValues:
+          #replication.enabled: true
+      
   kubectl:
     defaultNamespace: dev
     manifests:
+    - k8s/admin.yaml
     #- k8s/postgres.yaml
-    - k8s/redis.yaml
-    #- k8s/service.yaml
+    #- k8s/web.yaml

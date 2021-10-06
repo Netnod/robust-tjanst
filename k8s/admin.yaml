@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: admin
+spec:
+  ports:
+    - port: 4567
+      targetPort: 4567
+  selector:
+    app: admin
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin
+spec:
+  selector:
+    matchLabels:
+      app: admin
+  template:
+    metadata:
+      labels:
+        app: admin
+    spec:
+      containers:
+        - name: admin
+          image: iteam1337/robust-admin
+          resources: {}
+          ports:
+            - containerPort: 4567
+          env:
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+            - name: REDIS_URL
+              value: "redis://:$(REDIS_PASS)@redis"
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: admin-ingress
+  annotations:
+    kubernetes.io/ingress.class: "traefik-public"
+    cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  rules:
+    - host: admin.robust.gcloud.netnod.se
+      http:
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: admin
+                port:
+                  number: 4567
+  tls:
+  - hosts:
+    - admin.robust.gcloud.netnod.se
+    secretName: admin-robust-gcloud-netnod-se-cert

@@ -1,5 +1,5 @@
 {
-  "name": "service",
+  "name": "web",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -28,7 +28,6 @@
     "bullmq": "^1.42.1",
     "date-fns": "^2.23.0",
     "dotenv": "^10.0.0",
-    "engine": "^1.0.0",
     "koa": "^2.13.1",
     "koa-body": "^4.2.0",
     "koa-logger": "^3.2.1",

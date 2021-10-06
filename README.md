@@ -1,6 +1,9 @@
 # Robust Tjänst by Netnod
 Robust Tjänst is a test tool for web sites with the intention of making the internet a better place.
 
+## Get started
+  
+
 ### Create a minimum level
 We want to create a minimum level for what is an acceptable level of security. Passing should be easy, and failing should be bad.
 

@@ -4,8 +4,8 @@
   "workspaces": [
     "packages/cli",
     "packages/engine",
-    "packages/service",
-    "packages/board",
+    "packages/web",
+    "packages/admin",
     "packages/tests"
   ],
   "name": "robust-tjanst"
