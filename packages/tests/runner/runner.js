@@ -1,3 +1,4 @@
-const {workers, connection} = require('./index')
+const {workers, connection} = require('../index')
 
-workers(connection) // start workers
+Object.values(workers).forEach(w => w(connection))
+// workers(connection) // start workers
