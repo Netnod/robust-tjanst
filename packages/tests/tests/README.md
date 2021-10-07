@@ -1,6 +1,6 @@
 ## How to create and verify a test
 
-Every test in this folder are supposed to work completely separately from all other infrastructure in this project. The tests are all run in docker which means you can choose your favorite programming language of choice. You can also use a base image with an existing test. Remember to parse the results and return a correctly formatted json.
+The tests in this folder also work outside of the infrastructure of this project. The tests run in docker so that you are free to choose your favorite programming language and tools. You can also use a base image with an existing test. Remember to parse the results and return a correctly formatted json.
 
 
 ## Expected output of the test
