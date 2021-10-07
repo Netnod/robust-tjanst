@@ -1,5 +1,4 @@
 const { Queue } = require('bullmq')
-const workers = require('./tests')
 
 const connection = {
   host: process.env.REDIS_URL || 'localhost',
@@ -8,14 +7,10 @@ const connection = {
 
 module.exports = {
   connection,
-  workers,
-  queues: Object.keys(workers).reduce(
-    (acc, queue) => ({...acc, [queue]: new Queue('dns', {connection})}),
-    {}
-  )
-}
+  testQueue: new Queue('run_tests', {connection}),
 
-// example usage:
-//
-// const {queues: {dns}} = require('tests')
-// dns.add('DNS: www.iteam.se', {url: 'https://www.iteam.se'})
+  testQueues: {
+    dns:  new Queue('dns', {connection}),
+    tls:  new Queue('tls', {connection}),
+  }
+}
