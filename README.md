@@ -67,7 +67,7 @@ To deploy the solution you will need Skaffold and make sure you are in the right
 
     skaffold run
 
-If you have made changes to one or more tests, then run the following:
+If you have changed tests, then deploy them like this:
 
     cd packages/tests
     skaffold build
