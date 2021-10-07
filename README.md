@@ -37,7 +37,7 @@ We are just getting started. These are some milestones that we think will be imp
 
 We are looking for general feedback of the idea and input on minimum tests/requirements. We would love your help to produce tests. Look at the [example tests](packages/tests/tests) to get started.
 
-If you find any bugs or have ideas we are super happy for [issues](issues) or even [pull requests](pulls).
+If you find any bugs or have ideas we are super happy for [issues](https://github.com/Netnod/robust-tjanst/issues) or even [pull requests](https://github.com/Netnod/robust-tjanst/pulls).
 
 All code is released under the [BSD 3-Clause License](LICENSE).
    
