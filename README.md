@@ -6,19 +6,15 @@ Robust Tjänst is a test tool for web sites with the intention of making the int
 
 ## What it is / what it will be
 
-We aim to establish a minimum level of requirements, a de facto standard, for all websites to be considered reliable. We encourage everyone to be involved in this process and we have just started building the basic building blocks.
+We aim to establish a minimum level of requirements, a de facto standard, for all websites to be considered reliable. We will do this by creating a collection of tests written as docker images and a test runner with accompaning site for testing a site. We encourage everyone to be involved in this process and we have just started building the basic building blocks.
 
-These are some examples of what we aim to create: 
+These are some examples of the tests we aim to create: 
 
     docker run --rm netnodse/robust-dns https://www.example.com
     docker run --rm netnodse/robust-tls https://www.example.com
     docker run --rm netnodse/robust-ipv6 https://www.example.com
 
-and maybe combine them to one test (doesn't exist yet):
-
-    docker run -rm netnodse/robust-tjanst https://www.netnod.se
-
-To make it easier to use we are also planning to create a live badge for you to use when you have reached the minimum level. This badge will be keeping track on changes to your site so you and your visitors can be sure that when things change- either in the requirements, updates in standards or you move your domain or switch hosting provider that everything is still OK.
+To make it easier to use we are also planning to create a live badge you can use when you have reached the minimum level. The badge will keep track of changes so you and your visitors can the sure everything OK.
 
 ## Current status
 
@@ -31,6 +27,7 @@ We are just getting started. These are some milestones that we think will be imp
 - [ ] Build an open source community <- we/you are here ❤️
 - [ ] Logotype and badge design
 - [ ] Implement basic tests for minimum requirements
+- [ ] Combined test docker image
 - [ ] Register and run tests in background
 - [ ] Launch 🎉
 - [ ] Continue developing as open source
@@ -38,11 +35,11 @@ We are just getting started. These are some milestones that we think will be imp
 
 # How to contribute
 
-At this point we are looking for general feedback of the idea, input on minimum level of tests/requirements. If you want to contribute to the code, please bare with us - the codebase is still very young. With that said, what we really would love at this point is to get your help to produce tests. Look at the [example tests](packages/tests) to get started.
+We are looking for general feedback of the idea and input on minimum tests/requirements. We would love your help to produce tests. Look at the [example tests](packages/tests/tests) to get started.
 
 If you find any bugs or have ideas we are super happy for [issues](issues) or even [pull requests](pulls).
 
-Note: All code is released under the [BSD 3-Clause License](LICENSE).
+All code is released under the [BSD 3-Clause License](LICENSE).
    
 ### What is a minimum level?
 
@@ -72,7 +69,7 @@ To deploy the solution you will need Skaffold and make sure you are in the right
 
 ## Build and test a robust test:
 
-    cd packages/tests/[test name]
+    cd packages/tests/test/[test name]
     docker build -t [test name] .
     docker run --rm [test name] https://example.com
 
