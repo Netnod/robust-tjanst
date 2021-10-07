@@ -1,5 +1,5 @@
 {
-  "name": "test-runner",
+  "name": "tests",
   "version": "1.0.0",
   "description": "Test runner for BullMQ to Kubernetes",
   "main": "index.js",
