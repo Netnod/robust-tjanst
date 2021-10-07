@@ -14,9 +14,9 @@ These are some examples of what we aim to create:
     docker run --rm netnodse/robust-tls https://www.example.com
     docker run --rm netnodse/robust-ipv6 https://www.example.com
 
-and maybe combine them to one test:
+and maybe combine them to one test (doesn't exist yet):
 
-    docker run -rm netnod/robust-tjanst https://www.netnod.se
+    docker run -rm netnodse/robust-tjanst https://www.netnod.se
 
 To make it easier to use we are also planning to create a live badge for you to use when you have reached the minimum level. This badge will be keeping track on changes to your site so you and your visitors can be sure that when things change- either in the requirements, updates in standards or you move your domain or switch hosting provider that everything is still OK.
 
