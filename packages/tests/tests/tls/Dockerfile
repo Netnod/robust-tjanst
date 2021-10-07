@@ -1,4 +1,5 @@
-FROM bash
-COPY run.sh .
-RUN chmod +x run.sh
-CMD run.sh
+FROM alpine
+RUN apk update && apk add curl bash
+COPY run.sh /test/run.sh
+RUN chmod +x /test/run.sh
+ENTRYPOINT ["/test/run.sh"]

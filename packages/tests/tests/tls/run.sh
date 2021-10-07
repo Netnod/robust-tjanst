@@ -1,5 +1,5 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
-curl ${url}
+curl --silent "$1"
 
 # parse result and emit json

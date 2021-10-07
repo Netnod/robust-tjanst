@@ -6,7 +6,7 @@ module.exports = (connection) => new Worker(queue.name, async (job) => {
   await job.log('Starting DNS')
   const {id, data: { url }} = job
   try {
-    const pod = await startTest('netnodse/robust-dns', `dns-${id}`, id, { url })
+    const pod = await startTest('netnodse/robust-dns', `dns-${id}`, id, [url])
     await pod.done()
     const logs = await pod.log()
     job.log(logs)
