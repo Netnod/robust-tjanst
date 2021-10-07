@@ -6,9 +6,9 @@ Robust Tjänst is a test tool for web sites with the intention of making the int
 
 ## What it is / what it will be
 
-We aim to establish a minimum level of requirements, a de facto standard, for all websites to be considered reliable. We encourage everyone to be involved in this process and we have just started building the basic building blocks.
+We aim to establish a minimum level of requirements, a de facto standard, for all websites to be considered reliable. We will do this by creating a collection of tests written as docker images and a test runner with accompaning site for testing a site. We encourage everyone to be involved in this process and we have just started building the basic building blocks.
 
-These are some examples of what we aim to create: 
+These are some examples of the tests we aim to create: 
 
     docker run --rm netnodse/robust-dns https://www.example.com
     docker run --rm netnodse/robust-tls https://www.example.com
@@ -38,7 +38,7 @@ We are just getting started. These are some milestones that we think will be imp
 
 # How to contribute
 
-At this point we are looking for general feedback of the idea, input on minimum level of tests/requirements. If you want to contribute to the code, please bare with us - the codebase is still very young. With that said, what we really would love at this point is to get your help to produce tests. Look at the [example tests](packages/tests) to get started.
+At this point we are looking for general feedback of the idea, input on minimum level of tests/requirements. If you want to contribute to the code, please bear with us - the codebase is still very young. With that said, what we really would love at this point is to get your help to produce tests. Look at the [example tests](packages/tests) to get started.
 
 If you find any bugs or have ideas we are super happy for [issues](issues) or even [pull requests](pulls).
 
