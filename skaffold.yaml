@@ -11,21 +11,22 @@ build:
     docker:
       dockerfile: packages/admin/Dockerfile
   - image: iteam1337/robust-dns
-    docker:
-      dockerfile: packages/tests/dns/Dockerfile
+    context: packages/tests/tests/dns/
   - image: iteam1337/robust-tls
-    docker:
-      dockerfile: packages/tests/tls/Dockerfile
+    context: packages/tests/tests/tls/
 deploy:
   helm:
     releases:
       - name: redis
-        remoteChart: bitnami/redis
-      - name: postgresql
-        remoteChart: bitnami/postgresql
+        remoteChart: redis
+        repo: https://charts.bitnami.com/bitnami
+
+      # - name: postgresql
+      #   remoteChart: postgresql
+      #   repo: https://charts.bitnami.com/bitnami
         # https://github.com/bitnami/charts/tree/master/bitnami/postgresql/#installing-the-chart
-        #setValues:
-          #replication.enabled: true
+        # setValues:
+        #   replication.enabled: true
       
   kubectl:
     defaultNamespace: dev

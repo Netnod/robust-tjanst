@@ -9,7 +9,10 @@ const connection = {
 module.exports = {
   connection,
   workers,
-  queues: Object.keys(workers).map(queue = new Queue('dns', {connection}))
+  queues: Object.keys(workers).reduce(
+    (acc, queue) => ({...acc, [queue]: new Queue('dns', {connection})}),
+    {}
+  )
 }
 
 // example usage:

@@ -1,5 +1,5 @@
 const { Worker } = require('bullmq')
-const { startTest, deleteTest } = require('../lib/kubernetes')
+const { startTest, deleteTest } = require('../../lib/kubernetes')
 
 module.exports = (connection) => new Worker('tls', async (job) => {
   const {id, data: { url }} = job

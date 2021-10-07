@@ -3,9 +3,6 @@ const { getDomainByID } = require('./db/queries/domains')
 const { getTestByID, getTestPartsByTestID } = require('./db/queries/tests')
 const { queues } = require('tests')
 
-const queue = queues.dns
-
-
 function upsertURL(url) {
   return sql`
     INSERT INTO domains (domain_name)
@@ -35,11 +32,8 @@ async function createTest(ctx) {
 
 
   // // K8S: Schedule!
-  try {
-    await queues.dns.add('DNS: ' + url, {url})
-  } catch (err) {
-    console.error(err)
-  }
+  // TODO: Handle error
+  await queues.dns.add('DNS: ' + url, {url})
   queueEvents.on('completed', async ({jobId}) => {
     const job = await Job.fromId(queues.dns, jobId)
     console.log("job!", job.returnvalue)

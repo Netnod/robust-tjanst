@@ -1,9 +1,13 @@
 const k8s = require("@kubernetes/client-node")
 const kc = new k8s.KubeConfig()
-kc.loadFromDefault(); // reads from local kubectl config, use when running outside k8s
-//kc.loadFromCluster() // read service account info from pod, use when running in k8s
-const k8sApi = kc.makeApiClient(k8s.CoreV1Api)
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function getk8s() {
+  console.log('hej')
+  kc.loadFromDefault(); // reads from local kubectl config, use when running outside k8s
+  //kc.loadFromCluster() // read service account info from pod, use when running in k8s
+  return kc.makeApiClient(k8s.CoreV1Api)
+}
 
 const spec = (image, name, labels = {}, environment = {}) => {
   return {
@@ -31,6 +35,7 @@ const namespace = 'tests'
 const startTest = (image, name, id, environment) => {
   const body = spec(image, name, { job_id: id }, environment)
   console.log('scheduling test', name, body)
+  const k8sApi = getk8s()
 
   return k8sApi
     .createNamespacedPod(namespace, body)
@@ -50,6 +55,7 @@ const startTest = (image, name, id, environment) => {
 }
 
 const deleteTest = (name) => {
+  const k8sApi = getk8s()
   return k8sApi.deleteNamespacedPod(name, namespace)
 }
 
