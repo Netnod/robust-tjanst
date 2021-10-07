@@ -10,7 +10,6 @@ if(len(sys.argv) != 2):
   print("Error: Expected 1 argument (url)")
   sys.exit(1)
 
-print(sys.argv)
 
 url = sys.argv[1]
 domain = urlparse(url).netloc
