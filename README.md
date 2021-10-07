@@ -10,9 +10,9 @@ We aim to establish a minimum level of requirements, a de facto standard, for al
 
 These are some examples of the tests we aim to create: 
 
-    docker run --rm netnodse/robust-dns https://www.example.com
-    docker run --rm netnodse/robust-tls https://www.example.com
-    docker run --rm netnodse/robust-ipv6 https://www.example.com
+    docker run --rm netnodse/robust-dns www.example.com
+    docker run --rm netnodse/robust-tls www.example.com
+    docker run --rm netnodse/robust-ipv6 www.example.com
 
 To make it easier to use we are also planning to create a live badge you can use when you have reached the minimum level. The badge will keep track of changes so you and your visitors can the sure everything OK.
 
@@ -78,7 +78,7 @@ If you have changed tests, then deploy them like this:
     docker build -t [test name] .
     docker run --rm [test name] https://example.com
 
-You can create your own test by adapting some of our examples. Each test should return a zero if succeeded and a non-zero if failed. Also it should emit a json explaining the steps that failed and a short description on how to mitigate the errors. The format of the returned JSON is not decided yet. _We aim to find a standard here on a parsable format which is both readable in a command line and can be used to help users in the website_.
+You can create your own test by adapting some of our examples. Each test should emit json explaining the test result and a short description on how to mitigate the errors. The format of the returned JSON is not decided yet. _We aim to find a standard here on a parsable format which is both readable in a command line and can be used to help users in the website_.
 
 ## Development of the website
 
