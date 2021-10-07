@@ -3,8 +3,9 @@ const kc = new k8s.KubeConfig()
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function getk8s() {
-  kc.loadFromDefault(); // reads from local kubectl config, use when running outside k8s
-  //kc.loadFromCluster() // read service account info from pod, use when running in k8s
+  // TODO: choose between these based on environment var somehow
+  kc.loadFromDefault(); // use when running outside k8s, reads from local kubectl config
+  //kc.loadFromCluster() // use when running in k8s, read service account info from pod
   return kc.makeApiClient(k8s.CoreV1Api)
 }
 

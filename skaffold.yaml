@@ -4,7 +4,7 @@ metadata:
   name: robust-tjanst
 build:
   artifacts:
-  - image: iteam1337/robust-service
+  - image: iteam1337/robust-web
     docker:
       dockerfile: packages/web/Dockerfile
   - image: iteam1337/robust-admin
