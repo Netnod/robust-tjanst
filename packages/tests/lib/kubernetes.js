@@ -9,9 +9,9 @@ function getk8s() {
   return kc.makeApiClient(k8s.CoreV1Api)
 }
 
-const spec = (image, name, labels = {}, environment = {}) => {
+const spec = (image, name, labels = {}, arguments = []) => {
   return {
-    apiVersions: "core/v1",
+    apiVersion: "v1",
     kind: "Pod",
     metadata: { name, labels },
     spec: {
@@ -21,10 +21,7 @@ const spec = (image, name, labels = {}, environment = {}) => {
         {
           name,
           image: image,
-          env: Object.entries(environment).map(([name, value]) => ({
-            name,
-            value,
-          })),
+          args: arguments
         },
       ],
     },
@@ -32,8 +29,8 @@ const spec = (image, name, labels = {}, environment = {}) => {
 }
 
 const namespace = 'tests'
-const startTest = (image, name, id, environment) => {
-  const body = spec(image, name, { job_id: id }, environment)
+const startTest = (image, name, id, arguments) => {
+  const body = spec(image, name, { job_id: id }, arguments)
   const k8sApi = getk8s()
 
   return k8sApi
