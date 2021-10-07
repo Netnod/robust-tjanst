@@ -67,6 +67,11 @@ To deploy the solution you will need Skaffold and make sure you are in the right
 
     skaffold run
 
+If you have changed tests, then deploy them like this:
+
+    cd packages/tests
+    skaffold build
+
 ## Build and test a robust test:
 
     cd packages/tests/test/[test name]

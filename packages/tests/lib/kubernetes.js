@@ -34,7 +34,6 @@ const spec = (image, name, labels = {}, environment = {}) => {
 const namespace = 'tests'
 const startTest = (image, name, id, environment) => {
   const body = spec(image, name, { job_id: id }, environment)
-  console.log('scheduling test', name, body)
   const k8sApi = getk8s()
 
   return k8sApi
@@ -70,7 +69,7 @@ const waitUntilSucceeded = async (pod, tries = 0) => {
     case 'Succeeded': return phase
     case 'Failed':
     case 'Unknown':
-      return Promise.reject(phase)
+      return Promise.reject(response)
     default:
       await wait(1000)
       return waitUntilSucceeded(pod, ++tries)

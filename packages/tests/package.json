@@ -1,10 +1,10 @@
 {
-  "name": "tests",
+  "name": "test-runner",
   "version": "1.0.0",
   "description": "Test runner for BullMQ to Kubernetes",
   "main": "index.js",
   "scripts": {
-    "start": "node runner/runner.js"
+    "start": "node runner.js"
   },
   "author": "Netnod AB",
   "license": "BSD-3-Clause",
