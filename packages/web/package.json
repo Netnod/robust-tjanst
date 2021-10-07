@@ -41,6 +41,7 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.3.3",
     "autoprefixer": "^10.3.1",
+    "cssnano": "^5.0.8",
     "faker": "^5.5.3",
     "koa-static": "^5.0.0",
     "postcss": "^8.3.6",
