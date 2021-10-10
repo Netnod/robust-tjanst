@@ -1,4 +1,0 @@
-FROM alpine
-RUN apk update
-COPY doit.sh /
-ENTRYPOINT ["sh","/doit.sh"]
