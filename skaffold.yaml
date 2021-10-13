@@ -6,10 +6,10 @@ build:
   artifacts:
   - image: iteam1337/robust-web
     docker:
-      dockerfile: packages/web/Dockerfile
+      dockerfile: Dockerfile.web
   - image: iteam1337/robust-admin
     docker:
-      dockerfile: packages/admin/Dockerfile
+      dockerfile: Dockerfile.admin
 deploy:
   helm:
     releases:
