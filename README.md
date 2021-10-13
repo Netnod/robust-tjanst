@@ -65,6 +65,7 @@ To set up the whole solution you will need a Kubernetes cluster, either a local 
 
 To deploy the solution you will need Skaffold and make sure you are in the right Kubernetes context and run:
 
+    kubectl create --namespace='dev' secret generic signed-cookie-keys --from-literal=SIGNED_COOKIE_KEYS=$(dd if=/dev/random bs=48 count=1 status=none | base64)
     skaffold run
 
 If you have changed tests, then deploy them like this:
