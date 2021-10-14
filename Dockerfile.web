@@ -9,7 +9,7 @@ RUN apk add --no-cache python3 make g++
 COPY package.json .
 COPY yarn.lock .
 COPY packages/web/ ./packages/web/
-RUN yarn workspace web install
+RUN yarn workspace web install --frozen-lockfile
 
 WORKDIR $APP_HOME/packages/web/
 RUN yarn run css:build
