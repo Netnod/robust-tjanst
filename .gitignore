@@ -1,5 +1,6 @@
 node_modules/
-public/
+packages/web/public/**/*.css
+packages/web/public/**/*.js
 .env
 lerna-debug.log
 package-lock.json

@@ -1409,7 +1409,7 @@ domutils@^2.6.0:
 
 dotenv@^10.0.0:
   version "10.0.0"
-  resolved "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
 ecc-jsbn@~0.1.1:
@@ -4255,6 +4255,30 @@ slonik@^24.0.0:
   version "24.0.0"
   resolved "https://registry.npmjs.org/slonik/-/slonik-24.0.0.tgz"
   integrity sha512-sV5Q5Jxu6TEO6BuT9gL8x8bhoMgP1d1RS598/QBS3mMTZmKaArY8cuYL10vrpssj5Xh9Cmy20sfJDjAJ6M8b0g==
+  dependencies:
+    concat-stream "^2.0.0"
+    es6-error "^4.1.1"
+    get-stack-trace "^2.1.1"
+    hyperid "^2.3.1"
+    is-plain-object "^5.0.0"
+    iso8601-duration "^1.3.0"
+    pg "^8.7.1"
+    pg-connection-string "^2.5.0"
+    pg-copy-streams "^5.1.1"
+    pg-copy-streams-binary "^2.0.1"
+    pg-cursor "^2.7.1"
+    pg-minify "^1.6.2"
+    postgres-array "^3.0.1"
+    postgres-interval "^3.0.0"
+    promise-deferred "^2.0.3"
+    roarr "^7.0.3"
+    serialize-error "^8.1.0"
+    through2 "^4.0.2"
+
+slonik@^24.1.1:
+  version "24.1.1"
+  resolved "https://registry.yarnpkg.com/slonik/-/slonik-24.1.1.tgz#6064db62b35b6c632507a0d29e8327f284660e76"
+  integrity sha512-Bmq9KeSyCXikJ7AoZbNBLZvQ5o9HhTbR1la2VV2ycFM3ODbcRIV8sZzYOHXGNoxAuUhhnc9EIYFMabkL3OFRyg==
   dependencies:
     concat-stream "^2.0.0"
     es6-error "^4.1.1"
