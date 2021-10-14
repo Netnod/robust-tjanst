@@ -1,9 +1,7 @@
 const { Queue } = require('bullmq')
+const IORedis = require('ioredis')
 
-const connection = {
-  host: process.env.REDIS_URL || 'localhost',
-  port: process.env.REDIS_PORT || 6379,
-}
+const connection = new IORedis(process.env.REDIS_URL)
 
 module.exports = {
   connection,

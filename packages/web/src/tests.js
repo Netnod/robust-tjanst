@@ -2,6 +2,7 @@ const { sql } = require('slonik')
 const { getDomainByID } = require('./db/queries/domains')
 const { getTestByID, getTestPartsByTestID } = require('./db/queries/tests')
 const { Queue } = require('bullmq')
+const IORedis = require('ioredis')
 
 function upsertURL(url) {
   return sql`
@@ -22,7 +23,7 @@ function insertNewTest(domain_id) {
   `
 }
 
-const testQueue = new Queue('run_tests')
+const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
 
 async function createTest(ctx) {
   // // TODO: Validate URL
