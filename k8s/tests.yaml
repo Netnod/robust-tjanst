@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-runner
+spec:
+  selector:
+    matchLabels:
+      app: test-runner
+  template:
+    metadata:
+      labels:
+        app: test-runner
+    spec:
+      containers:
+        - name: test-runner
+          image: iteam1337/robust-test-runner
+          resources: {}
+          env:
+            - name: REDIS_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: redis
+                  key: redis-password
+            - name: REDIS_SERVER
+              value: redis-master
+            - name: REDIS_URL
+              value: "redis://:$(REDIS_PASS)@$(REDIS_SERVER)"
+            - name: NODE_ENV
+              value: "production"
+          volumeMounts: 
+          - mountPath: /var/run/secrets/tokens
+            name: api-token
+      serviceAccountName: test-runner
+      volumes:
+      - name: api-token
+        projected:
+          sources:
+          - serviceAccountToken:
+              path: api-token
+              expirationSeconds: 7200
+              audience: api

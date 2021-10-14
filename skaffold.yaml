@@ -1,16 +1,14 @@
+# Dependencies in this config
 apiVersion: skaffold/v2beta13
 kind: Config
-metadata:
-  name: robust-tjanst
-build:
-  artifacts:
-  - image: iteam1337/robust-web
-    docker:
-      dockerfile: Dockerfile.web
-  - image: iteam1337/robust-admin
-    docker:
-      dockerfile: Dockerfile.admin
 deploy:
+  kubectl:
+    # defaultNamespace: dev
+    # can't use a defaultNamespace since we create stuff in multiple namespaces
+    # make sure to specify namespaces in the yamls instead
+    manifests:
+    - k8s/test-runner-account.yaml
+    # TODO create namespaces
   helm:
     releases:
       - name: redis
@@ -24,9 +22,27 @@ deploy:
         # https://github.com/bitnami/charts/tree/master/bitnami/postgresql/#installing-the-chart
         # setValues:
         #   replication.enabled: true
-      
+---
+# Will be deployed after dependencies
+apiVersion: skaffold/v2beta13
+kind: Config
+metadata:
+  name: robust-tjanst
+build:
+  artifacts:
+  - image: iteam1337/robust-web
+    docker:
+      dockerfile: Dockerfile.web
+  - image: iteam1337/robust-admin
+    docker:
+      dockerfile: Dockerfile.admin
+  - image: iteam1337/robust-test-runner
+    docker:
+      dockerfile: Dockerfile.tests
+deploy:
   kubectl:
     defaultNamespace: dev
     manifests:
     - k8s/admin.yaml
     - k8s/web.yaml
+    - k8s/tests.yaml
