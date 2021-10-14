@@ -35,7 +35,7 @@ spec:
                   name: redis
                   key: redis-password
             - name: REDIS_SERVER
-              value: redis-replicas
+              value: redis-master
             - name: REDIS_URL
               value: "redis://:$(REDIS_PASS)@$(REDIS_SERVER)"
 ---
