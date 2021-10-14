@@ -163,8 +163,6 @@ block content
 
 block script
   script(type="application/javascript").
-
-
     const tests = document.querySelectorAll('.test-group > .test')
     for (const test of tests) {
       const togglers = test.querySelectorAll('[data-toggle]')
@@ -175,7 +173,6 @@ block script
         })
       }
     }
-
 
     const groups = document.querySelectorAll('.test-group')
     for (const group of groups) {

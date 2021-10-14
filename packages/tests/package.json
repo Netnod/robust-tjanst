@@ -11,7 +11,9 @@
   "dependencies": {
     "@kubernetes/client-node": "^0.15.1",
     "bullmq": "^1.48.3",
+    "dotenv": "^10.0.0",
     "ioredis": "^4.27.0",
-    "is-docker": "^3.0.0"
+    "is-docker": "^3.0.0",
+    "slonik": "^24.1.1"
   }
 }

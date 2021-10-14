@@ -2,7 +2,8 @@ const { Worker } = require('bullmq')
 const { startTest, deleteTest } = require('../../lib/kubernetes')
 const queue = require('../../index').testQueues.tls
 
-module.exports = (connection) => new Worker(queue.name, async (job) => {
+module.exports = (connection, resultQueue) => new Worker(queue.name, async (job) => {
+  console.log('starting dns', job.name)
   await job.log("Starting tls")
   const {id, data: { url }} = job
   try {
@@ -11,7 +12,11 @@ module.exports = (connection) => new Worker(queue.name, async (job) => {
     const logs = await pod.log()
     job.log(logs)
     // TODO: parse log to json
-    return logs
+    const results = {
+      test_id,
+      test_label: 'TLS Check'
+    }
+    await resultQueue.add(job.name, results);
   } catch (err) {
     await job.log(JSON.stringify(err))
     throw err;

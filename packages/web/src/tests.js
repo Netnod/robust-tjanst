@@ -19,7 +19,7 @@ function insertNewTest(domain_id) {
   return sql`
     INSERT INTO domain_tests (domain_id)
     VALUES (${domain_id}) 
-    RETURNING id
+    RETURNING id AS test_id
   `
 }
 
@@ -30,14 +30,18 @@ async function createTest(ctx) {
   const {url} = ctx.request.body
   // // TODO: "Owned" URLs are perhaps "private"
 
-  const {id} = await testQueue.add('blabla', {url})
-  // TODO: Wait for results
-  console.log(`job_id: ${id}`)
-  const domain = {domain_name: url} 
-  const parts = [
-    {part_id: 'dns', test_status: 'FIN'}
-  ]
-  await ctx.render('tests/show', {domain, parts})
+  const test_id = await ctx.dbPool.connect(async (connection) => {
+    // TODO: Transaction?
+    const {domain_id} = await connection.one(upsertURL(url))
+    const {test_id} = await connection.one(insertNewTest(domain_id))
+    const job = await testQueue.add('blabla', {test_id, url})
+
+    // TODO: Wait for results
+    console.log(`job_id:${job.id} test_id:${test_id} domain_id:${domain_id}`)
+    return test_id
+  })
+
+  await ctx.redirect(ctx.state.namedPath('test_page', {url, id: test_id}))
 }
 
 async function showTest(ctx) {
@@ -45,11 +49,14 @@ async function showTest(ctx) {
 
   await ctx.dbPool.connect(async (connection) => {
     const test = await connection.one(getTestByID(id))
-    const domain = await connection.one(getDomainByID(test.domain_id))
     const parts = await connection.any(getTestPartsByTestID(id))
 
-    await ctx.render('tests/show', {test, domain, parts})
+    if (parts.length === 0 || parts.some(p => p.status === 'scheduled')) {
+      return ctx.render('tests/loading')
+    }
 
+    const domain = await connection.one(getDomainByID(test.domain_id))
+    await ctx.render('tests/show', {test, domain, parts})
   })
 }
 

@@ -70,22 +70,20 @@ CREATE TABLE domain_tests (
 	domain_id BIGINT NOT NULL REFERENCES domains(id),
 	
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-	updated_at TIMESTAMP WITH TIME ZONE,
-	
-	-- TODO: ENUM
-	test_status VARCHAR NOT NULL DEFAULT 'scheduled',
-	final_score INTEGER NOT NULL DEFAULT 0
+	updated_at TIMESTAMP WITH TIME ZONE
 );
 
-CREATE TABLE domain_test_part (
+CREATE TABLE domain_test_parts (
 	domain_test_id BIGINT NOT NULL REFERENCES domain_tests(id),
+
 	part_id VARCHAR,
+	result_pass BOOLEAN NOT NULL DEFAULT FALSE,
+	result_description TEXT,
+	-- TODO: ENUM
+	test_status VARCHAR NOT NULL DEFAULT 'scheduled',
 	
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP WITH TIME ZONE,
-	
-	-- TODO: ENUM
-	test_status VARCHAR NOT NULL DEFAULT 'scheduled',
 
 	UNIQUE(domain_test_id, part_id)
 );
@@ -98,5 +96,5 @@ CREATE TRIGGER
 
 CREATE TRIGGER
 	set_updated_at
-	BEFORE UPDATE ON domain_test_part
+	BEFORE UPDATE ON domain_test_parts
 	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();

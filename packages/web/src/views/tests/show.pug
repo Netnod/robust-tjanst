@@ -1,19 +1,105 @@
 extends ../layout
 
+mixin toggles
+  button(class="toggler flex flex-grow items-center text-left pl-4 self-stretch"  data-toggle)
+    span(class="icon inline-block") ⌃
+
+mixin test(title, state='loading')
+  div(class=`test ${state}`)
+    div(class=`flex items-center flex-row hover:bg-indigo-100 px-4 border-b-2 border-yellow`)
+      h2(class=`text-xl py-5`)= title
+      +toggles
+      if state === 'loading'
+        img(src="/img/loading.svg" class="spinner")
+
+    div(class="test__description mx-4")
+      block
+
+mixin result_summary 
+  div(class="test__summary mx-4 mb-2 mt-4")
+    block
+
 block content
-  div(class="col-sm-12 flex flex-col")
-    h1(class="text-3xl mb-8")= domain.domain_name
+  div(class="flex flex-col")
+    h1(class="mt-8 ml-4 md:ml-0 text-4xl max-w")
+      | Resultat för #{domain.domain_name}
 
-    h2(class="text-xl mb-1") Test result
+  div(class="results flex flex-col")
+    section(class="test-group mb-8 mt-8")
+      h1(class="text-3xl mb-2") Åtkomst genom modern internet-teknologi
+      p(class="mt-1") IPv4, den fjärde versionen av internetprotokollet som har varit i allmänt bruk sedan 1990-talet, har ett storasyskon: IPv6.
+      p(class="mt-2") 
+        | Den fjärde versionen är ganska lätt att känna igen, en address kan se ut till exempel såhär: 192.168.0.1. 
+        | Problemet med den här versionen är att endast fyra miljarder unika adresser är möjliga. Inte ens en adress per person. 
+        | IPv6, som använder 128 bits för sina adresser istället för 32, erbjuder nästan oändligt många: nästan 340,3 <a href="https://sv.wikipedia.org/wiki/Sextiljon">sextiljoner</a>.
+      p(class="mt-2") Vi anser att en hemsida ska kunna nås genom IPv6 för bästa resultat.
 
-    table
-      thead 
-        tr(class="text-left")
-          th Test id
-          th Status 
+      +result_summary
+        p <b>Resultat: </b> Vad synd! Användare kan <em>inte</em> nå din sida med en modern internetadress (IPv6.) Det kanske går att lösa? Läs vår artikel <a href="#">Hur: IPv6</a> för att lösa problemen.
 
-      tbody
-        each part in parts
-          tr 
-            td= part.part_id 
-            td= part.test_status 
+      +test('IPv6 DNS Record')
+        p Åtminstone två stycken DNS-servrar som är listade för ditt domän kan nås med IPv6. Här är DNS-servrarna vi fann för ditt domän:
+        table(class="table-fixed")
+          thead
+            tr 
+              th(class="w-1/2 text-left border-b border-gray") Namnserver
+              th(class="w-1/4 text-left border-b border-gray") IPv6 adress
+              th(class="w-1/4 text-left border-b border-gray") IPv4 adress
+          tbody 
+            tr 
+              td pns11.cloudns.net
+              td -
+              td 185.136.97.133
+            tr 
+              td pns12.cloudns.net
+              td -
+              td 185.136.99.133
+          
+            tr
+              td pns13.cloudns.net
+              td -
+              td 185.136.98.133
+            tr
+              td pns14.cloudns.net
+              td -
+              td 185.136.96.133
+
+      +test('IPv6 Access')
+        p Alla DNS-servrar med IPv6-adresser kan nås för namnförfrågan.
+
+        p(class="mt-2") <b>Tillvägagångssätt:</b> För varje IPv6 adress vi fick fram i föregående test, så ser vi om vi kan köra ett DNS-lookup.
+        
+block script
+  script(type="application/javascript").
+    const tests = document.querySelectorAll('.test-group > .test')
+    for (const test of tests) {
+      const togglers = test.querySelectorAll('[data-toggle]')
+      for (const t of togglers) {
+        t.addEventListener('click', function() {
+          if (!test.classList.contains('loading'))
+            test.classList.toggle('open')
+        })
+      }
+    }
+
+    const groups = document.querySelectorAll('.test-group')
+    for (const group of groups) {
+      const queue = Array.from(group.querySelectorAll('.test.loading'))
+
+      const MAX_TIME = 1000
+      const MIN_TIME = 500
+
+      function pop() {
+        if (queue.length === 0) return
+        const test = queue.shift()
+        setTimeout(
+          () => {
+            test.classList.remove('loading')
+            test.querySelector('img.spinner').remove()
+            pop()
+          },
+          Math.random() * (MAX_TIME - MIN_TIME) + MIN_TIME
+        )
+      }
+      pop()
+    }
