@@ -47,11 +47,11 @@ spec:
                   key: SIGNED_COOKIE_KEYS
             - name: NODE_ENV
               value: "development"
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgres-password
-                  key: POSTGRES_PASSWORD
+              #            - name: POSTGRES_PASSWORD
+              #              valueFrom:
+              #                secretKeyRef:
+              #                  name: postgres-password
+              #                  key: POSTGRES_PASSWORD
             - name: DATABASE_URL
               value: "postgres://postgres:$(POSTGRES_PASSWORD)@postgres/robust-tjanst"
 ---
