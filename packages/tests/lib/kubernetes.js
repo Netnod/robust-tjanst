@@ -50,9 +50,10 @@ const startTest = (image, name, id, arguments) => {
       }
       return pod
     })
-    .catch(({response: {body: {status, reason, message} = {}} = {}}) => {
+    .catch((err = {}) => {
+      const {response: {body: {status, reason, message} = {}}} = err
       console.error(`kubernetes error: ${status}: ${reason} - ${message}`)
-      return Promise.reject(err)
+      throw err;
     })
 }
 
