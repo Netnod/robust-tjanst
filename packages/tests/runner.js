@@ -12,4 +12,4 @@ new Worker(testQueue.name, async ({data: {url}}) => {
     testQueues.dns.add(`DNS: ${url}`, {url}),
     testQueues.tls.add(`TLS: ${url}`, {url})
   ])
-})
+}, {connection})
