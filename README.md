@@ -67,6 +67,7 @@ To deploy the solution you will need Skaffold and make sure you are in the right
 
     kubectl create namespace dev
     kubectl create --namespace='dev' secret generic signed-cookie-keys --from-literal=SIGNED_COOKIE_KEYS=$(dd if=/dev/random bs=48 count=1 status=none | base64)
+    kubectl create namespace tests
     skaffold run
 
 If you have changed tests, then deploy them like this:
