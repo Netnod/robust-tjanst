@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: test-runner
-          image: iteam1337/robust-test-runner
+          image: netnodse/robust-test-runner
           resources: {}
           env:
             - name: REDIS_PASS
