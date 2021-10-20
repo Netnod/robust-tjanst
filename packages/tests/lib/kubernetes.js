@@ -1,11 +1,17 @@
 const k8s = require("@kubernetes/client-node")
 const kc = new k8s.KubeConfig()
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const isDocker = import('is-docker').then(d => {
+  if (d.default()) {
+    console.debug('loading k8s from cluster')
+    kc.loadFromCluster()
+  } else {
+    kc.loadFromDefault()
+  }
+})
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 function getk8s() {
-  // TODO: choose between these based on environment var somehow
-  kc.loadFromDefault(); // use when running outside k8s, reads from local kubectl config
-  //kc.loadFromCluster() // use when running in k8s, read service account info from pod
   return kc.makeApiClient(k8s.CoreV1Api)
 }
 
@@ -44,9 +50,10 @@ const startTest = (image, name, id, arguments) => {
       }
       return pod
     })
-    .catch(({response: {body: {status, reason, message} = {}} = {}}) => {
+    .catch((err = {}) => {
+      const {response: {body: {status, reason, message} = {}}} = err
       console.error(`kubernetes error: ${status}: ${reason} - ${message}`)
-      return Promise.reject(err)
+      throw err;
     })
 }
 

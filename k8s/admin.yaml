@@ -34,8 +34,10 @@ spec:
                 secretKeyRef:
                   name: redis
                   key: redis-password
+            - name: REDIS_SERVER
+              value: redis-master
             - name: REDIS_URL
-              value: "redis://:$(REDIS_PASS)@redis"
+              value: "redis://:$(REDIS_PASS)@$(REDIS_SERVER)"
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

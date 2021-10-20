@@ -45,7 +45,7 @@ All code is released under the [BSD 3-Clause License](LICENSE).
 
 A good minimum level is what is an acceptable level of security. Passing should be easy, and failing should be bad.
 
-When the minimum level for a site isn't reached we want it to be very easy to understand:
+When the minimum level for a site is not reached we want it to be very easy to understand:
 
   1. Why it is bad in words that can be understood by those who are not experts.
   2. What to do to fix it
@@ -65,6 +65,9 @@ To set up the whole solution you will need a Kubernetes cluster, either a local 
 
 To deploy the solution you will need Skaffold and make sure you are in the right Kubernetes context and run:
 
+    kubectl create namespace dev
+    kubectl create --namespace='dev' secret generic signed-cookie-keys --from-literal=SIGNED_COOKIE_KEYS=$(dd if=/dev/random bs=48 count=1 status=none | base64)
+    kubectl create namespace tests
     skaffold run
 
 If you have changed tests, then deploy them like this:

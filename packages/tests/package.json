@@ -9,6 +9,9 @@
   "author": "Netnod AB",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@kubernetes/client-node": "^0.15.1"
+    "@kubernetes/client-node": "^0.15.1",
+    "bullmq": "^1.48.3",
+    "ioredis": "^4.27.0",
+    "is-docker": "^3.0.0"
   }
 }

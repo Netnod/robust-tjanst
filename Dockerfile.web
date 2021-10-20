@@ -6,17 +6,12 @@ WORKDIR $APP_HOME
 # toolchain for deps (bcrypt)
 RUN apk add --no-cache python3 make g++
 
-# npm deps
 COPY package.json .
 COPY yarn.lock .
-COPY packages/web/package.json ./packages/web/package.json
-
-RUN yarn workspace web install
-
 COPY packages/web/ ./packages/web/
+RUN yarn workspace web install --frozen-lockfile
 
 WORKDIR $APP_HOME/packages/web/
-
 RUN yarn run css:build
 
 ENV PORT 3000

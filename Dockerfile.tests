@@ -1,0 +1,10 @@
+FROM node:16.6-alpine3.14
+
+COPY package.json .
+COPY yarn.lock .
+COPY packages/tests/ ./packages/tests/
+
+RUN yarn workspace tests install --frozen-lockfile
+
+WORKDIR ./packages/tests/
+ENTRYPOINT yarn start

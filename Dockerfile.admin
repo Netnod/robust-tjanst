@@ -1,0 +1,15 @@
+FROM node:16.6-alpine3.14
+
+COPY package.json .
+COPY yarn.lock .
+COPY packages/admin/ ./packages/admin/
+# admin depends on test
+COPY packages/tests/ ./packages/tests/
+
+RUN yarn workspace admin install --frozen-lockfile
+
+ENV PORT 4567
+EXPOSE $PORT
+
+WORKDIR ./packages/admin/
+ENTRYPOINT yarn start
