@@ -8,10 +8,11 @@ const tests = require('tests')
 const serverAdapter = new ExpressAdapter()
 serverAdapter.setBasePath('')
 
+const options = { readOnlyMode: true }
 createBullBoard({
   queues: Object.values(tests.testQueues)
-    .map(queue => new BullMQAdapter(queue))
-    .concat([new BullMQAdapter(tests.testQueue)]),
+    .map(queue => new BullMQAdapter(queue, options))
+    .concat([new BullMQAdapter(tests.testQueue, options)]),
   serverAdapter: serverAdapter
 })
 
