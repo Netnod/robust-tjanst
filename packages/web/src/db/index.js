@@ -9,7 +9,6 @@ if (process.env.NODE_ENV !== 'production') {
   )
 }
 
-// const dbPool = createPool(process.env.DATABASE_URL, {interceptors})
+const dbPool = createPool(process.env.DATABASE_URL, {interceptors})
 
-// module.exports = dbPool
-module.exports = null
+module.exports = dbPool

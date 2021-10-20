@@ -8,7 +8,7 @@ const koaViews = require('koa-views')
 const koaBody = require('koa-body')
 const koaSession = require('koa-session')
 
-// const dbPool = require('./db')
+const dbPool = require('./db')
 
 const passport = require('./middleware/auth')
 
@@ -75,14 +75,14 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 // Provide `ctx.dbPool` for routes
-// app.context.dbPool = dbPool
+app.context.dbPool = dbPool
 
 const router = new KoaRouter()
 
 router.get(
   '/_health_check',
   async (ctx) => {
-    // await dbPool.connect()
+    await dbPool.connect()
     ctx.body = 'OK'
   }
 )
