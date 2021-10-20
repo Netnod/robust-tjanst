@@ -70,6 +70,10 @@ To deploy the solution you will need Skaffold and make sure you are in the right
     kubectl create namespace tests
     skaffold run
 
+To setup the database (needed initially) find a pod for the web service
+    kubectl get pods # copy the name
+    kubectl exec pod-name sh setup.sh
+
 If you have changed tests, then deploy them like this:
 
     cd packages/tests
