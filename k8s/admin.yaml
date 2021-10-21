@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: admin
-          image: iteam1337/robust-admin
+          image: netnodse/robust-admin
           resources: {}
           ports:
             - containerPort: 4567

@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: iteam1337/robust-web
+          image: netnodse/robust-web
           ports:
             - containerPort: 3000
           resources: {}

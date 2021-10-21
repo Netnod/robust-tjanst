@@ -30,13 +30,13 @@ metadata:
   name: robust-tjanst
 build:
   artifacts:
-  - image: iteam1337/robust-web
+  - image: netnodse/robust-web
     docker:
       dockerfile: Dockerfile.web
-  - image: iteam1337/robust-admin
+  - image: netnodse/robust-admin
     docker:
       dockerfile: Dockerfile.admin
-  - image: iteam1337/robust-test-runner
+  - image: netnodse/robust-test-runner
     docker:
       dockerfile: Dockerfile.tests
 deploy:
