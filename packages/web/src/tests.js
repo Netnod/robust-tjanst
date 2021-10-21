@@ -1,6 +1,6 @@
 const { sql } = require('slonik')
 const { getDomainByID } = require('./db/queries/domains')
-const { getTestByID, getTestPartsByTestID } = require('./db/queries/tests')
+const { getTestByID, getTestPartsAndGroupsByTestID } = require('./db/queries/tests')
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
 
@@ -17,7 +17,7 @@ function upsertURL(url) {
 
 function insertNewTest(domain_id) {
   return sql`
-    INSERT INTO domain_tests (domain_id)
+    INSERT INTO tests (domain_id)
     VALUES (${domain_id}) 
     RETURNING id AS test_id
   `
@@ -41,7 +41,7 @@ async function createTest(ctx) {
     return test_id
   })
 
-  await ctx.redirect(ctx.state.namedPath('test_page', {url, id: test_id}))
+  await ctx.redirect(ctx.state.namedPath('test_page', {id: test_id}))
 }
 
 async function showTest(ctx) {
@@ -49,14 +49,37 @@ async function showTest(ctx) {
 
   await ctx.dbPool.connect(async (connection) => {
     const test = await connection.one(getTestByID(id))
-    const parts = await connection.any(getTestPartsByTestID(id))
+    const parts = await connection.any(getTestPartsAndGroupsByTestID(id))
 
-    if (parts.length === 0 || parts.some(p => p.status === 'scheduled')) {
+    if (parts.length === 0 || parts.some(p => p.test_status === 'scheduled')) {
       return ctx.render('tests/loading')
     }
 
+    const groups = parts.reduce(
+      (acc, next) => {
+        if (!acc[next.group_key]) {
+          const group = {
+            key: next.group_key,
+            status: next.group_status,
+            is_passed: next.group_is_passed,
+            tests: []
+          }
+          acc[group.key] = group
+        }
+        acc[next.group_key].tests.push({
+          key: next.test_key,
+          status: next.run_status,
+          is_passed: next.test_is_passed,
+          title: next.test_title,
+          description: next.test_description
+        })
+        return acc
+      },
+      {}
+    )
+
     const domain = await connection.one(getDomainByID(test.domain_id))
-    await ctx.render('tests/show', {test, domain, parts})
+    await ctx.render('tests/show', {test, domain, groups, md: require('markdown-it')()})
   })
 }
 

@@ -7,26 +7,31 @@ function getTestByID(id) {
       dt.domain_id,
       dt.created_at,
       dt.updated_at
-    FROM domain_tests dt
+    FROM tests dt
     WHERE dt.id = ${id}
     LIMIT 1
   `
 }
 
-function getTestPartsByTestID(test_id) {
+function getTestPartsAndGroupsByTestID(test_id) {
   return sql`
-    SELECT 
-      dtp.part_id AS test_id,
-      dtp.result_description AS description,
-      dtp.test_status AS status
-    FROM
-      domain_test_parts dtp
+    SELECT
+      g.group_key,
+      g.run_status AS group_status,
+      g.result_pass AS group_is_passed,
+      test.part_key AS test_key,
+      test.run_status AS test_status,
+      test.run_passed AS test_is_passed,
+      test.run_title AS test_title,
+      test.run_description AS test_description
+    FROM test_groups g
+    INNER JOIN test_group_parts test ON (g.id = test.group_id)
     WHERE
-      dtp.domain_test_id = ${test_id}
+      g.test_id = ${test_id}
   `
 }
 
 module.exports = {
   getTestByID,
-  getTestPartsByTestID
+  getTestPartsAndGroupsByTestID
 }

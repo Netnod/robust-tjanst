@@ -65,7 +65,13 @@ CREATE TABLE account_domains (
 ------------------------------------
 -- tests
 ------------------------------------
-CREATE TABLE domain_tests (
+CREATE TYPE test_job_status AS ENUM (
+	'scheduled',
+	'finished',
+	'skipped'
+);
+
+CREATE TABLE tests (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	domain_id BIGINT NOT NULL REFERENCES domains(id),
 	
@@ -73,28 +79,41 @@ CREATE TABLE domain_tests (
 	updated_at TIMESTAMP WITH TIME ZONE
 );
 
-CREATE TABLE domain_test_parts (
-	domain_test_id BIGINT NOT NULL REFERENCES domain_tests(id),
+CREATE TABLE test_groups (
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	test_id BIGINT NOT NULL REFERENCES tests(id),
+	group_key TEXT NOT NULL,
 
-	part_id VARCHAR,
+	run_status test_job_status NOT NULL,
 	result_pass BOOLEAN NOT NULL DEFAULT FALSE,
-	result_description TEXT,
-	-- TODO: ENUM
-	test_status VARCHAR NOT NULL DEFAULT 'scheduled',
+	result_title TEXT NOT NULL,
+	result_description TEXT NOT NULL,
+
+	UNIQUE(test_id, group_key)
+);
+
+CREATE TABLE test_group_parts (
+	group_id BIGINT NOT NULL REFERENCES test_groups(id),
+	part_key TEXT NOT NULL,
+
+	run_status test_job_status NOT NULL,
+	run_passed BOOLEAN NOT NULL DEFAULT FALSE,
+	run_title TEXT NOT NULL DEFAULT '',
+	run_description TEXT NOT NULL DEFAULT '',
 	
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
 	updated_at TIMESTAMP WITH TIME ZONE,
 
-	UNIQUE(domain_test_id, part_id)
+	UNIQUE(group_id, part_key)
 );
 
 
 CREATE TRIGGER
 	set_updated_at
-	BEFORE UPDATE ON domain_tests
+	BEFORE UPDATE ON tests 
 	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();
 
 CREATE TRIGGER
 	set_updated_at
-	BEFORE UPDATE ON domain_test_parts
+	BEFORE UPDATE ON test_group_parts
 	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();
