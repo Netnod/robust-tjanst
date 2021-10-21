@@ -11,7 +11,6 @@ module.exports = (connection, resultQueue) => new Worker(queue.name, async (job)
     result
   })
 
-  console.log('starting dns', job.name)
   await Promise.all([
     job.log('Starting DNS'),
     report('scheduled')

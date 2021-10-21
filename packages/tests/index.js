@@ -10,7 +10,9 @@ module.exports = {
   resultQueue: new Queue('test_results', {connection}),
 
   testQueues: {
-    dns:  new Queue('dns', {connection}),
-    tls:  new Queue('tls', {connection}),
+    // dns:  new Queue('dns', {connection}),
+    // tls:  new Queue('tls', {connection}),
+    https: new Queue('https', {connection})
   }
+
 }

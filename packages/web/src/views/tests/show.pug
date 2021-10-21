@@ -24,50 +24,30 @@ block content
     h1(class="mt-8 ml-4 md:ml-0 text-4xl max-w")
       | Resultat för #{domain.domain_name}
 
-  div(class="results flex flex-col")
-    section(class="test-group mb-8 mt-8")
-      h1(class="text-3xl mb-2") Åtkomst genom modern internet-teknologi
-      p(class="mt-1") IPv4, den fjärde versionen av internetprotokollet som har varit i allmänt bruk sedan 1990-talet, har ett storasyskon: IPv6.
-      p(class="mt-2") 
-        | Den fjärde versionen är ganska lätt att känna igen, en address kan se ut till exempel såhär: 192.168.0.1. 
-        | Problemet med den här versionen är att endast fyra miljarder unika adresser är möjliga. Inte ens en adress per person. 
-        | IPv6, som använder 128 bits för sina adresser istället för 32, erbjuder nästan oändligt många: nästan 340,3 <a href="https://sv.wikipedia.org/wiki/Sextiljon">sextiljoner</a>.
-      p(class="mt-2") Vi anser att en hemsida ska kunna nås genom IPv6 för bästa resultat.
+  div(class="results flex flex-col mb-12")
+    each group in groups
+      section(class="test-group mb-8 mt-8")
+        h1(class="text-3xl mb-2")= group.key 
+        p(class="mt-1")= group.description
 
-      +result_summary
-        p <b>Resultat: </b> Vad synd! Användare kan <em>inte</em> nå din sida med en modern internetadress (IPv6.) Det kanske går att lösa? Läs vår artikel <a href="#">Hur: IPv6</a> för att lösa problemen.
+        +result_summary
+          p 
+            | <b>Resultat: </b>
+            if group.is_passed
+              | OK!
+            else
+              | Nope.
 
-      +test('IPv6 DNS Record')
-        p Åtminstone två stycken DNS-servrar som är listade för ditt domän kan nås med IPv6. Här är DNS-servrarna vi fann för ditt domän:
-        table(class="table-fixed")
-          thead
-            tr 
-              th(class="w-1/2 text-left border-b border-gray") Namnserver
-              th(class="w-1/4 text-left border-b border-gray") IPv6 adress
-              th(class="w-1/4 text-left border-b border-gray") IPv4 adress
-          tbody 
-            tr 
-              td pns11.cloudns.net
-              td -
-              td 185.136.97.133
-            tr 
-              td pns12.cloudns.net
-              td -
-              td 185.136.99.133
-          
-            tr
-              td pns13.cloudns.net
-              td -
-              td 185.136.98.133
-            tr
-              td pns14.cloudns.net
-              td -
-              td 185.136.96.133
 
-      +test('IPv6 Access')
-        p Alla DNS-servrar med IPv6-adresser kan nås för namnförfrågan.
+        each test in group.tests
+          +test(test.key)
+            p= test.title
+            | !{md.render(test.description)}
 
-        p(class="mt-2") <b>Tillvägagångssätt:</b> För varje IPv6 adress vi fick fram i föregående test, så ser vi om vi kan köra ett DNS-lookup.
+        +test('test.label')
+          p Alla DNS-servrar med IPv6-adresser kan nås för namnförfrågan.
+
+          p(class="mt-2") <b>Tillvägagångssätt:</b> För varje IPv6 adress vi fick fram i föregående test, så ser vi om vi kan köra ett DNS-lookup.
         
 block script
   script(type="application/javascript").
@@ -85,6 +65,7 @@ block script
     const groups = document.querySelectorAll('.test-group')
     for (const group of groups) {
       const queue = Array.from(group.querySelectorAll('.test.loading'))
+      console.log(queue)
 
       const MAX_TIME = 1000
       const MIN_TIME = 500
