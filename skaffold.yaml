@@ -1,14 +1,10 @@
-# Dependencies in this config
+# Deploy dependencies first
 apiVersion: skaffold/v2beta13
 kind: Config
 deploy:
   kubectl:
-    # defaultNamespace: dev
-    # can't use a defaultNamespace since we create stuff in multiple namespaces
-    # make sure to specify namespaces in the yamls instead
     manifests:
     - k8s/test-runner-account.yaml
-    # TODO create namespaces
   helm:
     releases:
       - name: redis
@@ -23,7 +19,7 @@ deploy:
         # setValues:
         #   replication.enabled: true
 ---
-# Will be deployed after dependencies
+# Deploy services after
 apiVersion: skaffold/v2beta13
 kind: Config
 metadata:
