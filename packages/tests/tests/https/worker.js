@@ -16,18 +16,14 @@ module.exports = (connection, resultQueue) => new Worker(queue.name, async (job)
     job.log(logs)
 
     const response = JSON.parse(raw_response)
-    let result = { test_id }
-    if (response.result === 'ERROR') {
-      result.passed = false
-      result.title = "HTTPs-versionen kan inte nås"
-      result.description = `Vi har en [bra guide](https://www.youtube.com/watch?v=dQw4w9WgXcQ) för sånt!`
-    } else {
-      result.passed = true
-      result.title = "Hurra! HTTPs fungerar!"
-      result.description = "Internet __är__ *bättre* då."
+    let output = { test_id, testName }
+    if (response.output === 'ERROR') {
+      output.result = { passed: false }
+    } else { // TODO: maybe not fail open? :)
+      output.result = { passed: true }
     }
 
-    await resultQueue.add(job.name, result);
+    await outputQueue.add(job.name, output);
   } catch (err) {
     await job.log(JSON.stringify(err))
     throw err;

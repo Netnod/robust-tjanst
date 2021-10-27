@@ -65,11 +65,6 @@ CREATE TABLE account_domains (
 ------------------------------------
 -- tests
 ------------------------------------
-CREATE TYPE test_job_status AS ENUM (
-	'scheduled',
-	'finished',
-	'skipped'
-);
 
 CREATE TABLE tests (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -79,41 +74,16 @@ CREATE TABLE tests (
 	updated_at TIMESTAMP WITH TIME ZONE
 );
 
-CREATE TABLE test_groups (
+CREATE TABLE test_results (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	test_id BIGINT NOT NULL REFERENCES tests(id),
-	group_key TEXT NOT NULL,
+	test_name TEXT NOT NULL,
+        test_result JSONB NOT NULL DEFAULT '{}'::jsonb
 
-	run_status test_job_status NOT NULL,
-	result_pass BOOLEAN NOT NULL DEFAULT FALSE,
-	result_title TEXT NOT NULL,
-	result_description TEXT NOT NULL,
-
-	UNIQUE(test_id, group_key)
+	UNIQUE(test_id, test_name)
 );
-
-CREATE TABLE test_group_parts (
-	group_id BIGINT NOT NULL REFERENCES test_groups(id),
-	part_key TEXT NOT NULL,
-
-	run_status test_job_status NOT NULL,
-	run_passed BOOLEAN NOT NULL DEFAULT FALSE,
-	run_title TEXT NOT NULL DEFAULT '',
-	run_description TEXT NOT NULL DEFAULT '',
-	
-	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-	updated_at TIMESTAMP WITH TIME ZONE,
-
-	UNIQUE(group_id, part_key)
-);
-
 
 CREATE TRIGGER
 	set_updated_at
 	BEFORE UPDATE ON tests 
-	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();
-
-CREATE TRIGGER
-	set_updated_at
-	BEFORE UPDATE ON test_group_parts
 	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();

@@ -34,7 +34,7 @@ async function createTest(ctx) {
     // TODO: Transaction?
     const {domain_id} = await connection.one(upsertURL(url))
     const {test_id} = await connection.one(insertNewTest(domain_id))
-    const job = await testQueue.add('blabla', {test_id, url})
+    const job = await testQueue.add('Test run request', {test_id, url})
 
     // TODO: Wait for results
     console.log(`job_id:${job.id} test_id:${test_id} domain_id:${domain_id}`)
