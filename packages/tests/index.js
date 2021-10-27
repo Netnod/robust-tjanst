@@ -6,7 +6,7 @@ const connection = new IORedis(process.env.REDIS_URL)
 
 module.exports = {
   connection,
-  testQueue: new Queue('run_tests', {connection}),
+  testRunQueue: new Queue('run_tests', {connection}),
   resultQueue: new Queue('test_results', {connection}),
 
   testQueues: {

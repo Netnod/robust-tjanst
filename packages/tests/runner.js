@@ -1,77 +1,14 @@
 const { Worker } = require('bullmq')
 const {sql, createPool} = require('slonik')
-const {testQueue, resultQueue, testQueues, connection} = require('./index')
+const {testRunQueue, resultQueue, testQueues, connection} = require('./index')
 const { startTest, deleteTest } = require('./lib/kubernetes')
 
 const https = require('./tests/https')
 const pool = createPool(process.env.DATABASE_URL)
 
-const TESTS = [
-  {
-    group_key: 'https',
-    run: https,
-    queue: testQueues.https
-  }
-]
-
-const workers = TESTS.map(test => 
-  new Worker(test.queue.name, async (job) => {
-    const cleanup = []
-    let docker_i = 0;
-    const report = (payload) => resultQueue.add(job.name, {...payload, test_id: job.data.test_id})
-
-    const runDockerImage = async (image, args) => {
-      const name = `${test.queue.name}-${job.id}-${docker_i}`
-      cleanup.push(() => deleteTest(name))
-
-      args = Array.isArray(args) ? args : [args]
-      await job.log(`starting k8s pod "${name}" with image "${image}"`)
-      const pod = await startTest(image, name, job.id, args)
-
-      await pod.done()
-      await job.log(`k8s pod is ready`)
-      return pod.log()
-    }
-
-    const createGroup = async (group_key) => {
-      await report({type: 'group', key: group_key, status: 'scheduled'})
-      cleanup.push(async () => report({type: 'group', key: group_key, status: 'finished'}))
-
-      return {
-        update: async ({status}) => {
-          await report({type: 'group', key: group_key, status})
-        },
-        createTest: async (test_key) => {
-          await report({type: 'test', key: test_key, group_key, status: 'scheduled'})
-          return {
-            update: (payload) => report({...payload, type: 'test', key: test_key, group_key})
-          }
-        }
-      }
-    }
-
-    try {
-      await test.run({
-        docker: runDockerImage, 
-        createGroup,
-        data: job.data,
-      })
-    } catch (err) {
-      await job.log("error: ")
-      await job.log(JSON.stringify(err))
-      throw err;
-    } finally {
-      for (const cb of cleanup) {
-        await cb()
-      }
-      console.log("done")
-    }
-  })  
-, {connection})
-
-new Worker(testQueue.name, async ({data: {url, test_id}}) => {
+new Worker(testRunQueue.name, async ({data: {url, test_id}}) => {
   await Promise.all([
-    testQueues.https.add(`HTTPS: ${url}`, {url, test_id})
+    testQueues.https.add(`HTTPS-REACHABLE: ${url}`, {url, test_id})
   ])
 }, {connection})
 
@@ -95,7 +32,7 @@ new Worker(resultQueue.name, async ({data}) => {
     } else if (type === "test") {
       const {status, group_key, passed, title, description} = data
       await connection.any(sql`
-        INSERT INTO test_group_parts (group_id, part_key, run_status, run_passed, run_title, run_description)
+        INSERT INTO test_results (run_status, run_passed, run_title, run_description)
         VALUES (
           (SELECT id FROM test_groups WHERE test_id = ${test_id} AND group_key=${group_key} LIMIT 1),
           ${key}, ${status}, ${passed || false}, ${title || ''}, ${description || ''}
