@@ -69,6 +69,11 @@ To deploy the solution you will need Skaffold and make sure you are in the right
     kubectl create --namespace='dev' secret generic signed-cookie-keys --from-literal=SIGNED_COOKIE_KEYS=$(dd if=/dev/urandom bs=48 count=1 | base64)
     skaffold run
 
+After first install you need to setup the result database
+
+    # Press tab to use tab completion to get the name of the pod
+    kubectl exec -n dev web-[TAB] -- sh setup.sh
+
 If you have changed tests, then deploy them like this:
 
     cd packages/tests
