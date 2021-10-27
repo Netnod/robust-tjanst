@@ -4,50 +4,44 @@ mixin toggles
   button(class="toggler flex flex-grow items-center text-left pl-4 self-stretch"  data-toggle)
     span(class="icon inline-block") ⌃
 
-mixin test(title, state='loading')
-  div(class=`test ${state}`)
+mixin test(test)
+  div(class=`test loading`)
     div(class=`flex items-center flex-row hover:bg-indigo-100 px-4 border-b-2 border-yellow`)
-      h2(class=`text-xl py-5`)= title
+      div(class="py-5 flex items-center")
+        if test.passed
+          span(class="test__result text-blue-600") ✓
+        else
+          span(class="test__result text-red-600") ✕
+        h2(class=`text-xl ml-2`)= test.title
       +toggles
-      if state === 'loading'
-        img(src="/img/loading.svg" class="spinner")
+      img(src="/img/loading.svg" class="spinner")
 
     div(class="test__description mx-4")
-      block
+      | !{md.render(test.description)}
 
-mixin result_summary 
-  div(class="test__summary mx-4 mb-2 mt-4")
+mixin result_summary
+  div(class="test__summary mr-4 mb-2 mt-4")
     block
 
 block content
   div(class="flex flex-col")
-    h1(class="mt-8 ml-4 md:ml-0 text-4xl max-w")
+    h1(class="mt-8 text-4xl")
       | Resultat för #{domain.domain_name}
 
   div(class="results flex flex-col mb-12")
     each group in groups
       section(class="test-group mb-8 mt-8")
-        h1(class="text-3xl mb-2")= group.key 
+        h1(class="text-3xl mb-2")= group.title 
         p(class="mt-1")= group.description
 
         +result_summary
           p 
             | <b>Resultat: </b>
-            if group.is_passed
-              | OK!
-            else
-              | Nope.
+            = group.result
 
 
         each test in group.tests
-          +test(test.key)
-            p= test.title
-            | !{md.render(test.description)}
-
-        +test('test.label')
-          p Alla DNS-servrar med IPv6-adresser kan nås för namnförfrågan.
-
-          p(class="mt-2") <b>Tillvägagångssätt:</b> För varje IPv6 adress vi fick fram i föregående test, så ser vi om vi kan köra ett DNS-lookup.
+          +test(test)
         
 block script
   script(type="application/javascript").
