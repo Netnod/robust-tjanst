@@ -25,6 +25,40 @@ function insertNewTest(domain_id) {
 
 const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
 
+const buildGroups = (url) => [
+  {
+    title: "HTTPS",
+    description: "Säker åtkomst till tjänsten genom moderna krypteringsalgoritmer.",
+    result: "Några av de krav vi stället har inte uppnåtts.",
+    tests: [
+      {
+        title: "Kan nås med HTTPs",
+        description: `Vi prövade att nå tjänsten på https://${url}. Den kom vi åt hur bra som helst!`,
+        passed: true,
+      }, {
+        title: "Användaren vidarebefordras automatiskt till den säkra versionen",
+        passed: false,
+        description: `Vi förväntar oss att bli automatiskt skickade till den säkra versionen. Istället fick vi en osäker version som svar. Det gillar vi **inte**.`,
+      }
+    ]
+  },
+  {
+    title: "DNSSEC",
+    description: `
+      Moderna webbläsare och verktyg vet hur man validerar svar från DNS-servern genom kryptografiska signaturer. 
+      Därmed kan webbläsaren vara säker på att svaret inte manipulerats utan kommer från den korrekta källan.
+    `,
+    result: "Allt ser bra ut!",
+    tests: [
+      {
+        title: "DNSSEC existans",
+        description: "**Tillvägagångssätt:** Vi letar efter domänets SOA record och kollar om det är signerat med DNSSEC",
+        passed: true,
+      }
+    ]
+  }
+]
+
 async function createTest(ctx) {
   // // TODO: Validate URL
   const {url} = ctx.request.body
@@ -55,30 +89,9 @@ async function showTest(ctx) {
       return ctx.render('tests/loading')
     }
 
-    const groups = parts.reduce(
-      (acc, next) => {
-        if (!acc[next.group_key]) {
-          const group = {
-            key: next.group_key,
-            status: next.group_status,
-            is_passed: next.group_is_passed,
-            tests: []
-          }
-          acc[group.key] = group
-        }
-        acc[next.group_key].tests.push({
-          key: next.test_key,
-          status: next.run_status,
-          is_passed: next.test_is_passed,
-          title: next.test_title,
-          description: next.test_description
-        })
-        return acc
-      },
-      {}
-    )
 
     const domain = await connection.one(getDomainByID(test.domain_id))
+    const groups = buildGroups(domain.domain_name)
     await ctx.render('tests/show', {test, domain, groups, md: require('markdown-it')()})
   })
 }

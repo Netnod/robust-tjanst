@@ -120,6 +120,10 @@ p > a {
   /* background-color: #ddd; */
 }
 
+.test.loading .test__result {
+  visibility: hidden;
+}
+
 .test .test__description {
   max-height: 0;
   transition: max-height .35s;
