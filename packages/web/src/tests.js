@@ -3,11 +3,12 @@ const { getDomainByID } = require('./db/queries/domains')
 const { getTestByID, getTestPartsAndGroupsByTestID } = require('./db/queries/tests')
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
+const { default: normalizeUrl } = await import('normalize-url')
 
-function upsertURL(url) {
+function upsertURL(domain) {
   return sql`
     INSERT INTO domains (domain_name)
-    VALUES (${url})
+    VALUES (${domain})
     ON CONFLICT ON CONSTRAINT domains_domain_name_key
     DO UPDATE SET domain_name=domains.domain_name
     -- This ensures we have an id to return ^
@@ -113,15 +114,21 @@ const buildGroups = (domain, results) => {
 }
 
 async function createTest(ctx) {
-  // // TODO: Validate URL
+  // TODO: Validate that URL is a domain and not like ../..
   const {url} = ctx.request.body
-  // // TODO: "Owned" URLs are perhaps "private"
+  const domain = normalizeUrl(url, {
+    stripProtocol: true,
+    stripWWW: true,
+    stripHash: true,
+    removeQueryParameters: true
+  })
+  // TODO: remove subdirectories domain.tld/foo/bar
 
   const test_id = await ctx.dbPool.connect(async (connection) => {
     // TODO: Transaction?
-    const {domain_id} = await connection.one(upsertURL(url))
+    const {domain_id} = await connection.one(upsertURL(domain))
     const {test_id} = await connection.one(insertNewTest(domain_id))
-    const job = await testQueue.add('Test run request', {test_id, url})
+    const job = await testQueue.add('Test run request', {test_id, domain})
 
     // TODO: Wait for results
     console.log(`job_id:${job.id} test_id:${test_id} domain_id:${domain_id}`)

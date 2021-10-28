@@ -35,6 +35,7 @@
     "koa-session": "^6.2.0",
     "koa-views": "^7.0.1",
     "markdown-it": "^12.2.0",
+    "normalize-url": "^7.0.2",
     "passport-local": "^1.0.0",
     "pug": "^3.0.2",
     "slonik": "^24.0.0"
