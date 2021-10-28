@@ -78,7 +78,7 @@ CREATE TABLE test_results (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	test_id BIGINT NOT NULL REFERENCES tests(id),
 	test_name TEXT NOT NULL,
-        test_result JSONB NOT NULL DEFAULT '{}'::jsonb
+	test_result JSONB NOT NULL DEFAULT '{}'::jsonb,
 
 	UNIQUE(test_id, test_name)
 );

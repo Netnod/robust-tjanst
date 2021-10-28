@@ -14,5 +14,4 @@ module.exports = {
     // tls:  new Queue('tls', {connection}),
     https: new Queue('https', {connection})
   }
-
 }

@@ -51,7 +51,9 @@ async function showTest(ctx) {
     const test = await connection.one(getTestByID(id))
     const parts = await connection.any(getTestPartsAndGroupsByTestID(id))
 
-    if (parts.length === 0 || parts.some(p => p.test_status === 'scheduled')) {
+    console.log(parts)
+
+    if (parts.length === 0) {
       return ctx.render('tests/loading')
     }
 

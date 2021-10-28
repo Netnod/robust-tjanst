@@ -3,27 +3,22 @@ const { startTest, deleteTest } = require('../../lib/kubernetes')
 const queue = require('../../index').testQueues.https
 
 const image = 'mullsork/https-reachable:latest'
-const testName = 'https-reachable'
+const test_name = 'https-reachable'
 
 module.exports = (connection, resultQueue) => new Worker(queue.name, async (job) => {
+  console.log("HTTPS starting")
   await job.log(`Starting ${job.name}`)
   const {id, data: { url, test_id }} = job
-  const podName = `${testName}-${id}`
+  const podName = `${test_name}-${id}`
   try {
     const pod = await startTest(image, podName, id, [url])
     await pod.done()
     const logs = await pod.log()
     job.log(logs)
 
-    const response = JSON.parse(raw_response)
-    let output = { test_id, testName }
-    if (response.output === 'ERROR') {
-      output.result = { passed: false }
-    } else { // TODO: maybe not fail open? :)
-      output.result = { passed: true }
-    }
-
-    await outputQueue.add(job.name, output);
+    const response = JSON.parse(logs)
+    const output = { test_id, test_name, result: {passed: response.output === 'OK'} }
+    await resultQueue.add(job.name, output);
   } catch (err) {
     await job.log(JSON.stringify(err))
     throw err;
