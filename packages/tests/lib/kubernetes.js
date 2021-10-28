@@ -65,7 +65,7 @@ const deleteTest = (name) => {
 
 
 const waitUntilSucceeded = async (pod, tries = 0) => {
-  if (tries >= 12) return Promise.reject('Timeout: Ran out of tries')
+  if (tries >= 60) return Promise.reject('Timeout: Ran out of tries')
 
   const response = await pod.status()
   const phase = response.body?.status.phase

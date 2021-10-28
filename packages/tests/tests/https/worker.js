@@ -17,7 +17,8 @@ module.exports = (connection, resultQueue) => new Worker(queue.name, async (job)
     job.log(logs)
 
     const response = JSON.parse(logs)
-    const output = { test_id, test_name, result: {passed: response.output === 'OK'} }
+    const output = { test_id, test_name, result: {passed: response.result === 'OK'} }
+    console.log(response)
     await resultQueue.add(job.name, output);
   } catch (err) {
     await job.log(JSON.stringify(err))

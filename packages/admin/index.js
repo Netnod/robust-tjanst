@@ -13,7 +13,7 @@ createBullBoard({
   queues: Object.values(tests.testQueues)
     .map(queue => new BullMQAdapter(queue, options))
     .concat([
-      new BullMQAdapter(tests.testQueue, options),
+      new BullMQAdapter(tests.testRunQueue, options),
       new BullMQAdapter(tests.resultQueue, options)
     ]),
   serverAdapter: serverAdapter
