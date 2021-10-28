@@ -3,7 +3,6 @@ const { getDomainByID } = require('./db/queries/domains')
 const { getTestByID, getTestPartsAndGroupsByTestID } = require('./db/queries/tests')
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
-const { default: normalizeUrl } = await import('normalize-url')
 
 function upsertURL(domain) {
   return sql`
@@ -114,15 +113,18 @@ const buildGroups = (domain, results) => {
 }
 
 async function createTest(ctx) {
-  // TODO: Validate that URL is a domain and not like ../..
+  function getDomain(url) {
+    // caveat: allows ip addresses and domains without dots like 'localhost'
+    const urlWithProto = /^.+(?::\/\/).+$/.test(url) ? url : `http://${url}`
+    const hostname = (new URL(urlWithProto)).hostname
+    if (!hostname) {
+      throw new Error(`Could not get hostname: ${url}`)
+    }
+    return hostname
+  }
+
   const {url} = ctx.request.body
-  const domain = normalizeUrl(url, {
-    stripProtocol: true,
-    stripWWW: true,
-    stripHash: true,
-    removeQueryParameters: true
-  })
-  // TODO: remove subdirectories domain.tld/foo/bar
+  const domain = getDomain(url)
 
   const test_id = await ctx.dbPool.connect(async (connection) => {
     // TODO: Transaction?
