@@ -113,6 +113,7 @@ const buildGroups = (domain, results) => {
 }
 
 async function createTest(ctx) {
+  // TODO: what do we want to do with input urls?
   function getDomain(url) {
     // caveat: allows ip addresses and domains without dots like 'localhost'
     const urlWithProto = /^.+(?::\/\/).+$/.test(url) ? url : `http://${url}`
@@ -124,13 +125,13 @@ async function createTest(ctx) {
   }
 
   const {url} = ctx.request.body
-  const domain = getDomain(url)
+  //const domain = getDomain(url)
 
   const test_id = await ctx.dbPool.connect(async (connection) => {
     // TODO: Transaction?
-    const {domain_id} = await connection.one(upsertURL(domain))
+    const {domain_id} = await connection.one(upsertURL(url))
     const {test_id} = await connection.one(insertNewTest(domain_id))
-    const job = await testQueue.add('Test run request', {test_id, domain})
+    const job = await testQueue.add('Test run request', {test_id, url})
 
     // TODO: Wait for results
     console.log(`job_id:${job.id} test_id:${test_id} domain_id:${domain_id}`)
