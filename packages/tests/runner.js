@@ -23,4 +23,4 @@ new Worker(resultQueue.name, async ({data}) => {
       VALUES (${test_id}, ${test_name}, ${JSON.stringify(result)})
     `)
   })
-})
+}, {connection})
