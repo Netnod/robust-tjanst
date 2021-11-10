@@ -6,12 +6,13 @@ const image = 'netnodse/https-reachable:latest'
 const test_name = 'https-reachable'
 
 module.exports = (connection, resultQueue) => new Worker(queue.name, async (job) => {
-  console.log("HTTPS starting")
+  console.log(`Starting ${test_name}`)
   await job.log(`Starting ${job.name}`)
-  const {id, data: { url, test_id }} = job
-  const podName = `${test_name}-${id}`
+  const {id, data: { arguments, test_id }} = job
+  const podName = `${test_name}-${test_id}`
   try {
-    const pod = await startTest(image, podName, id, [url])
+    console.log(`running ${image} ${Object.values(arguments)}`)
+    const pod = await startTest(image, podName, id, Object.values(arguments))
     await pod.done()
     const logs = await pod.log()
     job.log('Test returned: ' + logs)
@@ -21,7 +22,7 @@ module.exports = (connection, resultQueue) => new Worker(queue.name, async (job)
     console.log(response)
     await resultQueue.add(job.name, output);
   } catch (err) {
-    // TODO: log only relevant parts of err, k8s errors are insanely verbose
+    // TODO: log only relevant parts of err, k8s errors are very verbose
     await job.log('Test pod failed with: ' + JSON.stringify(err))
     throw err;
   } finally {

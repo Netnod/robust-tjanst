@@ -4,7 +4,7 @@ const { getTestByID, getTestPartsAndGroupsByTestID } = require('./db/queries/tes
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
 
-function upsertURL(domain) {
+function upsertHost(domain) {
   return sql`
     INSERT INTO domains (domain_name)
     VALUES (${domain})
@@ -34,9 +34,10 @@ const GROUPINGS = {
 const RESULTORS = {
   'https-reachable': (domain, result) => {
     const title = result.passed ? "Kan nås med HTTPS" : "Kunde inte nås med HTTPS"
+    // TODO: get the tested URL as output from the test instead
     const description = result.passed 
-      ? `Vi prövade att nå tjänsten på https://${domain.domain_name}. Den kom vi åt hur bra som helst!`
-      : `Vi prövade att nå tjänsten på https://${domain.domain_name} men fick inget svar. 😱`
+      ? `Kunde nå tjänsten på https://${domain.domain_name}. Bra jobbat!`
+      : `Vi kunde inte nå tjänsten på https://${domain.domain_name}. Utan stöd för https kan användare inte vara säkra på att den information som visas är korrekt eller att den information de skickar till er är säker.`
     return {
       passed: result.passed,
       title,
@@ -45,9 +46,10 @@ const RESULTORS = {
   },
   'https-redirect': (domain, result) => {
     const title = "Automatisk vidarebefordran till HTTPS-versionen"
+    // TODO: get the tested URL as output from the test instead
     const description = result.passed
       ? `http://${domain.domain_name} skickade oss automatiskt till https://${domain.domain_name} `
-      : `Vi förväntar oss att bli automatiskt skickade till den säkra versionen. Istället fick vi en osäker version som svar. Det gillar vi **inte**.`
+      : `http://${domain.domain_name} borde automatiskt skicka alla besökare till https://${domain.domain_name}, inte erbjuda en osäker version av sidan.`
     return {
       passed: result.passed,
       title,
@@ -55,6 +57,7 @@ const RESULTORS = {
     }
   },
   'dnssec-presence': (domain, result) => {
+    // TODO: implement
     return {
       passed: result.passed,
       title: "DNSSec existans",
@@ -67,11 +70,11 @@ const GROUP_DESCRIPTIONS = {
   'https': (domain, tests) => {
     return {
       title: "HTTPS",
-      description: "Säker åtkomst till tjänsten genom moderna krypteringsalgoritmer.",
+      description: "Säker åtkomst till tjänsten krypterad anslutning",
       result: 
         tests.every(t => t.passed)
-        ? "Hurra!"
-        : "Några av de krav vi stället har inte uppnåtts.",
+        ? "✔️ Kommunikationen är skyddad"
+        : "❌ All kommunikation är inte skyddad",
     }
   },
   'dnssec': (domain, tests) => {
@@ -113,25 +116,35 @@ const buildGroups = (domain, results) => {
 }
 
 async function createTest(ctx) {
-  // TODO: what do we want to do with input urls?
-  function getDomain(url) {
-    // caveat: allows ip addresses and domains without dots like 'localhost'
+  function parseUrl(url) {
     const urlWithProto = /^.+(?::\/\/).+$/.test(url) ? url : `http://${url}`
-    const hostname = (new URL(urlWithProto)).hostname
-    if (!hostname) {
-      throw new Error(`Could not get hostname: ${url}`)
+    const parsed = new URL(urlWithProto) // Will throw if unable to parse
+
+    if (parsed.host === '' || parsed.hostname === '') {
+      throw new Error(`Could not parse url ${urlWithProto}`)
     }
-    return hostname
+
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      throw new Error(`Unsupported protocol ${parsed.protocol}`)
+    }
+
+    // TODO: somehow make sure we don't allow localhost, 127.0.0.1 etc
+    // TODO: block certain ports?
+    return {
+      host: parsed.host, // 'example.com:8080'
+      pathname: parsed.pathname, // '/pages/foobar'
+      hostname: parsed.hostname, // 'example.com'
+      protocol: parsed.protocol // 'http:' mind the colon
+    }
   }
 
-  const {url} = ctx.request.body
-  //const domain = getDomain(url)
+  const parsedUrl = parseUrl(ctx.request.body.url)
 
   const test_id = await ctx.dbPool.connect(async (connection) => {
     // TODO: Transaction?
-    const {domain_id} = await connection.one(upsertURL(url))
+    const {domain_id} = await connection.one(upsertHost(parsedUrl.host))
     const {test_id} = await connection.one(insertNewTest(domain_id))
-    const job = await testQueue.add('Test run request', {test_id, url})
+    const job = await testQueue.add('Test run request', {test_id, arguments: parsedUrl})
 
     // TODO: Wait for results
     console.log(`job_id:${job.id} test_id:${test_id} domain_id:${domain_id}`)

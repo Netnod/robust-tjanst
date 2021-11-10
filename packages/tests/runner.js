@@ -6,10 +6,10 @@ const pool = createPool(process.env.DATABASE_URL)
 
 require('./tests/https/worker')(connection, resultQueue)
 
-new Worker(testRunQueue.name, async ({data: {url, test_id}}) => {
-  console.log("TestRunQueue", {url, test_id})
+new Worker(testRunQueue.name, async ({data: {arguments, test_id}}) => {
+  console.log("TestRunQueue", {arguments, test_id})
   await Promise.all([
-    testQueues.https.add(`HTTPS-REACHABLE: ${url}`, {url, test_id})
+    testQueues.https.add(`HTTPS-REACHABLE: ${arguments.host}`, {arguments, test_id})
   ])
 }, {connection})
 
