@@ -27,8 +27,8 @@ const {BASE_URL, SIGNED_COOKIE_KEYS, NODE_ENV} = process.env
 const app = new Koa()
 
 app.use(koaLogger())
-// app.keys = SIGNED_COOKIE_KEYS.split(',')
-// app.use(koaSession({}, app))
+app.keys = SIGNED_COOKIE_KEYS.split(',')
+app.use(koaSession({}, app))
 
 app.on('error', (err, ctx) => {
   // TODO: Sentry or some other error reporting
@@ -113,7 +113,7 @@ router.post('create_domain', '/domains', koaBody(), domains.createDomain)
 router.get('domain_page', '/domain/:id', domains.showDomain)
 
 router.post('create_test', '/test', koaBody(), tests.createTest)
-router.get('test_page', '/test/:url/:id', tests.showTest)
+router.get('test_page', '/test/:id', tests.showTest)
 
 router.get('domain_sigil', '/sigil/:domain/text.svg', sigil.getSigil)
 

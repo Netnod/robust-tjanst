@@ -25,99 +25,12 @@ p > a {
   @apply text-blue-400 hover:text-blue-600 cursor-pointer;
 }
 
-.flips {
-  @apply relative w-full mt-8;
-}
-
-.flips > span {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  text-align: center;
-}
-
-.flips > span:first-child {
-  opacity: 1;
-  animation-name: slideout;
-  animation-duration: 1s;
-  animation-delay: 1s;
-  animation-fill-mode: forwards;
-}
-
-.flips > span:nth-child(2) {
-  opacity: 0;
-  animation-name: slidein;
-  animation-duration: 2s;
-  animation-delay: 2.1s;
-}
-
-.flips > span:nth-child(3) {
-  opacity: 0;
-  animation-name: slidein;
-  animation-duration: 2s;
-  animation-delay: 4.2s;
-}
-
-.flips > span:nth-child(4) {
-  opacity: 0;
-  animation-name: slidein;
-  animation-duration: 2s;
-  animation-delay: 6.3s;
-}
-
-.flips > span:nth-child(5) {
-  opacity: 0;
-  animation-name: slidein;
-  animation-duration: 2s;
-  animation-delay: 8.4s;
-}
-
-.flips > span:nth-child(6) {
-  opacity: 0;
-  animation-name: slidein-last;
-  animation-duration: 2s;
-  animation-delay: 10.5s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes slidein {
-  0% {
-    opacity: 0.0;
-  }
-
-  50% {
-    opacity: 1.0;
-  }
-
-  100% {
-    opacity: 0.0;
-  }
-}
-
-@keyframes slideout {
-  from {
-    opacity: 1.0;
-  }
-
-  to {
-    opacity: 0.0;
-  }
-}
-
-@keyframes slidein-last {
-  0% {
-    opacity: 0.0;
-  }
-
-  100% {
-    opacity: 1.0;
-  }
-}
-
-
 .test {
   /* background-color: #ddd; */
+}
+
+.test.loading .test__result {
+  visibility: hidden;
 }
 
 .test .test__description {

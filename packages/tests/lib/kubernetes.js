@@ -1,6 +1,6 @@
 const k8s = require("@kubernetes/client-node")
 const kc = new k8s.KubeConfig()
-const isDocker = import('is-docker').then(d => {
+import('is-docker').then(d => {
   if (d.default()) {
     console.debug('loading k8s from cluster')
     kc.loadFromCluster()
@@ -46,7 +46,8 @@ const startTest = (image, name, id, arguments) => {
       const pod = {
         log: () => k8sApi.readNamespacedPodLog(name, namespace, null, true).then(({response}) => response.body),
         status: () => k8sApi.readNamespacedPodStatus(name, namespace, 'true'),
-        done: () => waitUntilSucceeded(pod)
+        done: () => waitUntilSucceeded(pod),
+        name
       }
       return pod
     })
@@ -64,7 +65,7 @@ const deleteTest = (name) => {
 
 
 const waitUntilSucceeded = async (pod, tries = 0) => {
-  if (tries >= 60) return Promise.reject('Timeout')
+  if (tries >= 60) return Promise.reject('Timeout: Ran out of tries')
 
   const response = await pod.status()
   const phase = response.body?.status.phase

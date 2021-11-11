@@ -12,12 +12,19 @@ const options = { readOnlyMode: true }
 createBullBoard({
   queues: Object.values(tests.testQueues)
     .map(queue => new BullMQAdapter(queue, options))
-    .concat([new BullMQAdapter(tests.testQueue, options)]),
+    .concat([
+      new BullMQAdapter(tests.testRunQueue, options),
+      new BullMQAdapter(tests.resultQueue, options)
+    ]),
   serverAdapter: serverAdapter
 })
 
 const app = express()
 
 app.use('/', serverAdapter.getRouter())
-app.listen(process.env.PORT || 4567)
+
+const port = process.env.PORT || 4567
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`)
+})
 

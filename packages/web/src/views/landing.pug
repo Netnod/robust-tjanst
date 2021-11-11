@@ -2,18 +2,13 @@ extends base.pug
 
 block body
   div(class="pt-8 flex flex-col" style="height: 72vh;")
-    img(src="/logo.svg")
-    div(class="ml-4 md:ml-0 md:text-center text-4xl mb-8 tracking-wider")
-      //- h1(class="inline-block") 
-      //-   | Robust&nbsp;
-      h1(class="flips inline-block")
-        | &nbsp;
-        span Tjänst
-        span Hemsida
-        span App
-        span Hosting
-        span Domän
-        span(class="underline") Service
+    div(class="ml-4 md:ml-0 flex mb-8 justify-center")
+      img(
+        class="mt-12 md:mt-64"
+        width="380"
+        src="/img/logo.svg"
+        alt="Robust Tjänst av Netnod"
+      )
 
     div(
       class="px-4 my-12 flex flex-col items-center justify-center flex-grow"
@@ -62,7 +57,7 @@ block body
         ul(class="list-disc pl-4")
           li <strong>Du</strong> kan fokusera på din affär
           li Vi håller dig uppdaterad när ny teknologi bör adopteras
-          li Vi skapar material som förklar hur man gör
+          li Vi skapar material som förklarar hur man gör
       span(class="text-8xl ml-12") 2
 
     section(

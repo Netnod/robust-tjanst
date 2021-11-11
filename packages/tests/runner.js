@@ -1,15 +1,26 @@
 const { Worker } = require('bullmq')
-const {testQueue, testQueues, connection} = require('./index')
+const {sql, createPool} = require('slonik')
+const {testRunQueue, resultQueue, testQueues, connection} = require('./index')
 
-require('./tests/tls/worker')(connection)
-require('./tests/dns/worker')(connection)
+const pool = createPool(process.env.DATABASE_URL)
 
+require('./tests/https/worker')(connection, resultQueue)
 
-testQueues.dns.clean()
-
-new Worker(testQueue.name, async ({data: {url}}) => {
+new Worker(testRunQueue.name, async ({data: {arguments, test_id}}) => {
+  console.log("TestRunQueue", {arguments, test_id})
   await Promise.all([
-    testQueues.dns.add(`DNS: ${url}`, {url}),
-    testQueues.tls.add(`TLS: ${url}`, {url})
+    testQueues.https.add(`HTTPS-REACHABLE: ${arguments.host}`, {arguments, test_id})
   ])
+}, {connection})
+
+new Worker(resultQueue.name, async ({data}) => {
+  console.log("ResultQueue", data)
+  const { test_id, test_name, result } = data
+
+  await pool.connect(async (connection) => {
+    await connection.any(sql`
+      INSERT INTO test_results (test_id, test_name, test_result)
+      VALUES (${test_id}, ${test_name}, ${JSON.stringify(result)})
+    `)
+  })
 }, {connection})

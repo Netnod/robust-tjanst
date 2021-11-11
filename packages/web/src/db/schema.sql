@@ -65,38 +65,25 @@ CREATE TABLE account_domains (
 ------------------------------------
 -- tests
 ------------------------------------
-CREATE TABLE domain_tests (
+
+CREATE TABLE tests (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	domain_id BIGINT NOT NULL REFERENCES domains(id),
 	
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-	updated_at TIMESTAMP WITH TIME ZONE,
-	
-	-- TODO: ENUM
-	test_status VARCHAR NOT NULL DEFAULT 'scheduled',
-	final_score INTEGER NOT NULL DEFAULT 0
+	updated_at TIMESTAMP WITH TIME ZONE
 );
 
-CREATE TABLE domain_test_part (
-	domain_test_id BIGINT NOT NULL REFERENCES domain_tests(id),
-	part_id VARCHAR,
-	
-	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-	updated_at TIMESTAMP WITH TIME ZONE,
-	
-	-- TODO: ENUM
-	test_status VARCHAR NOT NULL DEFAULT 'scheduled',
+CREATE TABLE test_results (
+	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	test_id BIGINT NOT NULL REFERENCES tests(id),
+	test_name TEXT NOT NULL,
+	test_result JSONB NOT NULL DEFAULT '{}'::jsonb,
 
-	UNIQUE(domain_test_id, part_id)
+	UNIQUE(test_id, test_name)
 );
-
 
 CREATE TRIGGER
 	set_updated_at
-	BEFORE UPDATE ON domain_tests
-	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();
-
-CREATE TRIGGER
-	set_updated_at
-	BEFORE UPDATE ON domain_test_part
+	BEFORE UPDATE ON tests 
 	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();

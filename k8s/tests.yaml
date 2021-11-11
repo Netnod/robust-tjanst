@@ -27,6 +27,19 @@ spec:
               value: "redis://:$(REDIS_PASS)@$(REDIS_SERVER)"
             - name: NODE_ENV
               value: "production"
+            - name: PGHOST
+              value: postgresql
+            - name: PGUSER
+              value: postgres
+            - name: PGDATABASE
+              value: robust-tjanst
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: postgresql-password
+            - name: DATABASE_URL
+              value: "postgres://$(PGUSER):$(PGPASSWORD)@$(PGHOST)/$(PGDATABASE)"
           volumeMounts: 
           - mountPath: /var/run/secrets/tokens
             name: api-token
