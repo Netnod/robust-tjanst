@@ -66,7 +66,7 @@ CREATE TABLE account_domains (
 -- tests
 ------------------------------------
 
-CREATE TABLE tests (
+CREATE TABLE test_runs (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	domain_id BIGINT NOT NULL REFERENCES domains(id),
 	
@@ -76,14 +76,14 @@ CREATE TABLE tests (
 
 CREATE TABLE test_results (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-	test_id BIGINT NOT NULL REFERENCES tests(id),
+	test_run_id BIGINT NOT NULL REFERENCES test_runs(id),
 	test_name TEXT NOT NULL,
-	test_result JSONB NOT NULL DEFAULT '{}'::jsonb,
+	test_output JSONB NOT NULL DEFAULT '{}'::jsonb,
 
-	UNIQUE(test_id, test_name)
+	UNIQUE(test_run_id, test_name)
 );
 
 CREATE TRIGGER
 	set_updated_at
-	BEFORE UPDATE ON tests 
+	BEFORE UPDATE ON test_runs
 	FOR EACH ROW EXECUTE PROCEDURE set_update_timestamp();
