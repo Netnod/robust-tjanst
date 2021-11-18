@@ -1,27 +1,7 @@
-const { sql } = require('slonik')
-const { getDomainByID } = require('./db/queries/domains')
-const { getTestByID, getTestPartsAndGroupsByTestID } = require('./db/queries/tests')
+const { upsertDomain, getDomainByID } = require('./db/queries/domains')
+const { insertNewTestRun, getTestRunByID, getTestResultByID } = require('./db/queries/tests')
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
-
-function upsertHost(domain) {
-  return sql`
-    INSERT INTO domains (domain_name)
-    VALUES (${domain})
-    ON CONFLICT ON CONSTRAINT domains_domain_name_key
-    DO UPDATE SET domain_name=domains.domain_name
-    -- This ensures we have an id to return ^
-    RETURNING id AS domain_id
-  `
-}
-
-function insertNewTest(domain_id) {
-  return sql`
-    INSERT INTO tests (domain_id)
-    VALUES (${domain_id}) 
-    RETURNING id AS test_id
-  `
-}
 
 const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
 
@@ -105,7 +85,7 @@ const buildGroups = (domain, results) => {
     if (!fn) throw new Error(`No result function for ${result.test_name}`)
     const group = GROUPINGS[result.test_name]
     if (!group || !groups[group]) throw new Error(`No group for ${result.test_name}`)
-    groups[group].tests.push(fn(domain, result.test_result))
+    groups[group].tests.push(fn(domain, result.test_output))
   }
 
   for (const group of Object.keys(groups)) {
@@ -140,33 +120,33 @@ async function createTest(ctx) {
 
   const parsedUrl = parseUrl(ctx.request.body.url)
 
-  const test_id = await ctx.dbPool.connect(async (connection) => {
+  const test_run_id = await ctx.dbPool.connect(async (connection) => {
     // TODO: Transaction?
-    const {domain_id} = await connection.one(upsertHost(parsedUrl.host))
-    const {test_id} = await connection.one(insertNewTest(domain_id))
-    const job = await testQueue.add('Test run request', {test_id, arguments: parsedUrl})
+    const {domain_id} = await connection.one(upsertDomain(parsedUrl.host))
+    const {test_run_id} = await connection.one(insertNewTestRun(domain_id))
+    const job = await testQueue.add('Test run request', {test_run_id, arguments: parsedUrl})
 
     // TODO: Wait for results
-    console.log(`job_id:${job.id} test_id:${test_id} domain_id:${domain_id}`)
-    return test_id
+    console.log(`job_id:${job.id} test_run_id:${test_run_id} domain_id:${domain_id}`)
+    return test_run_id
   })
 
-  await ctx.redirect(ctx.state.namedPath('test_page', {id: test_id}))
+  await ctx.redirect(ctx.state.namedPath('test_page', {id: test_run_id}))
 }
 
 async function showTest(ctx) {
   const {id} = ctx.request.params
 
   await ctx.dbPool.connect(async (connection) => {
-    const test = await connection.one(getTestByID(id))
-    const parts = await connection.any(getTestPartsAndGroupsByTestID(id))
-    if (parts.length === 0) { return ctx.render('tests/loading') }
+    const test = await connection.one(getTestRunByID(id))
+    const result = await connection.any(getTestResultByID(id))
+    if (result.length === 0) { return ctx.render('tests/loading') }
 
     const domain = await connection.one(getDomainByID(test.domain_id))
-    const groups = buildGroups(domain, parts.concat(
+    const groups = buildGroups(domain, result.concat(
       // We don't have implementations of these tests yet
-      {test_name: 'https-redirect', test_result: {passed: false}},
-      {test_name: 'dnssec-presence', test_result: {passed: true}},
+      {test_name: 'https-redirect', test_output: {passed: false}},
+      {test_name: 'dnssec-presence', test_output: {passed: true}},
     ))
     await ctx.render('tests/show', {test, domain, groups, md: require('markdown-it')()})
   })
