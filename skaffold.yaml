@@ -11,13 +11,12 @@ deploy:
         remoteChart: redis
         repo: https://charts.bitnami.com/bitnami
         namespace: dev
+        setValues:
+          replica.replicaCount: 1
       - name: postgresql
         remoteChart: postgresql
         repo: https://charts.bitnami.com/bitnami
         namespace: dev
-        # https://github.com/bitnami/charts/tree/master/bitnami/postgresql/#installing-the-chart
-        # setValues:
-        #   replication.enabled: true
 ---
 # Deploy services after
 apiVersion: skaffold/v2beta13
