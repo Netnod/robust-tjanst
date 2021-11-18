@@ -36,8 +36,8 @@ const RESULTORS = {
     const title = result.passed ? "Kan nås med HTTPS" : "Kunde inte nås med HTTPS"
     // TODO: get the tested URL as output from the test instead
     const description = result.passed 
-      ? `Kunde nå tjänsten på https://${domain.domain_name}. Bra jobbat!`
-      : `Vi kunde inte nå tjänsten på https://${domain.domain_name}. Utan stöd för https kan användare inte vara säkra på att den information som visas är korrekt eller att den information de skickar till er är säker.`
+      ? `Kunde nå tjänsten säkert på ${result.tested_url}. Bra jobbat!`
+      : `Vi kunde inte nå tjänsten på ${result.tested_url}. Utan stöd för https kan användare inte vara säkra på att den information som visas är korrekt eller att den information de skickar till er är säker.`
     return {
       passed: result.passed,
       title,
