@@ -12,3 +12,5 @@ build:
     context: tests/dns/
   - image: netnodse/robust-tls
     context: tests/tls/
+  - image: netnodse/https-reachable
+    context: tests/https/

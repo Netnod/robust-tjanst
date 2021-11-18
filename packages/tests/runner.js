@@ -15,12 +15,12 @@ new Worker(testRunQueue.name, async ({data: {arguments, test_id}}) => {
 
 new Worker(resultQueue.name, async ({data}) => {
   console.log("ResultQueue", data)
-  const { test_id, test_name, result } = data
+  const { test_id, test_name, test_output } = data
 
   await pool.connect(async (connection) => {
     await connection.any(sql`
       INSERT INTO test_results (test_id, test_name, test_result)
-      VALUES (${test_id}, ${test_name}, ${JSON.stringify(result)})
+      VALUES (${test_id}, ${test_name}, ${JSON.stringify(test_output)})
     `)
   })
 }, {connection})
