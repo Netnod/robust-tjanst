@@ -1,6 +1,7 @@
 require('dotenv').config()
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
+const { RESULTORS, GROUPINGS, GROUP_DESCRIPTIONS } = require('./testResultMessages')
 
 const connection = new IORedis(process.env.REDIS_URL)
 
@@ -14,4 +15,8 @@ module.exports = {
     // tls:  new Queue('tls', {connection}),
     https: new Queue('https', {connection})
   }
+
+  RESULTORS,
+  GROUPINGS,
+  GROUP_DESCRIPTIONS,
 }
