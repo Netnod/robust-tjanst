@@ -1,14 +1,9 @@
 
-const GROUPINGS = {
-  'https-reachable': 'https',
-  'https-redirect': 'https',
-  'dnssec-presence': 'dnssec'
-}
 
 // TODO: break up RESULTORS and move the them to be with the test they belong to
 // this file should get them all from the tests and return them together
 const RESULTORS = {
-  'https-reachable': (domain, result) => {
+  'https-reachable': (result) => {
     const title = result.passed ? "Kan nås med HTTPS" : "Kunde inte nås med HTTPS"
     // TODO: get the tested URL as output from the test instead
     const description = result.passed 
@@ -20,19 +15,19 @@ const RESULTORS = {
       description
     }
   },
-  'https-redirect': (domain, result) => {
+  'https-redirect': (result) => {
     const title = "Automatisk vidarebefordran till HTTPS-versionen"
     // TODO: get the tested URL as output from the test instead
     const description = result.passed
-      ? `http://${domain.domain_name} skickade oss automatiskt till https://${domain.domain_name} `
-      : `http://${domain.domain_name} borde automatiskt skicka alla besökare till https://${domain.domain_name}, inte erbjuda en osäker version av sidan.`
+      ? `http://${result.tested_domain} skickade oss automatiskt till https://${result.tested_domain} `
+      : `http://${result.tested_domain} borde automatiskt skicka alla besökare till https://${result.tested_domain}, inte erbjuda en osäker version av sidan.`
     return {
       passed: result.passed,
       title,
       description
     }
   },
-  'dnssec-presence': (domain, result) => {
+  'dnssec-presence': (result) => {
     // TODO: implement
     return {
       passed: result.passed,
@@ -43,7 +38,7 @@ const RESULTORS = {
 }
 
 const GROUP_DESCRIPTIONS = {
-  'https': (domain, tests) => {
+  'https': (tests) => {
     return {
       title: "HTTPS",
       description: "Säker åtkomst till tjänsten krypterad anslutning",
@@ -53,7 +48,7 @@ const GROUP_DESCRIPTIONS = {
         : "❌ All kommunikation är inte skyddad",
     }
   },
-  'dnssec': (domain, tests) => {
+  'dnssec': (tests) => {
     return {
       title: "DNSSEC",
       description: `
@@ -67,6 +62,5 @@ const GROUP_DESCRIPTIONS = {
 
 module.exports = {
   RESULTORS,
-  GROUPINGS,
   GROUP_DESCRIPTIONS,
 }

@@ -6,7 +6,7 @@ const { RESULTORS, GROUPINGS, GROUP_DESCRIPTIONS } = require('tests')
 
 const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
 
-const buildGroups = (domain, results) => {
+const buildGroups = (results) => {
   const groups = Object.values(GROUPINGS).reduce(
     (acc, next) => ({
       ...acc, 
@@ -18,15 +18,15 @@ const buildGroups = (domain, results) => {
     {}
   )
   for (const result of results) {
-    const fn = RESULTORS[result.test_name]
-    if (!fn) throw new Error(`No result function for ${result.test_name}`)
+    const msgFn = RESULTORS[result.test_name]
+    if (!msgFn) throw new Error(`No result message function for ${result.test_name}`)
     const group = GROUPINGS[result.test_name]
     if (!group || !groups[group]) throw new Error(`No group for ${result.test_name}`)
-    groups[group].tests.push(fn(domain, result.test_output))
+    groups[group].tests.push(msgFn(result.test_output))
   }
 
   for (const group of Object.keys(groups)) {
-    Object.assign(groups[group], GROUP_DESCRIPTIONS[group](domain, groups[group].tests))
+    Object.assign(groups[group], GROUP_DESCRIPTIONS[group](groups[group].tests))
   }
 
   return groups
@@ -80,9 +80,10 @@ async function showTest(ctx) {
     if (result.length === 0) { return ctx.render('tests/loading') }
 
     const domain = await connection.one(getDomainByID(test.domain_id))
-    const groups = buildGroups(domain, result.concat(
+    const groups = buildGroups(result.concat(
       // We don't have implementations of these tests yet
-      {test_name: 'https-redirect', test_output: {passed: false}},
+      // so put in some mock test output
+      {test_name: 'https-redirect', test_output: {passed: false, tested_domain: domain.domain_name}},
       {test_name: 'dnssec-presence', test_output: {passed: true}},
     ))
     await ctx.render('tests/show', {test, domain, groups, md: require('markdown-it')()})
