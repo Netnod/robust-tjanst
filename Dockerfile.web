@@ -9,6 +9,8 @@ RUN apk add --no-cache python3 make g++ postgresql-client
 COPY package.json .
 COPY yarn.lock .
 COPY packages/web/ ./packages/web/
+# web depends on tests
+COPY packages/tests/ ./packages/tests/
 RUN yarn workspace web install --frozen-lockfile
 
 WORKDIR $APP_HOME/packages/web/

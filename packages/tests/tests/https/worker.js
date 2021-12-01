@@ -3,7 +3,7 @@ const { startTest, deleteTest } = require('../../lib/kubernetes')
 const queue = require('../../index').testQueues.https
 
 const image = 'netnodse/https-reachable:latest'
-const test_name = 'https-reachable'
+const test_name = 'https-existance'
 
 module.exports = (connection, resultQueue) => new Worker(queue.name, async (job) => {
   console.log(`Starting ${test_name}`)
