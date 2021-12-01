@@ -7,9 +7,21 @@ const GROUP_DESCRIPTIONS = require('./groupMessages')
 const connection = new IORedis(process.env.REDIS_URL)
 
 const tests = [
-  { name: 'https-existance', group: 'https', messages: './tests/https/messages' },
-  { name: 'https-redirect', group: 'https', messages: './mockedHttpRedirectMessages' },
-  { name: 'dnssec-presence', group: 'dns', messages: './mockedDnsSecPresenceMessages' },
+  {
+    name: 'https-existance',
+    group: 'https',
+    messages: './tests/https/messages'
+  },
+  {
+    name: 'https-redirect',
+    group: 'https',
+    messages: './mockedHttpRedirectMessages'
+  },
+  {
+    name: 'dnssec-presence',
+    group: 'dns',
+    messages: './mockedDnsSecPresenceMessages'
+  },
 ]
 
 const RESULTORS = tests.reduce((acc, test) => ({
