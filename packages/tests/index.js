@@ -2,22 +2,25 @@
 require('dotenv').config()
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
-const { RESULTORS, GROUP_DESCRIPTIONS } = require('./testResultMessages')
+const GROUP_DESCRIPTIONS = require('./groupMessages')
 
 const connection = new IORedis(process.env.REDIS_URL)
 
-// TODO: get from test struct below
-const GROUPINGS = {
-  'https-reachable': 'https',
-  'https-redirect': 'https',
-  'dnssec-presence': 'dnssec'
-}
-
-// message = require(./tests/https/messages)
 const tests = [
-  // TODO: rename test folder
-  { name: 'https-existance', group: 'https' }
+  { name: 'https-existance', group: 'https', messages: './tests/https/messages' },
+  { name: 'https-redirect', group: 'https', messages: './mockedHttpRedirectMessages' },
+  { name: 'dnssec-presence', group: 'dns', messages: './mockedDnsSecPresenceMessages' },
 ]
+
+const RESULTORS = tests.reduce((acc, test) => ({
+  ...acc,
+  [test.name]: require(test.messages)
+}), {})
+
+const GROUPINGS = tests.reduce((acc, test) => ({
+  ...acc,
+  [test.name]: test.group
+}), {})
 
 module.exports = {
   connection,
