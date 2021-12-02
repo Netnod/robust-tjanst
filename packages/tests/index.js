@@ -10,16 +10,19 @@ const tests = [
   {
     name: 'https-existance',
     group: 'https',
+    image: 'netnodse/https-reachable:latest',
     messages: './tests/https/messages'
   },
   {
     name: 'https-redirect',
     group: 'https',
+    image: null, // this is mocked
     messages: './mockedHttpRedirectMessages'
   },
   {
     name: 'dnssec-presence',
     group: 'dns',
+    image: null, // this is mocked
     messages: './mockedDnsSecPresenceMessages'
   },
 ]
@@ -35,16 +38,12 @@ const GROUPINGS = tests.reduce((acc, test) => ({
 }), {})
 
 module.exports = {
+  tests,
   connection,
+
   testRunQueue: new Queue('run_tests', {connection}),
   resultQueue: new Queue('test_results', {connection}),
-
-  testQueues: {
-    // dns:  new Queue('dns', {connection}),
-    // tls:  new Queue('tls', {connection}),
-    // TODO: set queue name from test name
-    https: new Queue('https-existance', {connection})
-  },
+  testQueues: tests.map(test => new Queue(test.name, {connection})),
 
   RESULTORS,
   GROUPINGS,

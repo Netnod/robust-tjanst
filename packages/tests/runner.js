@@ -1,18 +1,28 @@
 const { Worker } = require('bullmq')
 const {sql, createPool} = require('slonik')
-const {testRunQueue, resultQueue, testQueues, connection} = require('./index')
+const {tests, testRunQueue, resultQueue, testQueues, connection} = require('./index')
 
 const pool = createPool(process.env.DATABASE_URL)
 
-const image = 'netnodse/https-reachable:latest'
-const test_name = 'https-existance'
-require('./testWorker')(test_name, image, connection, resultQueue)
+tests.forEach(test => {
+  if (test.image) { // TODO: remove when we stop having mocked tests
+    require('./testWorker')(test.name, test.image, connection, resultQueue)
+  }
+})
 
 new Worker(testRunQueue.name, async ({data: {arguments, test_run_id}}) => {
   console.log("TestRunQueue", {arguments, test_run_id})
+  await Promise.all(
+    testQueues.map(tq =>
+        tq.add(`${arguments.host}`, {arguments, test_run_id})
+    )
+  )
+
+  /*
   await Promise.all([
     testQueues.https.add(`HTTPS-REACHABLE: ${arguments.host}`, {arguments, test_run_id})
   ])
+  */
 }, {connection})
 
 new Worker(resultQueue.name, async ({data}) => {
