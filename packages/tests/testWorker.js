@@ -14,7 +14,10 @@ module.exports = (test_name, image, connection, resultQueue) => new Worker(test_
     job.log('Test returned: ' + logs)
 
     const response = JSON.parse(logs)
-    const output = { test_run_id, test_name, test_output: {passed: response.result === 'OK', tested_url: response.testedUrl} }
+    if (typeof response.passed !== 'boolean' || typeof response.details !== 'object') {
+      throw new Error('Invalid test pod response output!')
+    }
+    const output = { test_run_id, test_name, test_output: { ...response } }
     console.log(response)
     await resultQueue.add(job.name, output);
   } catch (err) {

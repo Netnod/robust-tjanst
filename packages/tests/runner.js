@@ -17,12 +17,6 @@ new Worker(testRunQueue.name, async ({data: {arguments, test_run_id}}) => {
         tq.add(`${arguments.host}`, {arguments, test_run_id})
     )
   )
-
-  /*
-  await Promise.all([
-    testQueues.https.add(`HTTPS-REACHABLE: ${arguments.host}`, {arguments, test_run_id})
-  ])
-  */
 }, {connection})
 
 new Worker(resultQueue.name, async ({data}) => {

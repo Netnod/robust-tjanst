@@ -8,9 +8,9 @@ build:
   tagPolicy:
     sha256: {}
   artifacts:
-  - image: netnodse/robust-dns
-    context: tests/dns/
-  - image: netnodse/robust-tls
-    context: tests/tls/
+#  - image: netnodse/robust-dns
+#    context: tests/dns/
+#  - image: netnodse/robust-tls
+#    context: tests/tls/
   - image: netnodse/https-reachable
     context: tests/https/
