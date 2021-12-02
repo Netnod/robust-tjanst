@@ -106,8 +106,8 @@ Forward ports to databases in Kubernetes
 
 _All k8s commands should run in the `dev` namespace_
 ```
-kubectl port-forward postgresql-postgresql-0 6379
-kubectl port-forward redis-master-0 6380:6379
+kubectl port-forward postgresql-postgresql-0 5432
+kubectl port-forward redis-master-0 6379
 ```
 Create an environment file
 ```
