@@ -55,7 +55,7 @@ We have designed the solution so that you can use the tests separately when you 
 
 # How to run the code
 
-To run the project you will need [Skaffold](skaffold.dev) installed and Kubernetes cluster running somewhere. The cluster could be a local one such as [Minikube](minikube.sigs.k8s.io), MicroK8s or Docker Desktop, a cloud environment such as GKE, EKS, AKS or some other cluster.
+To run the project you will need [Skaffold](https://skaffold.dev) installed and Kubernetes cluster running somewhere. The cluster could be a local one such as [Minikube](https://minikube.sigs.k8s.io), MicroK8s or Docker Desktop, a cloud environment such as GKE, EKS, AKS or some other cluster.
 
 To deploy the solution you will need Skaffold and kubectl
  and make sure you are in the right Kubernetes context and run:
