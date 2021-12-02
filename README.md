@@ -8,12 +8,6 @@ Robust Tjänst is a test tool for web sites with the intention of making the int
 
 We aim to establish a minimum level of requirements, a de facto standard, for all websites to be considered reliable. We will do this by creating a collection of tests written as docker images and a test runner with accompaning site for testing a site. We encourage everyone to be involved in this process and we have just started building the basic building blocks.
 
-These are some examples of the tests we aim to create: 
-
-    docker run --rm netnodse/robust-dns www.example.com
-    docker run --rm netnodse/robust-tls www.example.com
-    docker run --rm netnodse/robust-ipv6 www.example.com
-
 To make it easier to use we are also planning to create a live badge you can use when you have reached the minimum level. The badge will keep track of changes so you and your visitors can the sure everything OK.
 
 ## Current status
@@ -59,60 +53,84 @@ We want to help people reach the minimum acceptable level by giving clear instru
 
 We have designed the solution so that you can use the tests separately when you want to test your domain/website without leaking any information to anyone else. The isolation model with the tests run in a isolated namespace with limited access to both Internet and the rest of the environment. This way we can make sure we both secure your and our data and infrastructure.
 
-# Setup solution
+# How to run the code
 
-To set up the whole solution you will need a Kubernetes cluster, either a local one (Minikube, MicroK8s or Docker Desktop) or a cloud environment such as GKE, EKS, AKS.
+To run the project you will need [Skaffold](https://skaffold.dev) installed and Kubernetes cluster running somewhere. The cluster could be a local one such as [Minikube](https://minikube.sigs.k8s.io), MicroK8s or Docker Desktop, a cloud environment such as GKE, EKS, AKS or some other cluster.
 
-To deploy the solution you will need Skaffold and make sure you are in the right Kubernetes context and run:
+To deploy the solution you will need Skaffold and kubectl
+ and make sure you are in the right Kubernetes context and run:
 
+## Create secrets for the web service
     kubectl apply -f k8s/namespaces.yaml
     kubectl create --namespace='dev' secret generic signed-cookie-keys --from-literal=SIGNED_COOKIE_KEYS=$(dd if=/dev/urandom bs=48 count=1 | base64)
+
+## Start the services
     skaffold run
 
-After first install you need to setup the result database
-
+## Setup the result database
     # Press tab to use tab completion to get the name of the pod
+    # if tab doesn't work use `kubectl get pods` and find the `web-` pod
     kubectl exec -n dev web-[TAB] -- sh setup.sh
 
-If you have changed tests, then deploy them like this:
+## Reaching the running service
+Now everything is running. But if you don't have ingress controller set up (like when using Minikube) you must forward a port to reach the web service using
+
+    kubectl port-forward [NAME OF web- POD] 3000:3000
+
+then you can reach the site at http://localhost:3000
+
+# Building tests
+See test [README](/packages/tests/tests/README.md)
+
+If you have changed tests, deploy them all with skaffold
 
     cd packages/tests
     skaffold build
 
-## Build and test a robust test:
+# Development of the website
+This assumes that you have the cluster running as described in [How to run the code](#How-to-run-the-code)
 
-    cd packages/tests/test/[test name]
-    docker build -t [test name] .
-    docker run --rm [test name] https://example.com
-
-You can create your own test by adapting some of our examples. Each test should emit json explaining the test result and a short description on how to mitigate the errors. The format of the returned JSON is not decided yet. _We aim to find a standard here on a parsable format which is both readable in a command line and can be used to help users in the website_.
-
-## Development of the website
-
+Install yarn and dependencies
 ```
 nvm use
 npm install -g yarn
 yarn
 ```
+Forward ports to databases in Kubernetes
 
-### Database
+_All k8s commands should run in the `dev` namespace_
 ```
-# inside packages/web/ 
+kubectl port-forward postgresql-postgresql-0 5432
+kubectl port-forward redis-master-0 6379
+```
+Create an environment file
+```
+cp packages/web/.env.template packages/web/.env
+# edit the new file and insert values from you get kubernetes (see below)
+```
+Get secrets from Kubernetes 
+```
+kubectl get secrets postgresql -o jsonpath='{.data}'
+# will return something like {"postgresql-password":"UktVYVAzZ2Z5Zg=="}
+# decode it with
+echo "UktVYVAzZ2Z5Zg==" | base64 -d
+# put this value in the .env file replacing where is says PG-PASSWORD
 
-createuser robust
-createdb robust-tjanst -O robust
-psql -d robust-tjanst -U robust < packages/service/src/db/schema.sql
-
-# seed is optional
-DATABASE_URL=postgres://robust@localhost/robust-tjanst yarn run db:seed
+# do the same thing but for redis password, replacing REDIS-PASSWORD
+kubectl get secrets redis -o jsonpath='{.data}'
 ```
 
-# Run
-## Locally
+Build the CSS
 ```
-cd packages/web && yarn run:dev # reloads on file changes
+yarn css:build
 ```
 
-## LICENSE
+Now you can run the web service
+```
+cd packages/web
+yarn dev
+```
+
+# LICENSE
 
 (c) Copyright 2021 Netnod AB - All code is released under the [BSD 3-Clause License](LICENSE).
