@@ -94,17 +94,42 @@ If you have changed tests, deploy them all with skaffold
     skaffold build
 
 # Development of the website
+This assumes that you have the cluster running as described in [How to run the code](#How-to-run-the-code)
 
+Install yarn and dependencies
 ```
 nvm use
 npm install -g yarn
 yarn
 ```
+Forward ports to databases in Kubernetes
 
-# Run
-## Locally
+_All k8s commands should run in the `dev` namespace_
 ```
-cd packages/web && yarn run:dev # reloads on file changes
+kubectl port-forward postgresql-postgresql-0 6379
+kubectl port-forward redis-master-0 6380:6379
+```
+Create an environment file
+```
+cp packages/web/.env.template packages/web/.env
+# edit the new file and insert values from you get kubernetes (see below)
+```
+Get secrets from Kubernetes 
+```
+kubectl get secrets postgresql -o jsonpath='{.data}'
+# will return something like {"postgresql-password":"UktVYVAzZ2Z5Zg=="}
+# decode it with
+echo "UktVYVAzZ2Z5Zg==" | base64 -d
+# put this value in the .env file as PGPASSWORD
+
+# do the same thing but for redis password, putting it in REDIS_PASS
+kubectl get secrets redis -o jsonpath='{.data}'
+```
+
+Now you can run the web service
+```
+cd packages/web
+yarn dev
 ```
 
 ## LICENSE
