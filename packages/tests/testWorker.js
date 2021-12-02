@@ -1,11 +1,7 @@
 const { Worker } = require('bullmq')
 const { startTest, deleteTest } = require('../../lib/kubernetes')
-const queue = require('../../index').testQueues.https
 
-const image = 'netnodse/https-reachable:latest'
-const test_name = 'https-existance'
-
-module.exports = (connection, resultQueue) => new Worker(queue.name, async (job) => {
+module.exports = (test_name, image, connection, resultQueue) => new Worker(test_name, async (job) => {
   console.log(`Starting ${test_name}`)
   await job.log(`Starting ${job.name}`)
   const {id, data: { arguments, test_run_id }} = job

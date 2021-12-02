@@ -4,7 +4,9 @@ const {testRunQueue, resultQueue, testQueues, connection} = require('./index')
 
 const pool = createPool(process.env.DATABASE_URL)
 
-require('./tests/https/worker')(connection, resultQueue)
+const image = 'netnodse/https-reachable:latest'
+const test_name = 'https-existance'
+require('./testWorker')(test_name, image, connection, resultQueue)
 
 new Worker(testRunQueue.name, async ({data: {arguments, test_run_id}}) => {
   console.log("TestRunQueue", {arguments, test_run_id})
