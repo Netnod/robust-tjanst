@@ -8,12 +8,6 @@ Robust Tjänst is a test tool for web sites with the intention of making the int
 
 We aim to establish a minimum level of requirements, a de facto standard, for all websites to be considered reliable. We will do this by creating a collection of tests written as docker images and a test runner with accompaning site for testing a site. We encourage everyone to be involved in this process and we have just started building the basic building blocks.
 
-These are some examples of the tests we aim to create: 
-
-    docker run --rm netnodse/robust-dns www.example.com
-    docker run --rm netnodse/robust-tls www.example.com
-    docker run --rm netnodse/robust-ipv6 www.example.com
-
 To make it easier to use we are also planning to create a live badge you can use when you have reached the minimum level. The badge will keep track of changes so you and your visitors can the sure everything OK.
 
 ## Current status
@@ -81,7 +75,7 @@ To deploy the solution you will need Skaffold and kubectl
 ## Reaching the running service
 Now everything is running. But if you don't have ingress controller set up (like when using Minikube) you must forward a port to reach the web service using
 
-    kubectl port-forward [NAME OF web POD] 3000:3000
+    kubectl port-forward [NAME OF web- POD] 3000:3000
 
 then you can reach the site at http://localhost:3000
 
@@ -137,6 +131,6 @@ cd packages/web
 yarn dev
 ```
 
-## LICENSE
+# LICENSE
 
 (c) Copyright 2021 Netnod AB - All code is released under the [BSD 3-Clause License](LICENSE).
