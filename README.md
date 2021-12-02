@@ -120,10 +120,15 @@ kubectl get secrets postgresql -o jsonpath='{.data}'
 # will return something like {"postgresql-password":"UktVYVAzZ2Z5Zg=="}
 # decode it with
 echo "UktVYVAzZ2Z5Zg==" | base64 -d
-# put this value in the .env file as PGPASSWORD
+# put this value in the .env file replacing where is says PG-PASSWORD
 
-# do the same thing but for redis password, putting it in REDIS_PASS
+# do the same thing but for redis password, replacing REDIS-PASSWORD
 kubectl get secrets redis -o jsonpath='{.data}'
+```
+
+Build the CSS
+```
+yarn css:build
 ```
 
 Now you can run the web service
