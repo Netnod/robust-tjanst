@@ -73,6 +73,7 @@ After first install you need to setup the result database
 
     # Press tab to use tab completion to get the name of the pod
     kubectl exec -n dev web-[TAB] -- sh setup.sh
+    # if you don't have tab completion use `kubectl get pods` to find the name of the web pod
 
 If you have changed tests, then deploy them like this:
 
