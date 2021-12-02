@@ -42,7 +42,8 @@ module.exports = {
   testQueues: {
     // dns:  new Queue('dns', {connection}),
     // tls:  new Queue('tls', {connection}),
-    https: new Queue('https', {connection})
+    // TODO: set queue name from test name
+    https: new Queue('https-existance', {connection})
   },
 
   RESULTORS,
