@@ -1,11 +1,7 @@
 const { Worker } = require('bullmq')
-const { startTest, deleteTest } = require('../../lib/kubernetes')
-const queue = require('../../index').testQueues.https
+const { startTest, deleteTest } = require('./lib/kubernetes')
 
-const image = 'netnodse/https-reachable:latest'
-const test_name = 'https-existance'
-
-module.exports = (connection, resultQueue) => new Worker(queue.name, async (job) => {
+module.exports = (test_name, image, connection, resultQueue) => new Worker(test_name, async (job) => {
   console.log(`Starting ${test_name}`)
   await job.log(`Starting ${job.name}`)
   const {id, data: { arguments, test_run_id }} = job
@@ -18,7 +14,10 @@ module.exports = (connection, resultQueue) => new Worker(queue.name, async (job)
     job.log('Test returned: ' + logs)
 
     const response = JSON.parse(logs)
-    const output = { test_run_id, test_name, test_output: {passed: response.result === 'OK', tested_url: response.testedUrl} }
+    if (typeof response.passed !== 'boolean' || typeof response.details !== 'object') {
+      throw new Error('Invalid test pod response output!')
+    }
+    const output = { test_run_id, test_name, test_output: { ...response } }
     console.log(response)
     await resultQueue.add(job.name, output);
   } catch (err) {
