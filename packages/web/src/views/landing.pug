@@ -1,23 +1,6 @@
-extends base.pug
 
 block body
-  div(class="pt-8 flex flex-col" style="height: 72vh;")
-    div(class="ml-4 md:ml-0 flex mb-8 justify-center")
-      img(
-        class="mt-12 md:mt-64"
-        width="380"
-        src="/img/logo.svg"
-        alt="Robust Tjänst av Netnod"
-      )
-
-    div(
-      class="px-4 my-12 flex flex-col items-center justify-center flex-grow"
-    )
-      form(method="post" action=namedPath('create_test') class="w-full lg:w-3/4 flex flex-row" ) 
-        input(class="flex-grow p-4" autofocus type="text" name="url" placeholder="http://din.sida.se")
-        input(type="submit" class="ml-2 w-24 btn btn-yellow" value="Testa")
-      p(class="mt-4") Håller <em>din</em> sida måttet?
-
+include layout
   div
     section(class="px-4 py-14 sm:px-14 pb-0 flex flex-row items-end")
       h2(class="text-4xl") Så fungerar det
