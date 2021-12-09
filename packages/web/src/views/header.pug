@@ -38,7 +38,7 @@ header
             )
               img(
                 class="block h-8 w-auto" 
-                src="/img/logo.svg"
+                src="/img/robust-logo.svg"
                 alt="Robust Tjänst av Netnod"
               )
           </div>
@@ -102,4 +102,22 @@ header
             class="px-3 py-2 block "
             aria-current=item.current ? 'page' : undefined
           )= item.label
+  
+  //- search
+  div(class="pt-8 flex flex-col")
+    div(class="ml-4 md:ml-0 flex mb-8 justify-center")
+      img(
+        class=""
+        width="380"
+        src="/img/robust-logo.svg"
+        alt="Robust Tjänst av Netnod"
+      )
+
+    div(
+      class="px-4 my-12 flex flex-col items-center justify-center flex-grow"
+    )
+      form(method="post" action=namedPath('create_test') class="w-full md:w-3/4 lg:w-1/2 flex flex-row" ) 
+        input(class="flex-grow p-4" autofocus type="text" name="url" placeholder="http://din.sida.se")
+        input(type="submit" class="ml-2 w-24 btn btn-yellow" value="Testa")
+      p(class="mt-4") Håller <em>din</em> sida måttet?
 
