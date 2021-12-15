@@ -12,7 +12,7 @@ mixin test(test)
           span(class="test__result text-green text-4xl") •
         else
           span(class="test__result text-red text-4xl") •
-        h2(class=`text-xl ml-2`)= test.title
+        p(class="ml-2 font-bold")= test.title
       +toggles
       img(src="/img/loading.svg" class="spinner")
 
@@ -25,7 +25,7 @@ mixin result_summary
 
 block content
   div(class="flex flex-col")
-    h1(class="mt-8 text-4xl")
+    h1(class="mt-8")
       | Resultat för #{domain.domain_name}
 
   div(class="results flex flex-col mb-12")
@@ -36,7 +36,7 @@ block content
             img(src="/img/robust_symbol_green.svg" class="mr-4")
           else
             img(src="/img/robust_symbol_red.svg" class="mr-4")
-          h1(class="text-3xl")= group.title 
+          h2= group.title 
         p(class="mt-1")= group.description
 
         +result_summary

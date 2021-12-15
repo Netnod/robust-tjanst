@@ -3,8 +3,8 @@ block body
 include layout
   div
     section(class="px-4 py-14 sm:px-14 pb-0 flex flex-row items-end")
-      h2(class="text-4xl") Så fungerar det
-      span(class="text-4xl text-yellow ml-2 animate-bounce") ↓
+      h2(class="") Så fungerar det
+      span(class="text-yellow ml-2 animate-bounce") ↓
 
     section(
       class="bg-gray text-white p-20 flex flex-row items-center" 
@@ -15,15 +15,20 @@ include layout
       div(
         class="pt-2 flex flex-row flex-grow" 
       )
-        div(class="text-lg")
-          h3(class="text-4xl mb-4") Vi håller koll
+        div
+          h3(class="mb-4") Vi håller koll
           p Genom reguljära tester av bland annat
           ul(class="mt-8")
-            li IPv6
-            li DNSSEC
-            li HTTPS
-            li Tillgänglihet
-            li Rättvishet
+            li 
+              p IPv6
+            li 
+              p DNSSEC
+            li 
+              p HTTPS
+            li 
+              p Tillgänglihet
+            li 
+              p Rättvishet
 
 
     section(
@@ -33,14 +38,17 @@ include layout
       `
     )
       div(class="pt-2")
-        h3(class="text-4xl mb-4") Vi följer med
+        h3(class="mb-4") Vi följer med
         p Teknologier kommer och går varje år, det är inte lätt att hålla koll.
         br
         p(class="mt-8") Därför har vi byggt denna tjänst, så att 
         ul(class="list-disc pl-4")
-          li <strong>Du</strong> kan fokusera på din affär
-          li Vi håller dig uppdaterad när ny teknologi bör adopteras
-          li Vi skapar material som förklarar hur man gör
+          li 
+            p <strong>Du</strong> kan fokusera på din affär
+          li 
+            p Vi håller dig uppdaterad när ny teknologi bör adopteras
+          li 
+            p Vi skapar material som förklarar hur man gör
       span(class="text-8xl ml-12") 2
 
     section(
@@ -51,7 +59,7 @@ include layout
     )
       span(class="text-8xl text-yellow mr-12") 3
       div(class="pt-2")
-        h3(class="text-2xl mb-4") Vi lär ut
+        h3(class="mb-4") Vi lär ut
         p Vår mission är att hjälpa Sverige på alla möjliga sätt 🇸🇪
 
   footer(class="bg-black text-center py-8 text-white")
