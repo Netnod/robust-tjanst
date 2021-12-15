@@ -1,7 +1,6 @@
-@tailwind base; 
-@tailwind components; 
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
-
 
 @layer components {
   .btn {
@@ -17,8 +16,33 @@
   }
 }
 
-html, body {
+html,
+body {
   min-height: 100vh;
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+h1 {
+  @apply text-h1 md:text-xl;
+}
+
+h2 {
+  @apply text-h2 md:text-h1;
+}
+
+h3 {
+  @apply text-h3 md:text-h2;
+}
+
+h4 {
+  @apply text-h4 md:text-h3;
+}
+
+p {
+  letter-spacing: 0.012rem;
+  word-spacing: 0.16em;
+  @apply text-p;
 }
 
 p > a {
@@ -35,7 +59,7 @@ p > a {
 
 .test .test__description {
   max-height: 0;
-  transition: max-height .35s;
+  transition: max-height 0.35s;
   overflow: hidden;
 }
 
@@ -45,16 +69,11 @@ p > a {
   @apply mt-4 mb-4;
 }
 
-
 .test .toggler > .icon {
   transform: rotate(180deg);
-  transition: transform .2s;
+  transition: transform 0.2s;
 }
 
 .test.open .toggler > .icon {
   transform: rotate(0deg);
 }
-
-
-
-
