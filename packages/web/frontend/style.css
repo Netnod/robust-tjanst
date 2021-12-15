@@ -40,11 +40,16 @@ h4 {
 }
 
 p {
-  letter-spacing: 0.012rem;
+  letter-spacing: 0.012em;
   word-spacing: 0.16em;
   @apply text-p;
 }
 
+a {
+  letter-spacing: 0.012em;
+  word-spacing: 0.16em;
+  @apply text-p underline font-bold;
+}
 p > a {
   @apply text-blue-400 hover:text-blue-600 cursor-pointer;
 }
