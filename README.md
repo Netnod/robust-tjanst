@@ -52,6 +52,14 @@ We want to help people reach the minimum acceptable level by giving clear instru
 
 We have designed the solution so that you can use the tests separately when you want to test your domain/website without leaking any information to anyone else. The isolation model with the tests run in a isolated namespace with limited access to both Internet and the rest of the environment. This way we can make sure we both secure your and our data and infrastructure.
 
+# How does it work?
+
+The project consists of a web frontend and test-runner in [node.js](https://nodejs.org) and tests which run as separate isolated containers in [Kubernetes](https://kubernetes.io). Tests containers are instanced on demand for each test run and destroyed afterwards, and can use any language or tools.
+
+The different parts communicate using [BullMQ](https://github.com/taskforcesh/bullmq) running on Redis. Results are stored in [PostgreSQL](https://www.postgresql.org).
+
+For more information see the [architecture documentation](architecture.md).
+
 # How to run the code
 
 To run the project you will need [Skaffold](https://skaffold.dev) installed and Kubernetes cluster running somewhere. The cluster could be a local one such as [Minikube](https://minikube.sigs.k8s.io), MicroK8s or Docker Desktop, a cloud environment such as GKE, EKS, AKS or some other cluster.
