@@ -24,19 +24,19 @@ body {
 }
 
 h1 {
-  @apply text-h1 md:text-xl;
+  @apply text-h1 md:text-xl font-bold;
 }
 
 h2 {
-  @apply text-h2 md:text-h1;
+  @apply text-h2 md:text-h1 font-bold;
 }
 
 h3 {
-  @apply text-h3 md:text-h2;
+  @apply text-h3 md:text-h2 font-bold;
 }
 
 h4 {
-  @apply text-h4 md:text-h3;
+  @apply text-h4 md:text-h3 font-bold;
 }
 
 p {
