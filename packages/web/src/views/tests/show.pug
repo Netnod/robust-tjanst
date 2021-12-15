@@ -12,7 +12,7 @@ mixin test(test)
           span(class="test__result text-green text-4xl") •
         else
           span(class="test__result text-red text-4xl") •
-        h3(class=`text-xl ml-2`)= test.title
+        h3(class="ml-2")= test.title
       +toggles
       img(src="/img/loading.svg" class="spinner")
 
@@ -36,7 +36,7 @@ block content
             img(src="/img/robust_symbol_green.svg" class="mr-4")
           else
             img(src="/img/robust_symbol_red.svg" class="mr-4")
-          h2 = group.title 
+          h2= group.title 
         p(class="mt-1")= group.description
 
         +result_summary
