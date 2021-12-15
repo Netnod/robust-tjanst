@@ -21,6 +21,7 @@ body {
   min-height: 100vh;
   font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
     sans-serif;
+  @apply bg-peach;
 }
 
 h1 {
