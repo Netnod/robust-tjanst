@@ -8,7 +8,7 @@ Robust Tjänst is a test tool for web sites with the intention of making the int
 
 We aim to establish a minimum level of requirements, a de facto standard, for all websites to be considered reliable. We will do this by creating a collection of tests written as docker images and a test runner with accompaning site for testing a site. We encourage everyone to be involved in this process and we have just started building the basic building blocks.
 
-To make it easier to use we are also planning to create a live badge you can use when you have reached the minimum level. The badge will keep track of changes so you and your visitors can the sure everything OK.
+To make it easier to use we are also planning to create a live badge you can show off when you have reached the minimum level. The badge will keep track of changes so you and your visitors can be sure everything is still OK.
 
 ## Current status
 
@@ -18,10 +18,9 @@ We are just getting started. These are some milestones that we think will be imp
 - [x] Scheduling tests running safely in Kubernetes
 - [x] Name of the project: Robust Tjänst
 - [x] Template for test runners
+- [x] Logotype and badge design
 - [ ] Build an open source community <- we/you are here ❤️
-- [ ] Logotype and badge design
 - [ ] Implement basic tests for minimum requirements
-- [ ] Combined test docker image
 - [ ] Register and run tests in background
 - [ ] Launch 🎉
 - [ ] Continue developing as open source
@@ -53,6 +52,14 @@ We want to help people reach the minimum acceptable level by giving clear instru
 
 We have designed the solution so that you can use the tests separately when you want to test your domain/website without leaking any information to anyone else. The isolation model with the tests run in a isolated namespace with limited access to both Internet and the rest of the environment. This way we can make sure we both secure your and our data and infrastructure.
 
+# How does it work?
+
+The project consists of a web frontend and test-runner in [node.js](https://nodejs.org) and tests which run as separate isolated containers in [Kubernetes](https://kubernetes.io). Tests containers are instanced on demand for each test run and destroyed afterwards, and can use any language or tools.
+
+The different parts communicate using [BullMQ](https://github.com/taskforcesh/bullmq) running on Redis. Results are stored in [PostgreSQL](https://www.postgresql.org).
+
+For more information see the [architecture documentation](architecture.md).
+
 # How to run the code
 
 To run the project you will need [Skaffold](https://skaffold.dev) installed and Kubernetes cluster running somewhere. The cluster could be a local one such as [Minikube](https://minikube.sigs.k8s.io), MicroK8s or Docker Desktop, a cloud environment such as GKE, EKS, AKS or some other cluster.
@@ -68,21 +75,26 @@ To deploy the solution you will need Skaffold and kubectl
     skaffold run
 
 ## Setup the result database
-    # Press tab to use tab completion to get the name of the pod
-    # if tab doesn't work use `kubectl get pods` and find the `web-` pod
+Press tab to use tab completion to get the name of the pod.
+
+If tab completion doesn't work use `kubectl -n dev get pods` and find the `web-` pod
+
     kubectl exec -n dev web-[TAB] -- sh setup.sh
 
-## Reaching the running service
-Now everything is running. But if you don't have ingress controller set up (like when using Minikube) you must forward a port to reach the web service using
 
-    kubectl port-forward [NAME OF web- POD] 3000:3000
+## Reaching the running service
+Now everything is running.
+
+But if you don't have ingress controller set up (like when using Minikube) you must forward a port to reach the web service using
+
+    kubectl port-forward -n dev [NAME OF web- POD] 3000:3000
 
 then you can reach the site at http://localhost:3000
 
 # Building tests
 See test [README](/packages/tests/tests/README.md)
 
-If you have changed tests, deploy them all with skaffold
+If you have changed tests and want to push updated images to Dockerhub use skaffold
 
     cd packages/tests
     skaffold build
@@ -90,46 +102,49 @@ If you have changed tests, deploy them all with skaffold
 # Development of the website
 This assumes that you have the cluster running as described in [How to run the code](#How-to-run-the-code)
 
-Install yarn and dependencies
-```
-nvm use
-npm install -g yarn
-yarn
-```
-Forward ports to databases in Kubernetes
+## Install yarn and project dependencies
 
-_All k8s commands should run in the `dev` namespace_
-```
-kubectl port-forward postgresql-postgresql-0 5432
-kubectl port-forward redis-master-0 6379
-```
-Create an environment file
-```
-cp packages/web/.env.template packages/web/.env
-# edit the new file and insert values from you get kubernetes (see below)
-```
-Get secrets from Kubernetes 
-```
-kubectl get secrets postgresql -o jsonpath='{.data}'
-# will return something like {"postgresql-password":"UktVYVAzZ2Z5Zg=="}
-# decode it with
-echo "UktVYVAzZ2Z5Zg==" | base64 -d
-# put this value in the .env file replacing where is says PG-PASSWORD
+    nvm use
+    npm install -g yarn
+    yarn
 
-# do the same thing but for redis password, replacing REDIS-PASSWORD
-kubectl get secrets redis -o jsonpath='{.data}'
-```
+## Forward ports to databases in Kubernetes
 
-Build the CSS
-```
-yarn css:build
-```
+__All k8s commands should run in the `dev` namespace__
 
-Now you can run the web service
-```
-cd packages/web
-yarn dev
-```
+    kubectl port-forward postgresql-postgresql-0 5432
+    kubectl port-forward redis-master-0 6379
+
+## Create an environment file
+
+    cp packages/web/.env.template packages/web/.env
+
+Edit this new file and insert values from you get kubernetes (see below)
+
+## Get secrets from Kubernetes
+
+    kubectl get secrets postgresql -o jsonpath='{.data}'
+
+This will return something like `{"postgresql-password":"UktVYVAzZ2Z5Zg=="}` which you decode with
+
+    echo "UktVYVAzZ2Z5Zg==" | base64 -d
+
+Put this value in the .env file replacing where is says `PG-PASSWORD`
+
+Do the same thing but for redis password, replacing `REDIS-PASSWORD`
+
+    kubectl get secrets redis -o jsonpath='{.data}'
+
+## Build the CSS
+
+    yarn css:build
+
+
+## Run the web service
+
+    cd packages/web
+    yarn dev
+
 
 # LICENSE
 
