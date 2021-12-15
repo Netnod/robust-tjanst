@@ -4,7 +4,7 @@ on:
     branches: [main]
 
 jobs:
-  push_to_registries:
+  build-and-push:
     name: Push test images to Dockerhub
     runs-on: ubuntu-latest
     permissions:
