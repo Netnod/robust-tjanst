@@ -9,9 +9,9 @@ mixin test(test)
     div(class=`flex items-center flex-row hover:bg-indigo-100 px-4 border-b-2 border-yellow`)
       div(class="py-5 flex items-center")
         if test.passed
-          span(class="test__result text-blue-600") ✓
+          span(class="test__result text-green text-4xl") •
         else
-          span(class="test__result text-red-600") ✕
+          span(class="test__result text-red text-4xl") •
         h2(class=`text-xl ml-2`)= test.title
       +toggles
       img(src="/img/loading.svg" class="spinner")
@@ -31,13 +31,18 @@ block content
   div(class="results flex flex-col mb-12")
     each group in groups
       section(class="test-group mb-8 mt-8")
-        h1(class="text-3xl mb-2")= group.title 
+        div(class="flex flex-row items-center")
+          if group.result.success 
+            img(src="/img/robust_symbol_green.svg" class="mr-4")
+          else
+            img(src="/img/robust_symbol_red.svg" class="mr-4")
+          h1(class="text-3xl")= group.title 
         p(class="mt-1")= group.description
 
         +result_summary
           p 
             | <b>Resultat: </b>
-            = group.result
+            = group.result.description
 
 
         each test in group.tests

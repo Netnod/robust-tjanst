@@ -1,9 +1,7 @@
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 module.exports = {
-  purge: [
-    'src/views/**/*.pug'
-  ],
+  purge: ['src/views/**/*.pug'],
   darkMode: 'media', // or 'media' or 'class'
   theme: {
     fontFamily: {
@@ -15,20 +13,23 @@ module.exports = {
       black: colors.black,
       white: colors.white,
       indigo: colors.indigo,
-      red: colors.rose,
       blue: colors.blue,
       gray: {
-        DEFAULT: '#4a4a4a'
+        DEFAULT: '#4a4a4a',
       },
       yellow: {
-        DEFAULT: '#fab900'
+        DEFAULT: '#fab900',
       },
-    }
+      green: {
+        DEFAULT: '#2ED320',
+      },
+      red: {
+        DEFAULT: '#E22121',
+      },
+    },
   },
   variants: {
     extend: {},
   },
-  plugins: [
-    require('@tailwindcss/forms')
-  ],
-}
+  plugins: [require('@tailwindcss/forms')],
+};
