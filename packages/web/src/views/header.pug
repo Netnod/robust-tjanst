@@ -4,105 +4,39 @@
     {href: '#', label: 'Om oss', current: false}
   ]
 
-
+//- TODO: Toggle on click
 header
   nav
     div(class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8")
       div(class="relative flex items-center justify-between h-16")
-        div(class="absolute inset-y-0 left-0 flex items-center sm:hidden")
+        div(class="absolute inset-y-0 right-0 flex items-center")
           //- <!-- Mobile menu button-->
-          button(type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false")
-            <span class="sr-only">Open main menu</span>
-            //- <!--
-            //-   Icon when menu is closed.
-            //-   Heroicon name: outline/menu
-            //-   Menu open: "hidden", Menu closed: "block"
-            //- -->
-            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-            //- <!--
-            //-   Icon when menu is open.
-
-            //-   Heroicon name: outline/x
-
-            //-   Menu open: "block", Menu closed: "hidden"
-            //- -->
-            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
+          p= open
+          button(type="button" id="menu-btn" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false")
+            span(class="sr-only") Open main menu
+            if open
+              img(src='/img/close.svg' class="block h-6 w-6")
+            else 
+              img(src='/img/menu.svg' class="block h-6 w-6")
         div(class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start")
-          <div class="flex-shrink-0 flex items-center">
-            a(
-              href="/"
-            )
+          div(class="flex-shrink-0 flex items-center")
+            a(href="/")
               img(
-                class="block h-8 w-auto" 
+                class="block h-12 w-auto" 
                 src="/img/robust-logo.svg"
                 alt="Robust Tjänst av Netnod"
               )
-          </div>
-          <div class="hidden sm:block sm:ml-6">
-            <div class="flex space-x-4 font-medium text-sm">
-              for item in links
-                a(
-                  href=item.href
-                  class=`px-3 py-2 ${item.current ? '' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`
-                  aria-current = item.current ? 'page' : undefined
-                )
-                  = item.label
-            </div>
-          </div>
-        div(class="hidden absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0")
-          //- <!-- Profile dropdown -->
-          <div class="ml-3 relative">
-            <div>
-              <button type="button" class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
-                <span class="sr-only">Open user menu</span>
-                <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-              </button>
-            </div>
+      if open         
+        div(class="bg-yellow" id="mobile-menu")
+          div(class="px-2 pt-2 pb-3 space-y-1")
+            for item in links
+                        a(
+                          href=item.href
+                          class=`px-3 py-2 ${item.current ? '' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`
+                          aria-current = item.current ? 'page' : undefined
+                        )
+                          = item.label
 
-            //- <!--
-            //-   Dropdown menu, show/hide based on menu state.
-
-            //-   Entering: "transition ease-out duration-100"
-            //-     From: "transform opacity-0 scale-95"
-            //-     To: "transform opacity-100 scale-100"
-            //-   Leaving: "transition ease-in duration-75"
-            //-     From: "transform opacity-100 scale-100"
-            //-     To: "transform opacity-0 scale-95"
-            //- -->
-            <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-              //- <!-- Active: "bg-gray-100", Not Active: "" -->
-              a(
-                href=namedPath('my_domains')
-                class="block px-4 py-2 text-sm text-gray-700" 
-                role="menuitem" 
-                tabindex="-1" 
-                id="user-menu-item-0"
-              ) Mina domäner
-              <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Inställningar</a>
-              a(
-                href=namedPath('logout')
-                class="block px-4 py-2 text-sm text-gray-700" 
-                role="menuitem" 
-                tabindex="-1" 
-                id="user-menu-item-2"
-              ) Logga ut
-            </div>
-          </div>
-
-    //- <!-- Mobile menu, show/hide based on menu state. -->
-    div(class="sm:hidden" id="mobile-menu")
-      div(class="px-2 pt-2 pb-3 space-y-1 font-medium")
-        for item in links 
-          a(
-            href=item.href
-            class="px-3 py-2 block "
-            aria-current=item.current ? 'page' : undefined
-          )= item.label
-  
   //- search
   div(class="pt-8 flex flex-col")
     div(class="ml-4 md:ml-0 flex mb-8 justify-center")
@@ -121,3 +55,12 @@ header
         input(type="submit" class="ml-2 w-24 btn btn-yellow" value="Testa")
       p(class="mt-4") Håller <em>din</em> sida måttet?
 
+
+block script
+  script(type="application/javascript").
+    const menuBtn = document.getElementById('menu-btn')
+    let open = false
+        menuBtn.addEventListener('click', function() {
+         open = !open
+          console.log('clicked', open)
+        })
