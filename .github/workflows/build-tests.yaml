@@ -2,6 +2,10 @@ name: Build and push tests
 on:
   push:
     branches: [main]
+    paths: # run this on changes in tests that are not messages or readme
+      - 'packages/tests/tests/**'
+      - '!packages/tests/tests/**/messages.js'
+      - '!packages/tests/tests/README.md'
 
 jobs:
   build-and-push:
