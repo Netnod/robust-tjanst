@@ -14,6 +14,12 @@ const tests = [
     messages: './tests/https/messages'
   },
   {
+    name: 'hsts',
+    group: 'https',
+    image: 'netnodse/hsts:latest',
+    messages: './mockedHttpRedirectMessages'
+  },
+  {
     name: 'https-redirect',
     group: 'https',
     image: null, // this is mocked
