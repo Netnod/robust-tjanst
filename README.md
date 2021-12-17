@@ -125,9 +125,9 @@ Edit this new file and insert values from you get kubernetes (see below)
 
     kubectl exec [NAME OF web- POD] -- 'sh' '-c' 'echo $DATABASE_URL'
 
-Put this value in the .env file after `DATABASE_URL=`
+Replace `@postgresql` with `@localhost` and put this value in the .env file after `DATABASE_URL=`
 
-Do the same thing but for `REDIS_URL`
+Do the same thing but for `REDIS_URL`, replacing `@redis-master` with `@localhost`
 
     kubectl exec [NAME OF web- POD] -- 'sh' '-c' 'echo $REDIS_URL'
 
