@@ -11,13 +11,13 @@ const tests = [
     name: 'https-existance',
     group: 'https',
     image: 'netnodse/https-reachable:latest',
-    messages: './tests/https/messages'
+    messages: './tests/https/messages.js'
   },
   {
     name: 'hsts',
     group: 'https',
     image: 'netnodse/hsts:latest',
-    messages: './tests/hsts/messages'
+    messages: './tests/hsts/messages.js'
   },
 ]
 
