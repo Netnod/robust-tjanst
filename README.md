@@ -123,17 +123,13 @@ Edit this new file and insert values from you get kubernetes (see below)
 
 ## Get secrets from Kubernetes
 
-    kubectl get secrets postgresql -o jsonpath='{.data}'
+    kubectl exec [NAME OF web- POD] -- 'sh' '-c' 'echo $DATABASE_URL'
 
-This will return something like `{"postgresql-password":"UktVYVAzZ2Z5Zg=="}` which you decode with
+Put this value in the .env file after `DATABASE_URL=`
 
-    echo "UktVYVAzZ2Z5Zg==" | base64 -d
+Do the same thing but for `REDIS_URL`
 
-Put this value in the .env file replacing where is says `PG-PASSWORD`
-
-Do the same thing but for redis password, replacing `REDIS-PASSWORD`
-
-    kubectl get secrets redis -o jsonpath='{.data}'
+    kubectl exec [NAME OF web- POD] -- 'sh' '-c' 'echo $REDIS_URL'
 
 ## Build the CSS
 
