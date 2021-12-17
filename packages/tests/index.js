@@ -17,19 +17,7 @@ const tests = [
     name: 'hsts',
     group: 'https',
     image: 'netnodse/hsts:latest',
-    messages: './mockedHttpRedirectMessages'
-  },
-  {
-    name: 'https-redirect',
-    group: 'https',
-    image: null, // this is mocked
-    messages: './mockedHttpRedirectMessages'
-  },
-  {
-    name: 'dnssec-presence',
-    group: 'dns',
-    image: null, // this is mocked
-    messages: './mockedDnsSecPresenceMessages'
+    messages: './tests/hsts/messages'
   },
 ]
 
