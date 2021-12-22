@@ -63,23 +63,23 @@ p > a {
   visibility: hidden;
 }
 
-.test .test__description {
+.test-group .test__summary {
   max-height: 0;
   transition: max-height 0.35s;
   overflow: hidden;
 }
 
-.test.open .test__description {
+.test-group.open .test__summary {
   /* visibility: visible; */
   max-height: none;
   @apply mt-4 mb-4;
 }
 
-.test .toggler > .icon {
+.test-group .toggler > .icon {
   transform: rotate(180deg);
   transition: transform 0.2s;
 }
 
-.test.open .toggler > .icon {
+.test-group.open .toggler > .icon {
   transform: rotate(0deg);
 }
