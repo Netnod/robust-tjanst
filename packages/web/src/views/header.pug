@@ -6,7 +6,7 @@
 
 header
   nav
-    div(class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8")
+    div(class="mx-4 pt-4 sm:pt-16 sm:mx-16 lg:pt-16 lg:mx-36")
       div(class="relative flex items-center justify-between h-16")
         div(class="absolute inset-y-0 right-0 flex items-center")
           //- <!-- Mobile menu button-->
@@ -18,11 +18,11 @@ header
           div(class="flex-shrink-0 flex items-center")
             a(href="/")
               img(
-                class="block h-12 w-auto" 
+                class="block h-10 sm:h-16 md:h-24 w-auto" 
                 src="/img/robust-logo.svg"
                 alt="Robust Tjänst av Netnod"
               )      
-      div(id="mobile-menu" style="display: none")
+      div(id="mobile-menu" class="justify-end" style="display: none")
         div(class="px-2 pt-2 pb-3 space-y-1")
           for item in links
                       a(
@@ -32,24 +32,6 @@ header
                       )
                         = item.label
 
-  //- search
-  div(class="pt-8 flex flex-col")
-    div(class="ml-4 md:ml-0 flex mb-8 justify-center")
-      img(
-        class=""
-        width="380"
-        src="/img/robust-logo.svg"
-        alt="Robust Tjänst av Netnod"
-      )
-
-    div(
-      class="px-4 my-12 flex flex-col items-center justify-center flex-grow"
-    )
-      form(method="post" action=namedPath('create_test') class="w-full md:w-3/4 lg:w-1/2 flex flex-row" ) 
-        input(class="flex-grow p-4" autofocus type="text" name="url" placeholder="http://din.sida.se")
-        input(type="submit" class="ml-2 w-24 btn btn-yellow" value="Testa")
-      p(class="mt-4") Håller <em>din</em> sida måttet?
-
 
 block script
   script(type="application/javascript").
@@ -58,12 +40,12 @@ block script
       const closeIcon = document.getElementById("menu-close")
       const menuIcon = document.getElementById("menu-open")
 
-      if (menu.style.display === "block") {
+      if (menu.style.display === "flex") {
         menu.style.display = "none"
         closeIcon.style.display = 'none'
         menuIcon.style.display = 'block'
       } else {
-        menu.style.display = "block"; 
+        menu.style.display = "flex"; 
         closeIcon.style.display = 'block'
         menuIcon.style.display = 'none'
       }
