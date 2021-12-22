@@ -37,7 +37,7 @@ h3 {
 }
 
 h4 {
-  @apply text-h4 md:text-h3 font-bold;
+  @apply text-h4 font-bold;
 }
 
 p {
@@ -72,7 +72,7 @@ p > a {
 .test-group.open .test__summary {
   /* visibility: visible; */
   max-height: none;
-  @apply mt-4 mb-4;
+  @apply my-12;
 }
 
 .test-group .toggler > .icon {

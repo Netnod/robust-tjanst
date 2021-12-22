@@ -7,34 +7,34 @@ mixin toggles
 
 mixin test(test)
   div(class=`test loading`)
-    div(class=`flex items-center flex-row hover:bg-indigo-100 px-4`)
+    div(class=`flex items-center flex-row`)
       div(class="py-5 flex items-center")
         if test.passed
-          span(class="test__result text-green text-4xl") •
+          img(src="/img/green_dot.svg" class="mr-4")
         else
-          span(class="test__result text-red text-4xl") •
+          img(src="/img/red_dot.svg" class="mr-4")
         p(class="ml-2 font-bold")= test.title
       img(src="/img/loading.svg" class="spinner")
 
-    div(class="test__description mx-4")
+    div(class="test__description ml-12")
       | !{md.render(test.description)}
 
 mixin result_summary
-  div(class="test__summary mr-4 mb-2 mt-4 px-18")
+  div(class="test__summary mr-0 sm:mr-4 px-2 sm:px-16")
     block
 
 mixin group_index(index)
   if (index%2 === 0)
-    section(class="test-group my-8 bg-lightGray p-6 rounded-lg")
+    section(class="test-group bg-lightGray p-4 sm:p-6 rounded-lg")
       block 
   else 
-    section(class="test-group my-8 p-6 rounded-lg")
+    section(class="test-group p-4 sm:p-6 rounded-lg")
       block 
 
 
 block body
   include ../header.pug
-  div(class="max-w-5xl sm:w-full mx-6 md:mx-16 lg:mx-auto mt-28 flex-grow flex flex-col")
+  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
     div(class="flex flex-col mb-16")
       h1(class="mt-8")
         | Resultat för #{domain.domain_name}
@@ -53,7 +53,7 @@ block body
               p(class="mt-1")= group.description
             +toggles
           +result_summary
-            p 
+            h4 
               | <b>Resultat: </b>
               = group.result.description
 
