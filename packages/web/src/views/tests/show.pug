@@ -20,7 +20,7 @@ mixin test(test)
       | !{md.render(test.description)}
 
 mixin result_summary
-  div(class="test__summary mr-4 mb-2 mt-4")
+  div(class="test__summary mr-4 mb-2 mt-4 px-18")
     block
 
 mixin group_index(index)
@@ -52,31 +52,29 @@ block body
               h2= group.title 
               p(class="mt-1")= group.description
             +toggles
-          //- +result_summary
-          //-   p 
-          //-     | <b>Resultat: </b>
-          //-     = group.result.description
+          +result_summary
+            p 
+              | <b>Resultat: </b>
+              = group.result.description
 
 
-          //- each test in group.tests
-          //-   +test(test)
+            each test in group.tests
+              +test(test)
         
 block script
   script(type="application/javascript").
     const tests = document.querySelectorAll('.test-group > .test')
-    for (const test of tests) {
-      const togglers = test.querySelectorAll('[data-toggle]')
-      for (const t of togglers) {
-        t.addEventListener('click', function() {
-          if (!test.classList.contains('loading'))
-            test.classList.toggle('open')
-        })
-      }
-    }
-
     const groups = document.querySelectorAll('.test-group')
     for (const group of groups) {
+      const togglers = group.querySelectorAll('[data-toggle]')
       const queue = Array.from(group.querySelectorAll('.test.loading'))
+      for (const t of togglers) {
+        t.addEventListener('click', function() {
+          console.log('clicked', group.classList)
+          if (!group.classList.contains('loading'))
+            group.classList.toggle('open')
+        })
+      }
       console.log(queue)
 
       const MAX_TIME = 1000

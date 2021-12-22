@@ -35,6 +35,9 @@ module.exports = {
         lightGreen: '#2ED320',
         lightRed: '#E22121',
       },
+      padding: {
+        18: '4.75rem',
+      },
     },
   },
   variants: {
