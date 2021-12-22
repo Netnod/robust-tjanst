@@ -80,12 +80,7 @@ async function showTest(ctx) {
     if (result.length === 0) { return ctx.render('tests/loading') }
 
     const domain = await connection.one(getDomainByID(test.domain_id))
-    const groups = buildGroups(result.concat(
-      // We don't have implementations of these tests yet
-      // so put in some mock test output
-      {test_name: 'https-redirect', test_output: {passed: false, details: { tested_domain: domain.domain_name }}},
-      {test_name: 'dnssec-presence', test_output: {passed: true}},
-    ))
+    const groups = buildGroups(result)
     await ctx.render('tests/show', {test, domain, groups, md: require('markdown-it')()})
   })
 }

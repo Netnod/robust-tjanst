@@ -11,19 +11,13 @@ const tests = [
     name: 'https-existance',
     group: 'https',
     image: 'netnodse/https-reachable:latest',
-    messages: './tests/https/messages'
+    messages: './tests/https/messages.js'
   },
   {
-    name: 'https-redirect',
+    name: 'hsts',
     group: 'https',
-    image: null, // this is mocked
-    messages: './mockedHttpRedirectMessages'
-  },
-  {
-    name: 'dnssec-presence',
-    group: 'dns',
-    image: null, // this is mocked
-    messages: './mockedDnsSecPresenceMessages'
+    image: 'netnodse/hsts:latest',
+    messages: './tests/hsts/messages.js'
   },
 ]
 

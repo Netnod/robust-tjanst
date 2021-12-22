@@ -18,7 +18,7 @@ module.exports = (test_name, image, connection, resultQueue) => new Worker(test_
       throw new Error('Invalid test pod response output!')
     }
     const output = { test_run_id, test_name, test_output: { ...response } }
-    console.log(response)
+    console.log(output)
     await resultQueue.add(job.name, output);
   } catch (err) {
     // TODO: log only relevant parts of err, k8s errors are very verbose

@@ -5,9 +5,7 @@ const {tests, testRunQueue, resultQueue, testQueues, connection} = require('./in
 const pool = createPool(process.env.DATABASE_URL)
 
 tests.forEach(test => {
-  if (test.image) { // TODO: remove when we stop having mocked tests
-    require('./testWorker')(test.name, test.image, connection, resultQueue)
-  }
+  require('./testWorker')(test.name, test.image, connection, resultQueue)
 })
 
 new Worker(testRunQueue.name, async ({data: {arguments, test_run_id}}) => {

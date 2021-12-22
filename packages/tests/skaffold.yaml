@@ -14,3 +14,5 @@ build:
 #    context: tests/tls/
   - image: netnodse/https-reachable
     context: tests/https/
+  - image: netnodse/hsts
+    context: tests/hsts/
