@@ -1,6 +1,19 @@
-extends layout.pug
+//- extends layout.pug
+extends base.pug
 
-block content
+block body
+  include header.pug
+  div(class="pt-8 flex flex-col bg-black w-full pt-28")
+    div(class="ml-4 md:ml-0 flex mb-8 justify-center")
+      h1(class="max-w-5xl mx-4 md:mx-8 lg:mx-4 text-peach") Test if your website is Robust with website analysis from a security perspective.
+
+    div(
+      class="px-4 my-12 flex flex-col items-center justify-center flex-grow"
+    )
+      form(method="post" action=namedPath('create_test') class="w-full md:w-3/4 lg:w-1/2 flex flex-row" ) 
+        input(class="flex-grow p-4" autofocus type="text" name="url" placeholder="http://din.sida.se")
+        input(type="submit" class="ml-2 w-24 btn btn-yellow" value="Testa")
+      p(class="mt-4") Håller <em>din</em> sida måttet?
   div
     section(class="px-4 py-14 sm:px-14 pb-0 flex flex-row items-end")
       h2(class="") Så fungerar det
