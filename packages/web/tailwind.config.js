@@ -26,6 +26,7 @@ module.exports = {
       colors: {
         black: '#090D14',
         peach: '#FFDBC2',
+        lightGray: '#090D140D',
         orange: '#E1822F',
         green: '#006C3B',
         red: '#BE0000',

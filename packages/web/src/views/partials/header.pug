@@ -1,0 +1,52 @@
+- 
+  // taken from here https://tailwindui.com/components/application-ui/navigation/navbars
+  var links = [
+    {href: '#', label: 'Om oss', current: false}
+  ]
+
+header
+  nav
+    div(class=" pt-4 sm:pt-16 lg:pt-16 mx-4 sm:mx-6 xl:mx-36")
+      div(class="relative flex items-center justify-between h-16")
+        div(class="absolute inset-y-0 right-0 flex items-center")
+          //- <!-- Mobile menu button-->
+          button(type="button" id="menu-btn" onclick="handleOnClick()" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false")
+            span(class="sr-only") Open main menu
+            img(src='/img/menu.svg' id="menu-open" class="h-6 w-6" )
+            img(src='/img/close.svg' id="menu-close" class="h-6 w-6" style="display: none")
+        div(class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start")
+          div(class="flex-shrink-0 flex items-center")
+            a(href="/")
+              img(
+                class="block h-10 sm:h-16 md:h-24 w-auto" 
+                src="/img/robust-logo.svg"
+                alt="Robust Tjänst av Netnod"
+              )      
+      div(id="mobile-menu" class="justify-end" style="display: none")
+        div(class="px-2 pt-2 pb-3 space-y-1")
+          for item in links
+                      a(
+                        href=item.href
+                        class=`px-3 py-2 ${item.current ? '' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`
+                        aria-current = item.current ? 'page' : undefined
+                      )
+                        = item.label
+
+
+block script
+  script(type="application/javascript").
+    function handleOnClick() {
+      const menu = document.getElementById("mobile-menu")
+      const closeIcon = document.getElementById("menu-close")
+      const menuIcon = document.getElementById("menu-open")
+
+      if (menu.style.display === "flex") {
+        menu.style.display = "none"
+        closeIcon.style.display = 'none'
+        menuIcon.style.display = 'block'
+      } else {
+        menu.style.display = "flex"; 
+        closeIcon.style.display = 'block'
+        menuIcon.style.display = 'none'
+      }
+    }

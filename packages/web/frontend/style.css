@@ -21,6 +21,7 @@ body {
   min-height: 100vh;
   font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
     sans-serif;
+  @apply bg-peach;
 }
 
 h1 {
@@ -36,7 +37,7 @@ h3 {
 }
 
 h4 {
-  @apply text-h4 md:text-h3 font-bold;
+  @apply text-h4 font-bold;
 }
 
 p {
@@ -62,23 +63,50 @@ p > a {
   visibility: hidden;
 }
 
-.test .test__description {
+.test-group .test__summary {
   max-height: 0;
   transition: max-height 0.35s;
   overflow: hidden;
 }
 
-.test.open .test__description {
+.test-group.open .test__summary {
   /* visibility: visible; */
   max-height: none;
-  @apply mt-4 mb-4;
+  @apply my-12;
 }
 
-.test .toggler > .icon {
+.test-group .toggler > .icon {
   transform: rotate(180deg);
   transition: transform 0.2s;
 }
 
-.test.open .toggler > .icon {
+.test-group.open .toggler > .icon {
   transform: rotate(0deg);
+}
+
+.grid-container {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 10% 1fr 10%;
+  grid-template-rows: 1fr 1fr;
+}
+@media (min-width: 1024px) {
+  .grid-container {
+    grid-template-columns: 20% 1fr 20%;
+  }
+}
+@media (min-width: 1280px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.grid-container > h3 {
+  grid-column-start: 2;
+  grid-row-start: 1;
+}
+
+.grid-container > form {
+  grid-column-start: 2;
+  grid-row-start: 2;
 }

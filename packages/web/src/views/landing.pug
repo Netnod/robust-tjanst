@@ -1,20 +1,21 @@
+//- extends layout.pug
+extends base.pug
 
 block body
-include layout
-  div
-    section(class="px-4 py-14 sm:px-14 pb-0 flex flex-row items-end")
+  include ./partials/header.pug
+  include ./partials/search_bar.pug
+  div(class="flex flex-col w-full pt-8 sm:pt-28")
+    div(class="ml-4 md:ml-0 flex mb-8 justify-center")
+      h1(class="max-w-5xl mx-4 md:mx-8 lg:mx-4 text-black") Test if your website is Robust with website analysis from a security perspective.
+    div(class="bg-black py-4")
+      +searchBar("Skriv in en URL för att starta testet")
+  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto my-2 sm:my-28 flex-grow flex flex-col")
+    section(class="px-4 py-12 sm:px-12 pb-0 flex flex-row items-end")
       h2(class="") Så fungerar det
       span(class="text-yellow ml-2 animate-bounce") ↓
 
-    section(
-      class="bg-gray text-white p-20 flex flex-row items-center" 
-      style=`
-        min-height: 50vh; 
-    `)
-      span(class="text-8xl text-yellow mr-12") 1
-      div(
-        class="pt-2 flex flex-row flex-grow" 
-      )
+    section(class="text-black p-4 sm:p-12 flex flex-row items-center" )
+      div(class="pt-2 flex flex-row flex-grow")
         div
           h3(class="mb-4") Vi håller koll
           p Genom reguljära tester av bland annat
@@ -31,16 +32,10 @@ include layout
               p Rättvishet
 
 
-    section(
-      class="p-20 flex flex-row justify-end items-center" 
-      style=`
-        min-height: 50vh;
-      `
-    )
+    section(class="p-4 sm:p-12 flex flex-row items-center" )
       div(class="pt-2")
         h3(class="mb-4") Vi följer med
         p Teknologier kommer och går varje år, det är inte lätt att hålla koll.
-        br
         p(class="mt-8") Därför har vi byggt denna tjänst, så att 
         ul(class="list-disc pl-4")
           li 
@@ -49,15 +44,8 @@ include layout
             p Vi håller dig uppdaterad när ny teknologi bör adopteras
           li 
             p Vi skapar material som förklarar hur man gör
-      span(class="text-8xl ml-12") 2
 
-    section(
-      class="bg-gray text-white p-20 flex flex-row items-center" 
-      style=`
-        min-height: 50vh;
-      `
-    )
-      span(class="text-8xl text-yellow mr-12") 3
+    section(class="text-black p-4 sm:p-12 flex flex-row items-center" )
       div(class="pt-2")
         h3(class="mb-4") Vi lär ut
         p Vår mission är att hjälpa Sverige på alla möjliga sätt 🇸🇪
