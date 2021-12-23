@@ -2,32 +2,20 @@
 extends base.pug
 
 block body
-  include header.pug
-  div(class="pt-8 flex flex-col bg-black w-full pt-28")
+  include ./partials/header.pug
+  include ./partials/search_bar.pug
+  div(class="pt-8 flex flex-col w-full pt-28")
     div(class="ml-4 md:ml-0 flex mb-8 justify-center")
-      h1(class="max-w-5xl mx-4 md:mx-8 lg:mx-4 text-peach") Test if your website is Robust with website analysis from a security perspective.
+      h1(class="max-w-5xl mx-4 md:mx-8 lg:mx-4 text-black") Test if your website is Robust with website analysis from a security perspective.
 
-    div(
-      class="px-4 my-12 flex flex-col items-center justify-center flex-grow"
-    )
-      form(method="post" action=namedPath('create_test') class="w-full md:w-3/4 lg:w-1/2 flex flex-row" ) 
-        input(class="flex-grow p-4" autofocus type="text" name="url" placeholder="http://din.sida.se")
-        input(type="submit" class="ml-2 w-24 btn btn-yellow" value="Testa")
-      p(class="mt-4") Håller <em>din</em> sida måttet?
-  div
-    section(class="px-4 py-14 sm:px-14 pb-0 flex flex-row items-end")
+    +searchBar("Skriv in en URL för att starta testet")
+  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto my-2 sm:my-28 flex-grow flex flex-col")
+    section(class="px-4 py-12 sm:px-12 pb-0 flex flex-row items-end")
       h2(class="") Så fungerar det
       span(class="text-yellow ml-2 animate-bounce") ↓
 
-    section(
-      class="bg-gray text-white p-20 flex flex-row items-center" 
-      style=`
-        min-height: 50vh; 
-    `)
-      span(class="text-8xl text-yellow mr-12") 1
-      div(
-        class="pt-2 flex flex-row flex-grow" 
-      )
+    section(class="text-black p-4 sm:p-12 flex flex-row items-center" )
+      div(class="pt-2 flex flex-row flex-grow")
         div
           h3(class="mb-4") Vi håller koll
           p Genom reguljära tester av bland annat
@@ -44,16 +32,10 @@ block body
               p Rättvishet
 
 
-    section(
-      class="p-20 flex flex-row justify-end items-center" 
-      style=`
-        min-height: 50vh;
-      `
-    )
+    section(class="p-4 sm:p-12 flex flex-row items-center" )
       div(class="pt-2")
         h3(class="mb-4") Vi följer med
         p Teknologier kommer och går varje år, det är inte lätt att hålla koll.
-        br
         p(class="mt-8") Därför har vi byggt denna tjänst, så att 
         ul(class="list-disc pl-4")
           li 
@@ -62,15 +44,8 @@ block body
             p Vi håller dig uppdaterad när ny teknologi bör adopteras
           li 
             p Vi skapar material som förklarar hur man gör
-      span(class="text-8xl ml-12") 2
 
-    section(
-      class="bg-gray text-white p-20 flex flex-row items-center" 
-      style=`
-        min-height: 50vh;
-      `
-    )
-      span(class="text-8xl text-yellow mr-12") 3
+    section(class="text-black p-4 sm:p-12 flex flex-row items-center" )
       div(class="pt-2")
         h3(class="mb-4") Vi lär ut
         p Vår mission är att hjälpa Sverige på alla möjliga sätt 🇸🇪
