@@ -1,0 +1,6 @@
+mixin searchBar(title) 
+  div(class="grid-container")
+    h3(class="text-peach")= title
+    form(method="post" action=namedPath('create_test') class="flex flex-1" ) 
+      input(class="rounded-l-lg p-6 border-0 w-full" autofocus type="text" name="url" placeholder="Ex: http://din.sida.se")
+      input(type="submit" class="rounded-r-lg px-8 border-0 bg-orange" value="Testa")
