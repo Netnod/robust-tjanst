@@ -6,8 +6,8 @@ module.exports = {
       result: {
         success: tests.every((t) => t.passed),
         description: tests.every((t) => t.passed)
-          ? '✔️ Kommunikationen är skyddad'
-          : '❌ All kommunikation är inte skyddad',
+          ? 'Kommunikationen är skyddad'
+          : 'All kommunikation är inte skyddad',
       },
     };
   },
@@ -19,8 +19,8 @@ module.exports = {
       result: {
         success: tests.every((t) => t.passed),
         description: tests.every((t) => t.passed)
-          ? '✔️ Allt ser bra ut!'
-          : '❌ Ett eller flera krav är inte uppnådda.',
+          ? 'Allt ser bra ut!'
+          : 'Ett eller flera krav är inte uppnådda.',
       },
     };
   },
