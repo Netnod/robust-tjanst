@@ -44,7 +44,10 @@ const startTest = (image, name, id, arguments) => {
     .then((res) => {
       //console.log(res.body)
       const pod = {
-        log: () => k8sApi.readNamespacedPodLog(name, namespace, null, true).then(({response}) => response.body),
+        log: () => k8sApi.readNamespacedPodLog(name, namespace, null, true).then(({response}) => { 
+          if (typeof response.body === "object") return JSON.stringify(response.body)
+          return response.body
+        }),
         status: () => k8sApi.readNamespacedPodStatus(name, namespace, 'true'),
         done: () => waitUntilSucceeded(pod),
         name
