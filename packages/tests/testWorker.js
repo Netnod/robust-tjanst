@@ -11,7 +11,7 @@ module.exports = (test_name, image, connection, resultQueue) => new Worker(test_
     const pod = await startTest(image, podName, id, Object.values(arguments))
     await pod.done()
     const logs = await pod.log()
-    job.log('Test returned: ' + logs)
+    job.log(`Test returned: ${JSON.stringify(logs)}`)
 
     const response = JSON.parse(logs)
     if (typeof response.passed !== 'boolean' || typeof response.details !== 'object') {
@@ -22,7 +22,7 @@ module.exports = (test_name, image, connection, resultQueue) => new Worker(test_
     await resultQueue.add(job.name, output);
   } catch (err) {
     // TODO: log only relevant parts of err, k8s errors are very verbose
-    await job.log('Test pod failed with: ' + JSON.stringify(err))
+    await job.log(`Test pod failed with:\n${err.message}`)
     throw err;
   } finally {
     deleteTest(podName)
