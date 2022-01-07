@@ -1,17 +1,26 @@
 #!/bin/sh
 
-zonemaster-cli --level ERROR --no-ipv6 --profile /profile.json $1 2>/dev/null | grep ERROR | tr -s ' ' | cut -d ' ' -f 4-100 > /tmp/foo
+ARGBASE="$1"
+ARGPATH="$2"
+ARGDOMAIN="$3"
+ARGSCHEME="$4"
 
-A=`head /tmp/foo`
-
-if [ ! "x$A" = x ]; then
+if [ "x${ARGDOMAIN}" = x ]; then
     echo "ERROR"
-    cat /tmp/foo
-else
-    echo "OK"
+    exit 1
 fi
 
+#zonemaster-cli "${ARGDOMAIN}" --no-ipv6 --json_stream --json_translate > /tmp/foo
+zonemaster-cli "${ARGDOMAIN}" --json_stream --json_translate > /tmp/foo
 
+## Output should be
+# '{ passed: true/false, details: { object } }'
 
+A=`grep \"level\":\"ERROR\" /tmp/foo`
+if [ "x$A" = x ]; then
+    echo "'{ passed: true, details: "`cat /tmp/foo`" }'"
+else
+    echo "'{ passed: false, details: "`cat /tmp/foo`" }'"
+fi
 
 

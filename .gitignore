@@ -4,3 +4,4 @@ packages/web/public/**/*.js
 .env
 lerna-debug.log
 package-lock.json
+.DS_Store
