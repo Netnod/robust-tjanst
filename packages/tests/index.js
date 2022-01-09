@@ -16,8 +16,20 @@ const tests = [
   {
     name: 'hsts',
     group: 'https',
-    image: 'netnodse/hsts:latest',
-    messages: './tests/hsts/messages.js'
+    image: null, // this is mocked
+    messages: './mockedHttpRedirectMessages'
+  },
+  {
+    name: 'zonemaster',
+    group: 'dns',
+    image: 'netnodse/dns-zonemaster:latest',
+    messages: './tests/zonemaster/messages'
+  },
+  {
+    name: 'dnssec-presence',
+    group: 'dns',
+    image: null, // this is mocked
+    messages: './mockedDnsSecPresenceMessages'
   },
 ]
 
