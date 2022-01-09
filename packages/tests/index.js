@@ -26,7 +26,7 @@ const tests = [
     messages: './tests/zonemaster/messages.js'
   },
   {
-    name: 'dnssec-presence',
+    name: 'dns-ipv6',
     group: 'dns',
     image: 'netnodse/dns-ipv6:latest',
     messages: './tests/dns/messages.js'
