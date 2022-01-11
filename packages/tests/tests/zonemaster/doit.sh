@@ -14,10 +14,10 @@ fi
 ARGDOMAIN=`echo ${ARGDOMAIN} | sed 's/\.$//' | sed 's/$/./'`
 
 # Check that there is an NS record for the domain name, i.e. find the zone cut
-NS=""
+NS=`dig ${ARGDOMAIN} NS +short`
 while [ "x$NS" = x ]; do
     ARGDOMAIN=`echo "${ARGDOMAIN}" | sed 's/^[^.]*\.//'`
-    A=`dig ${ARGDOMAIN} NS +short`
+    NS=`dig ${ARGDOMAIN} NS +short`
 done
 
 zonemaster-cli "${ARGDOMAIN}" --no-ipv6 --json_stream --json_translate | tr -d '\n' | sed 's/}{/}, {/g' > /tmp/foo
