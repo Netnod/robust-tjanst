@@ -10,6 +10,16 @@ if [ "x${ARGDOMAIN}" = x ]; then
     exit 1
 fi
 
+# Add period at the end of the domain name if it does not exist
+ARGDOMAIN=`echo ${ARGDOMAIN} | sed 's/\.$//' | sed 's/$/./'`
+
+# Check that there is an NS record for the domain name, i.e. find the zone cut
+NS=""
+while [ "x$NS" = x ]; do
+    ARGDOMAIN=`echo "${ARGDOMAIN}" | sed 's/^[^.]*\.//'`
+    A=`dig ${ARGDOMAIN} NS +short`
+done
+
 zonemaster-cli "${ARGDOMAIN}" --no-ipv6 --json_stream --json_translate | tr -d '\n' | sed 's/}{/}, {/g' > /tmp/foo
 
 ## Output should be
