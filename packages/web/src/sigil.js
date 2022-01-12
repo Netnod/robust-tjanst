@@ -11,6 +11,7 @@ async function getSigil(ctx) {
   const pool = ctx.dbPool
   await pool.connect(async conn => {
     // const result = await getLatestResult(conn, domain)
+    // TODO: implement check if testes passed or failed 
     ctx.body = sigilSuccess
   })
 
