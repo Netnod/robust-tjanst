@@ -36,7 +36,7 @@ module.exports = {
         lightRed: '#E22121',
       },
       backgroundImage: {
-        'hero-texture':
+        'rock-wall':
           'linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,.8)),url(/img/bergvagg.jpg)',
       },
     },
