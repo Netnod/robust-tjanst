@@ -35,6 +35,10 @@ module.exports = {
         lightGreen: '#2ED320',
         lightRed: '#E22121',
       },
+      backgroundImage: {
+        'hero-texture':
+          'linear-gradient(rgba(0,0,0,.8), rgba(0,0,0,.8)),url(/img/bergvagg.jpg)',
+      },
     },
   },
   variants: {
