@@ -77,7 +77,25 @@ block body
 
             each test in group.tests
               +test(test)
+      section(class="my-12")
+        - var sigil_url = namedURL('domain_sigil', {domain: encodeURIComponent(domain.domain_name)});
+        h3 Skaffa ditt sigil för att visa att din sida är robust
+        div(class="flex md:grid flex-col-reverse md:grid-cols-2 md:grid-rows-none")
+          div(class="test-group bg-lightGray p-4 sm:p-6 rounded-lg") 
+            div(class="mb-4")
+              h4 Results for #{domain.domain_name}
+              pre #{json}
 
+              section(class="flex flex-col mt-4")
+                h4 Your sigil
+                img(src=`${sigil_url}` width=240 height=80 alt=`Robust-AAA score for ${domain.domain_name}`)
+
+                h4 Embed
+                - var img_tag = `<img src="${sigil_url}" alt="Robust-AAA score for ${domain.domain_name}"/>`
+
+                input(class="block w-full" type="text" value=img_tag)
+          div(class="test-group p-4 sm:p-6 rounded-lg")
+            p Text om sigilet och hur vi kommer att uppdatera det. 
     div(class="rounded-lg bg-rock-wall bg-cover bg-no-repeat bg-black bg-gradient-to-t w-full flex flex-col lg:flex-row lg:justify-around")
       div(class="pt-8 px-8 lg:pt-16 lg:pl-16 lg:pr-0")
         h2(class="text-h1 lg:text-xl font-thin text-peach mb-16 lg:mb-12") Testa en till sajt
@@ -85,6 +103,8 @@ block body
       div(class="justify-center self-end w-3/4 lg:w-4/12")
         img(src="/img/check.svg" class="w-3/4 lg:w-full")
   +footer
+
+        
 block script
   script(type="application/javascript").
     const tests = document.querySelectorAll('.test-group > .test')
