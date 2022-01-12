@@ -105,11 +105,6 @@ router.get('/test', ctx => {
 })
 // ----------------- // 
 
-router.get('top_domains', '/domains/top', domains.listTopDomains)
-router.get('test_domain', '/domains/test/:domain', domains.getCheck)
-router.get('my_domains', '/domains/mine', domains.getMine)
-router.get('new_domain', '/domains/new', domains.getNew)
-router.post('create_domain', '/domains', koaBody(), domains.createDomain)
 router.get('domain_page', '/domain/:id', domains.showDomain)
 
 router.post('create_test', '/test', koaBody(), tests.createTest)
