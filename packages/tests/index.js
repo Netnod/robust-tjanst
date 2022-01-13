@@ -19,6 +19,12 @@ const tests = [
     image: 'netnodse/hsts:latest',
     messages: './tests/hsts/messages.js'
   },
+  {
+    name: 'zonemaster',
+    group: 'dns',
+    image: 'netnodse/dns-zonemaster:latest',
+    messages: './tests/zonemaster/messages.js'
+  },
 ]
 
 const RESULTORS = tests.reduce((acc, test) => ({
