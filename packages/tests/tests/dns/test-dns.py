@@ -6,41 +6,26 @@ import dns.resolver
 import os
 from urllib.parse import urlparse
 
-if(len(sys.argv) != 2):
-  print("Error: Expected 1 argument (url)")
+if(len(sys.argv) != 5):
+  print("Error: Expected 4 arguments (host:port, path, host, scheme)")
   sys.exit(1)
 
-
-url = sys.argv[1]
-domain = urlparse(url).netloc
+domain = sys.argv[3]
 
 response = {}
-response['ipv6'] = {}
-response['dnssec'] = {}
+response['details'] = {}
+response['details']['domain'] = domain
 try:
   answer = dns.resolver.resolve(domain, "AAAA")
-  response['ipv6']['status'] = "OK"
-  response['ipv6']['data'] = []
+  response['passed'] = True
+  response['details']['ipv6'] = []
   for record in answer:
-    response['ipv6']['data'].append(record.to_text())
+    response['details']['ipv6'].append(record.to_text())
 except dns.resolver.NoAnswer:
-  response['ipv6']['status'] = "NOK"
-  response['ipv6']['data'] = ["NO AAAA"]
+  response['passed'] = False
+  response['details']['ipv6'] = ["NO AAAA"]
 except dns.resolver.NXDOMAIN:
-  response['ipv6']['status'] = "NOK"
-  response['ipv6']['data'] = ["NO SUCH DOMAIN"]
-
-try:
-  answer = dns.resolver.resolve(domain, "DS")
-  response['dnssec']['status'] = "OK"
-  response['dnssec']['data'] = []
-  for record in answer:
-    response['dnssec']['data'].append(record.to_text())
-except dns.resolver.NoAnswer:
-  response['dnssec']['status'] = "NOK"
-  response['dnssec']['data'] = ["NO DS RECORD"]
-except dns.resolver.NXDOMAIN:
-  response['dnssec']['status'] = "NOK"
-  response['dnssec']['data'] = ["NO SUCH DOMAIN"]
+  response['passed'] = False
+  response['details']['ipv6'] = ["NO SUCH DOMAIN"]
 
 print(json.dumps(response))

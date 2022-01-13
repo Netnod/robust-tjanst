@@ -25,6 +25,12 @@ const tests = [
     image: 'netnodse/dns-zonemaster:latest',
     messages: './tests/zonemaster/messages.js'
   },
+  {
+    name: 'ipv6',
+    group: 'dns',
+    image: 'netnodse/dns:latest',
+    messages: './tests/dns/messages.js'
+  },
 ]
 
 const RESULTORS = tests.reduce((acc, test) => ({
