@@ -67,6 +67,8 @@ CREATE TABLE account_domains (
 ------------------------------------
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+CREATE TYPE execution_states AS ENUM ('pending', 'aborted', 'completed');
+
 CREATE TABLE test_runs (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	public_id uuid NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
@@ -81,6 +83,7 @@ CREATE TABLE test_results (
 	test_run_id BIGINT NOT NULL REFERENCES test_runs(id),
 	test_name TEXT NOT NULL,
 	test_output JSONB NOT NULL DEFAULT '{}'::jsonb,
+	execution_status execution_states NOT NULL DEFAULT 'pending',
 
 	UNIQUE(test_run_id, test_name)
 );
