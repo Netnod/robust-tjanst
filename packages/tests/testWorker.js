@@ -25,6 +25,6 @@ module.exports = (test_name, image, connection, resultQueue) => new Worker(test_
     await job.log('Test pod failed with: ' + JSON.stringify(err))
     throw err;
   } finally {
-    await deleteTest(podName)
+    deleteTest(podName)
   }
 }, {connection})
