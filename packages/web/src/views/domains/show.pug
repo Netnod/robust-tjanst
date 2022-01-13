@@ -1,12 +1,45 @@
-extends ../layout
+extends ../base
 
-block content
-  include ../partials/footer.pug
-  div(class="col-sm-12 flex flex-col")
-    h1(class="text-3xl mb-8")= domain.domain_name
+mixin group_index(data, index)
+  if (index%2 === 0)
+    section(class="bg-lightGray")
+      p= data.id 
+      p= data.passed
+      block 
+  else 
+    section(class="")
+      p= data.id 
+      p= data.passed
+      block 
 
+block body
+  include ../partials/header.pug
+  +header 
+  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
+    h1(class="mb-8")= 'Test historik för ' + domain.domain_name
+
+    h2 Senast utfört test
     pre
       = JSON.stringify(last_test)
+    h2 Historik
+    div(class="grid grid-cols-3 bg-black text-peach") 
+      
+        
+    
+    table(id="customers")
+      tr
+        th 
+          h4 Id
+        th 
+          h4 Resultat
+        th 
+          h4 Testades 
+      each h in history   
+        tr  
+          each item in h 
+            td 
+              p= item
+
 
     h2(class="text-xl mb-1") Test history
 
