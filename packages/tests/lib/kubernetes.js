@@ -57,8 +57,7 @@ const startTest = (image, name, id, arguments) => {
     .catch((err = {}) => {
       const {response: {body: {status, reason, message} = {}}} = err
       console.error(`kubernetes error: ${status}: ${reason} - ${message}`)
-      // throw err;
-      throw {status, reason, message}
+      throw err;
     })
 }
 
