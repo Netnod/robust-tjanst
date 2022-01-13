@@ -21,7 +21,7 @@ const spec = (image, name, labels = {}, arguments = []) => {
     kind: "Pod",
     metadata: { name, labels },
     spec: {
-      activeDeadlineSeconds: 25,
+      activeDeadlineSeconds: 60,
       restartPolicy: "Never",
       containers: [
         {
