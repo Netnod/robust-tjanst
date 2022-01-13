@@ -14,33 +14,42 @@ mixin group_index(data, index)
 
 block body
   include ../partials/header.pug
+  include ../partials/footer.pug
   +header 
   div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
     h1(class="mb-8")= 'Test historik för ' + domain.domain_name
 
-    h2 Senast utfört test
-    pre
-      = JSON.stringify(last_test)
-    h2 Historik
-    div(class="grid grid-cols-3 bg-black text-peach") 
-      
-        
-    
-    table(id="customers")
-      tr(class="text-left")
-        th(class="p-6 text-peach bg-black")
-          h4 Id
-        th(class="p-6 text-peach bg-black")
-          h4 Testades
-        th(class="p-6 text-peach bg-black") 
-          h4 Resultat 
-      each h in history   
-        tr  
-          each item in h 
-            td(class="p-6") 
-              p= item
-    pre
-      = JSON.stringify(history, null, 2)
+    section(class="w-full")
+      h2 Senast utfört test
+      table(id="customers" class="w-full")
+          tr(class="text-left")
+            th(class="p-6 text-peach bg-black")
+              h4 Id
+            th(class="p-6 text-peach bg-black")
+              h4 Testades
+            th(class="p-6 text-peach bg-black") 
+              h4 Resultat   
+            tr  
+              each item in last_test 
+                td(class="p-6") 
+                  p= item
+    //- pre
+    //-   = JSON.stringify(last_test)
+    section
+      h2 Historik
+      div(class="grid grid-cols-3 bg-black text-peach")     
+      if history.length
+        table(id="customers")
+          tr(class="text-left")
+            th(class="p-6 text-peach bg-black")
+              h4 Id
+            th(class="p-6 text-peach bg-black")
+              h4 Testades
+            th(class="p-6 text-peach bg-black") 
+              h4 Resultat 
+          each h in history   
+            tr  
+              each item in h 
+                td(class="p-6") 
+                  p= item
   +footer
-  
-
