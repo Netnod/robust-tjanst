@@ -27,35 +27,20 @@ block body
         
     
     table(id="customers")
-      tr
-        th 
+      tr(class="text-left")
+        th(class="p-6 text-peach bg-black")
           h4 Id
-        th 
-          h4 Resultat
-        th 
-          h4 Testades 
+        th(class="p-6 text-peach bg-black")
+          h4 Testades
+        th(class="p-6 text-peach bg-black") 
+          h4 Resultat 
       each h in history   
         tr  
           each item in h 
-            td 
+            td(class="p-6") 
               p= item
-
-
-    h2(class="text-xl mb-1") Test history
-
-    table
-      thead 
-        tr(class="text-left")
-          th Test id
-          th Date
-          th Status 
-          th Score
-
-      tbody
-        each test in history 
-          tr 
-            td= test.id 
-            td= formatTimestamp(test.created_at)
-            td= test.test_status 
-            td= test.final_score
+    pre
+      = JSON.stringify(history, null, 2)
   +footer
+  
+
