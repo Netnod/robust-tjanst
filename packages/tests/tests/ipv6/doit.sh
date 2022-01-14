@@ -2,7 +2,7 @@
 
 URL=${4}//${1}${2}
 
-curl -6 -s ${URL} > /dev/null
+curl -L -6 -s ${URL} > /dev/null
 if [ $? -eq 0 ]; then
    echo "{ \"passed\": true, \"details\": { \"tested_url\": \"$URL\" } }"
 else
