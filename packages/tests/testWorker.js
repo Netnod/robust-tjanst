@@ -28,7 +28,7 @@ function extractResult(logs) {
 module.exports = (test_name, image, connection, resultQueue) => new Worker(test_name, async (job) => {
   console.log(`Starting ${test_name}`)
   await job.log(`Starting ${job.name}`)
-  const {id, data: { arguments, test_run_id }} = job
+  const {id, data: { arguments, test_run_id, test_result_id }} = job
   const podName = `${test_name}-${test_run_id}`
   const containerArguments = [
       arguments.host,
@@ -43,7 +43,7 @@ module.exports = (test_name, image, connection, resultQueue) => new Worker(test_
     await job.log(`Pod logs: ${logs}`)
 
     const test_output = extractResult(logs)
-    const output = { test_run_id, test_name, test_output }
+    const output = { test_run_id, test_result_id, test_name, test_output }
 
     await resultQueue.add(job.name, output);
   } catch (err) {
@@ -59,6 +59,7 @@ module.exports = (test_name, image, connection, resultQueue) => new Worker(test_
     console.log(`Error: ${err}`)
     throw err;
   } finally {
+    // await to avoid causing an unhandled promise rejection error
     await deleteTest(podName)
   }
 }, {connection})

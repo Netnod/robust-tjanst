@@ -27,7 +27,8 @@ function getTestResultByID(test_run_id) {
   return sql`
     SELECT
       res.test_name,
-      res.test_output
+      res.test_output,
+      res.execution_status
     FROM test_results res
     WHERE
       res.test_run_id = ${test_run_id}
