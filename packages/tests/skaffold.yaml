@@ -10,11 +10,11 @@ build:
   artifacts:
   - image: netnodse/dns-zonemaster
     context: tests/zonemaster/
-  - image: netnodse/dns
-    context: tests/dns/
-#  - image: netnodse/robust-tls
-#    context: tests/tls/
+  - image: netnodse/ipv6-dns
+    context: tests/ipv6-dns/
   - image: netnodse/https-reachable
     context: tests/https/
   - image: netnodse/hsts
     context: tests/hsts/
+  - image: netnodse/ipv6-connectivity
+    context: tests/ipv6-connectivity
