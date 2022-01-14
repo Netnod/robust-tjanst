@@ -26,11 +26,17 @@ const tests = [
     messages: './tests/zonemaster/messages.js'
   },
   {
-    name: 'ipv6',
+    name: 'ipv6-dns',
     group: 'dns',
-    image: 'netnodse/dns:latest',
-    messages: './tests/dns/messages.js'
+    image: 'netnodse/ipv6-dns:latest',
+    messages: './tests/ipv6-dns/messages.js'
   },
+  {
+    name: 'ipv6-connectivity',
+    group: 'dns',
+    image: 'netnodse/ipv6-connectivity:latest',
+    messages: './tests/ipv6-connectivity/messages.js'
+  }
 ]
 
 const RESULTORS = tests.reduce((acc, test) => ({
