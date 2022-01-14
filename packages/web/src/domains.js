@@ -80,7 +80,7 @@ async function showDomain(ctx) {
     })
     await ctx.render('domains/show', {
       domain,
-      last_test,
+      last_test: {...last_test, created_at: new Date(last_test.created_at).toISOString().split('T')[0]},
       history: formattedHistory,
     })
   })

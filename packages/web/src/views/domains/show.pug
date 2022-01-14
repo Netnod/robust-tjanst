@@ -19,45 +19,40 @@ block body
   div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
     h1(class="mb-8")= 'Test historik för ' + domain.domain_name
 
-    section(class="")
+    section(class="mb-6")
       h2 Senast utfört test
       table(id="customers" class="table-fixed w-full")
           tr(class="text-left")
             th(class="p-2 md:p-6 text-peach bg-black")
-              h4 Id
-            th(class="p-2 md:p-6 text-peach bg-black")
-              h4 Testades
+              h4 Skapat
             th(class="p-2 md:p-6 text-peach bg-black") 
-              h4 Resultat   
-            tr  
-              each item in last_test 
-                td(class="p-2 md:p-6") 
-                  p= item
-    //- pre
-    //-   = JSON.stringify(last_test)
-    section
+              h4 Robust
+            th(class="p-2 md:p-6 text-peach bg-black w-2/12 md:w-fit")    
+          tr 
+            td(class="p-2 md:p-6") 
+                p= last_test.created_at
+            td(class="p-2 md:p-6") 
+                p= last_test.passed ? 'Ja' : 'Nej'
+            td(class="p-2 md:p-6 flex justify-end") 
+              a(href=`/test/${last_test.id}`) 
+                img(src="/img/external-link.svg" class="w-5")
+    section(class="mb-6")
       h2 Historik
       div(class="grid grid-cols-3 bg-black text-peach")     
       if history.length
         table(id="customers" class="table-fixed w-full")
           tr(class="text-left")
             th(class="p-2 md:p-6 text-peach bg-black")
-              h4 Testades
+              h4 Skapat
             th(class="p-2 md:p-6 text-peach bg-black") 
-              h4 Resultat 
+              h4 Robust 
             th(class="p-2 md:p-6 text-peach bg-black w-2/12 md:w-fit") 
           each h in history   
-            tr  
-              each item in h 
-                td(class="p-6") 
-                  p= item
-  
-
-            tr()  
+            tr 
               td(class="p-2 md:p-6") 
                   p= h.created_at
               td(class="p-2 md:p-6") 
-                  p= h.passed
+                  p= h.passed ? 'Ja' : 'Nej'
               td(class="p-2 md:p-6 flex justify-end") 
                 a(href=`/test/${h.id}`) 
                   img(src="/img/external-link.svg" class="w-5")
