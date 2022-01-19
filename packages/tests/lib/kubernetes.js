@@ -33,7 +33,6 @@ const spec = (image, name, labels = {}, arguments = []) => {
           name,
           image: image,
           args: arguments,
-          imagePullPolicy: "Always"
         },
       ],
     },
