@@ -36,7 +36,11 @@ block body
   include ../partials/header.pug
   include ../partials/search_bar.pug
   +header
-  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
+  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-12 sm:mt-28 flex-grow flex flex-col")
+    div(class="flex flex-col mb-16 w-full lg:w-9/12")
+        h1(class="mb-6") Aj då. I dagsläget är din sajt inte Robust.
+        p Tråkigt att behöva vara budbärare av dåliga nyheter men din sajt når idag inte upp till säkerhetskraven som krävs för att få bära Robusts sigill.
+
     div(class="flex flex-col mb-6")
       h2(class="mt-8")
         | Resultat för #{domain.domain_name}
