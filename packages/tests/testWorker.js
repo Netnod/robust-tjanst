@@ -18,7 +18,7 @@ function extractResult(logs) {
   }
 
   if (typeof response.passed !== 'boolean' || typeof response.details !== 'object') {
-    throw new TestError(`Invalid test pod response of type`)
+    throw new TestError(`Invalid test response (expected a boolean named "passed" and an object named "details"`)
   }
 
   const {passed, details} = response
