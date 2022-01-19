@@ -29,7 +29,7 @@ module.exports = {
         lightPeach: '#FFF2EA',
         lightGray: '#090D140D',
         orange: '#E1822F',
-        green: '#006C3B',
+        green: '#17811D',
         red: '#BE0000',
         gray: '#4a4a4a',
         yellow: '#fab900',

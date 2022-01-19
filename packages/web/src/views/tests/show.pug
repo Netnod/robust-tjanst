@@ -51,7 +51,7 @@ block body
             else
               img(src="/img/icon-fail.svg" class="mr-4")
             div(class="flex flex-col")
-              h2= group.title 
+              h2(class=`${group.result.success ? 'text-green' : 'text-red'}`)= group.title 
               p(class="mt-1")= group.description
             +toggles
           +result_summary
