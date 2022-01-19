@@ -47,9 +47,9 @@ block body
         +group_index(i++)
           div(class="flex flex-row items-center")
             if group.result.success 
-              img(src="/img/robust_symbol_green.svg" class="mr-4")
+              img(src="/img/icon-success.svg" class="mr-4")
             else
-              img(src="/img/robust_symbol_red.svg" class="mr-4")
+              img(src="/img/icon-fail.svg" class="mr-4")
             div(class="flex flex-col")
               h2= group.title 
               p(class="mt-1")= group.description
