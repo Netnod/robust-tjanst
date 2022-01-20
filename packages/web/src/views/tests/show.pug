@@ -92,7 +92,6 @@ block script
         
         togglers.forEach(t => {
            t.addEventListener('click', () => {
-            console.log('clicked', group.classList)
             if (!group.classList.contains('loading'))
               group.classList.toggle('open')
           })
