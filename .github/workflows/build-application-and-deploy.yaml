@@ -10,12 +10,25 @@ on:
       - main
       - feat/autodeploy
 
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER_NAME }}
+  GKE_ZONE: ${{ secrets.GKE_CLUSTER_ZONE }}
+
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
   build-and-deploy:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    # Add "id-token" with the intended permissions.
+    # https://docs.github.com/en/actions/security-guides/automatic-token-authentication#permissions-for-the-github_token
+    
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -31,17 +44,24 @@ jobs:
           chmod +x ./kubectl
           sudo mv ./kubectl /usr/local/bin/kubectl
 
-      - name: create kubeconfig
-        run: |
-          mkdir ${HOME}/.kube
-          cp .github/config.yaml ${HOME}/.kube/config
-          cd ${HOME}/.kube
-          sed -i 's;$KUBE_CLUSTER_NAME;${{ secrets.KUBE_CLUSTER_NAME }};g' config
-          sed -i 's;$KUBE_CLUSTER_SERVER;${{ secrets.KUBE_CLUSTER_SERVER }};g' config
-          sed -i 's;$KUBE_CLUSTER_CERTIFICATE;${{ secrets.KUBE_CLUSTER_CERTIFICATE }};g' config
-          sed -i 's;$KUBE_USER_NAME;${{ secrets.KUBE_USER_NAME }};g' config
-          sed -i 's;$KUBE_USER_TOKEN;${{ secrets.KUBE_USER_TOKEN }};g' config
-          kubectl config use-context ${{ secrets.KUBE_CLUSTER_NAME }}
+    # Configure Workload Identity Federation and generate an access token.
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v0'
+        with:
+          workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+          service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
+
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v0'
+
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+
+      - name: 'Generate kubeconfig'
+        run: |-
+          gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
       - name: build-and-deploy
         run: |
