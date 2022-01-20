@@ -4,11 +4,13 @@ function insertNewTestRun(domain_id) {
   return sql`
     INSERT INTO test_runs (domain_id)
     VALUES (${domain_id})
-    RETURNING id AS test_run_id
+    RETURNING 
+      id AS test_run_id,
+      public_id
   `
 }
 
-function getTestRunByID(id) {
+function getTestRunByPublicID(public_id) {
   return sql`
     SELECT
       dt.id,
@@ -16,7 +18,7 @@ function getTestRunByID(id) {
       dt.created_at,
       dt.updated_at
     FROM test_runs dt
-    WHERE dt.id = ${id}
+    WHERE dt.public_id = ${public_id}
     LIMIT 1
   `
 }
@@ -34,6 +36,6 @@ function getTestResultByID(test_run_id) {
 
 module.exports = {
   insertNewTestRun,
-  getTestRunByID,
+  getTestRunByPublicID,
   getTestResultByID,
 }
