@@ -1,5 +1,5 @@
 mixin footer() 
-    footer(class="footer bg-peach text-center pt-8 text-white overflow-hidden relative")
+    footer(class="footer bg-peach text-center pt-20 text-white overflow-hidden relative")
         div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mb-40 flex-grow flex flex-col text-left text-black") 
             h4(class="z-10") Robust är en tjänst där du som ansvarig för en webbplats kan testa den ur ett antal säkerhetsaspekter. Har sajten tillräckligt god säkerhet ur dessa aspekter så blir man tilldelad ett sigill som man kan bädda in på sin sajt för att visa att den är <span class="highlight">Robust.</span>
             div(class="grid grid-rows-2  md:grid-cols-3 md:grid-rows-1 mt-10 md:my-16") 
@@ -13,8 +13,8 @@ mixin footer()
                 p Registered office: Stockholm
               div(class="mb-10 md:mb-0") 
                 p <strong>Kontaktuppgifter</strong>
-                p Email: info[at]netnod.se
-                p Phone: +46 (0)8 562 860 00
+                a(href="mailto:robust@netnod.se") robust@netnod.se
+                br
                 a(src="https://github.com/Netnod/robust-tjanst/issues") Github Issue
 
               img(src="/img/robust-badge--animated.svg" class="hidden md:block")
