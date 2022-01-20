@@ -65,9 +65,11 @@ CREATE TABLE account_domains (
 ------------------------------------
 -- tests
 ------------------------------------
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE test_runs (
 	id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+	public_id uuid NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
 	domain_id BIGINT NOT NULL REFERENCES domains(id),
 	
 	created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
