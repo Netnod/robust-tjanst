@@ -32,7 +32,7 @@ mixin group_index(passed, index)
       block 
 
 mixin start_msg
-    if (allTestsPassed)
+    if (!allTestsPassed)
       h1(class="mb-6") Grattis!
       p Alla testen passerade. Du tar verkligen säkerhet på allvar. 
       //Grattis! Du har förtjänat vårt sigill!
@@ -48,9 +48,9 @@ block body
   div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-12 sm:mt-28")
     div(class="flex flex-col mb-16 w-full lg:w-9/12")
        +start_msg
-  if (allTestsPassed)
+  if (!allTestsPassed)
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <lottie-player src="/img/ThumbsUp.json" background="transparent" speed="1" class="ml-auto w-3/4 h-3/4 lg:w-1/4 lg:h-auto lg:absolute lg:right-0 lg:top-56" autoplay></lottie-player>
+    <lottie-player src="/img/thumbs-up.json" background="transparent" speed="1" class="ml-auto w-3/4 h-3/4 lg:w-1/4 lg:h-auto lg:absolute lg:right-0 lg:top-56" autoplay></lottie-player>
   div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto flex-grow flex flex-col") 
     div(class="flex flex-col mb-6")
       h2(class=`${allTestsPassed ? 'mt-0' : 'mt-8'}`)
