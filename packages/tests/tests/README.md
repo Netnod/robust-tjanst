@@ -21,7 +21,7 @@ __protocol__ is guaranteed to be 'http:' or 'https:'
 
 # Output of the test
 
-`'{ passed: true/false, details: { object } }'`
+`{ "passed": true/false, "details": { ... } }`
 
 Test result is printed to standard out.
 All tests must return a string with JSON containing a boolean __passed__ which is true only if all required demands are met and an object __details__.
@@ -33,13 +33,13 @@ Each test has its own function for generating output which will be shown to the 
 
 ## Input
 
-`{ passed: true/false, details: { object } }`
+`{ "passed": true/false, "details": { ... } }`
 
 The input to the message printer is the same output that the test returns. So whatever you put in details you can use to craft your message.
 
 ## Output
 
-`{ passed: true/false, title: 'string', description: 'markdown' }`
+`{ "passed": true/false, "title": 'string', "description": 'markdown' }`
 
 The message function must return a JSON object which contains a boolean __passed__ and the strings __title__ and __description__.
 __title__ should be a string expressing the result of the test in less than 60 characters. Example "Your site has a secure HTTPS configuration" / "There are issues with your HTTPS configuration"
