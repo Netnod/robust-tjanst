@@ -31,6 +31,16 @@ mixin group_index(index)
     section(class="test-group p-4 sm:p-6 rounded-lg")
       block 
 
+mixin start_msg
+    if (allTestsPassed)
+      h1(class="mb-6") Grattis!
+      p Alla testen passerade. Du tar verkligen säkerhet på allvar. 
+
+      //Grattis! Du har förtjänat vårt sigill!
+      // p Bädda in sigillet på din webbplats för att visa att din webbplats tar säkerhet på allvar. Välj mellan de två olika storlekarna och placera inbäddningskoden någonstans på din webbplats (exempelvis i sidhuvud/sidfot).
+    else 
+      h1(class="mb-6") Aj då. I dagsläget är din sajt inte Robust.
+      p Tråkigt att behöva vara budbärare av dåliga nyheter men din sajt når idag inte upp till säkerhetskraven som krävs för att få bära Robusts sigill.
 
 block body
   include ../partials/header.pug
@@ -38,9 +48,7 @@ block body
   +header
   div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-12 sm:mt-28 flex-grow flex flex-col")
     div(class="flex flex-col mb-16 w-full lg:w-9/12")
-        h1(class="mb-6") Aj då. I dagsläget är din sajt inte Robust.
-        p Tråkigt att behöva vara budbärare av dåliga nyheter men din sajt når idag inte upp till säkerhetskraven som krävs för att få bära Robusts sigill.
-
+       +start_msg
     div(class="flex flex-col mb-6")
       h2(class="mt-8")
         | Resultat för #{domain.domain_name}
