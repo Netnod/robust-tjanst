@@ -2,7 +2,7 @@ mixin footer()
     footer(class="footer bg-peach text-center pt-20 text-white overflow-hidden relative")
         div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mb-40 flex-grow flex flex-col text-left text-black") 
             h4(class="z-10") Robust är en tjänst där du som ansvarig för en webbplats kan testa den ur ett antal säkerhetsaspekter. Har sajten tillräckligt god säkerhet ur dessa aspekter så blir man tilldelad ett sigill som man kan bädda in på sin sajt för att visa att den är <span class="highlight">Robust.</span>
-            div(class="grid grid-rows-2  md:grid-cols-3 md:grid-rows-1 mt-10 md:my-16") 
+            div(class="grid grid-rows-2  md:grid-cols-3 md:grid-rows-1 mt-10 md:my-16 z-10") 
               div(class="mb-10 md:mb-0") 
                 p <strong>Adressuppgifter</strong>
                 p Greta Garbos väg 13
@@ -15,11 +15,11 @@ mixin footer()
                 p <strong>Kontaktuppgifter</strong>
                 a(href="mailto:robust@netnod.se") robust@netnod.se
                 br
-                a(src="https://github.com/Netnod/robust-tjanst/issues") Github Issue
+                a(href="https://github.com/Netnod/robust-tjanst/issues") Github Issue
 
               img(src="/img/robust-badge--animated.svg" class="hidden md:block")
-            div(class="flex flex-col md:flex-row my-10")
-              a(class="mr-2" src="https://github.com/Netnod/robust-tjanst") Källkod
+            div(class="flex flex-col md:flex-row my-10 z-10")
+              a(class="mr-2" href="https://github.com/Netnod/robust-tjanst") Källkod
               //- a(class="mx-0 md:mx-2") Tillgänglighetsredogörelse
               //- a(class="mx-0 md:mx-2") Om Cookies
             img(src="/img/robust-badge--animated.svg" class="block md:hidden mx-16 sm:mx-48")
