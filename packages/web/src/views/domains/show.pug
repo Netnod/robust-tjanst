@@ -1,6 +1,7 @@
 extends ../layout
 
 block content
+  include ../partials/footer.pug
   div(class="col-sm-12 flex flex-col")
     h1(class="text-3xl mb-8")= domain.domain_name
 
@@ -25,3 +26,4 @@ block content
             td= formatTimestamp(test.created_at)
             td= test.test_status 
             td= test.final_score
+  +footer

@@ -110,3 +110,10 @@ p > a {
   grid-column-start: 2;
   grid-row-start: 2;
 }
+
+.highlight {
+  background: url('/img/brush-stroke.svg');
+  background-repeat: no-repeat;
+  background-size: 100% 49%;
+  background-position: bottom;
+}

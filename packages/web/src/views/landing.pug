@@ -3,6 +3,7 @@ extends base.pug
 
 block body
   include ./partials/header.pug
+  include ./partials/footer.pug
   include ./partials/search_bar.pug
   div(class="pb-12 sm:pb-24 bg-rock-wall bg-cover bg-no-repeat bg-black bg-gradient-to-t")
     +header('light') 
@@ -52,5 +53,4 @@ block body
         h3(class="mb-4") Vi lär ut
         p Vår mission är att hjälpa Sverige på alla möjliga sätt 🇸🇪
 
-  footer(class="bg-black text-center py-8 text-white")
-    | (C) Robust Tjänst 2021
+  +footer
