@@ -23,12 +23,12 @@ mixin result_summary
   div(class="test__summary mr-0 sm:mr-4 px-2 sm:px-16")
     block
 
-mixin group_index(index)
+mixin group_index(passed, index)
   if (index%2 === 0)
-    section(class="test-group bg-lightGray p-4 sm:p-6 rounded-lg")
+    section(class=`test-group bg-lightGray p-4 sm:p-6 rounded-lg ${!passed && 'open'}`)
       block 
   else 
-    section(class="test-group p-4 sm:p-6 rounded-lg")
+    section(class=`test-group p-4 sm:p-6 rounded-lg ${!passed && 'open'}`)
       block 
 
 mixin start_msg
@@ -58,7 +58,7 @@ block body
     div(class="results flex flex-col mb-12")
       - var i =0
       each group in groups
-        +group_index(i++)
+        +group_index(group.result.success, i++)
           div(class="flex flex-row items-center")
             if group.result.success 
               img(src="/img/icon-success.svg" class="mr-4")
