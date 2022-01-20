@@ -94,7 +94,7 @@ const waitUntilSucceeded = async (pod, tries = 0) => {
   switch (phase) {
     case 'Succeeded': return phase
     case 'Failed':
-      console.log(response)
+      console.log(JSON.stringify(response.body))
       throw new KubernetesError(`Pod phase is "${phase}"`, body)
     case 'Running':
     case 'Pending':
