@@ -78,8 +78,7 @@ async function showTest(ctx) {
     const test = await connection.one(getTestRunByID(id))
     const result = await connection.any(getTestResultByID(id))
     if (result.length === 0) { return ctx.render('tests/loading') }
-    const failedTestResults = result.filter(a => !a.test_output.passed)
-    const allTestsPassed = failedTestResults.length ? false : true
+    const allTestsPassed = !result.some(t => !t.test_output.passed)
     const domain = await connection.one(getDomainByID(test.domain_id))
     const groups = buildGroups(result)
     await ctx.render('tests/show', {test, allTestsPassed, domain, groups, md: require('markdown-it')()})
