@@ -74,15 +74,15 @@ async function showTest(ctx) {
 
   await ctx.dbPool.connect(async (connection) => {
     const test = await connection.one(getTestRunByPublicID(id))
-    const result = await connection.any(getTestResultByID(test.id))
+    const tests = await connection.any(getTestResultByID(test.id))
 
-    if (result.length === 0 || result.some(test => test.execution_status === 'pending')) { 
       return ctx.render('tests/loading') 
+    if (tests.length === 0 || tests.some(test => test.execution_status === 'pending')) { 
     }
 
-    const allTestsPassed = !result.some(t => !t.test_output.passed)
+    const allTestsPassed = !tests.some(t => !t.test_output.passed)
     const domain = await connection.one(getDomainByID(test.domain_id))
-    const groups = buildGroups(result)
+    const groups = buildGroups(tests)
     await ctx.render('tests/show', {test, allTestsPassed, domain, groups, md: require('markdown-it')()})
   })
 }
