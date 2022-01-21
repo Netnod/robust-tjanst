@@ -87,13 +87,15 @@ block body
               pre #{json}
 
               section(class="flex flex-col mt-4")
-                h4 Your sigil
-                img(src=`${sigil_url}` width=240 height=80 alt=`Robust-AAA score for ${domain.domain_name}`)
+                div(class="mb-4")
+                  h4(class="mb-2") Your sigil
+                  img(src=`${sigil_url}` width=240 height=80 alt=`Robust-AAA score for ${domain.domain_name}`)
 
-                h4 Embed
-                - var img_tag = `<img src="${sigil_url}" alt="Robust-AAA score for ${domain.domain_name}"/>`
+                div(class="mb-4")
+                  h4(class="mb-2") Embed
+                  - var img_tag = `<img src="${sigil_url}" alt="Robust-AAA score for ${domain.domain_name}"/>`
 
-                input(class="block w-full" type="text" value=img_tag)
+                  input(class="block w-full" type="text" disabled value=img_tag)
           div(class="test-group p-4 sm:p-6 rounded-lg")
             p Text om sigilet och hur vi kommer att uppdatera det. 
     div(class="rounded-lg bg-rock-wall bg-cover bg-no-repeat bg-black bg-gradient-to-t w-full flex flex-col lg:flex-row lg:justify-around")
