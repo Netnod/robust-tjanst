@@ -76,8 +76,10 @@ async function showTest(ctx) {
     const test = await connection.one(getTestRunByPublicID(id))
     const tests = await connection.any(getTestResultByID(test.id))
 
-      return ctx.render('tests/loading') 
     if (tests.length === 0 || tests.some(test => test.execution_status === 'pending')) { 
+      const total = tests.length
+      const done = tests.filter(t => t.execution_status !== 'pending').length
+      return ctx.render('tests/loading', {total, done}) 
     }
 
     const allTestsPassed = !tests.some(t => !t.test_output.passed)

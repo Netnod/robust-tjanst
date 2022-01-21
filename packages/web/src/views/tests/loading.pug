@@ -4,6 +4,14 @@ block head
   <meta http-equiv="refresh" content="2">
 
 block content 
-  div(class="flex flex-col content-center justify-center flex-grow")
-    img(src="/img/loading.svg" class="h-10 mb-10")
-    p(class="text-center") Vi testar... sidan laddas om automatiskt när resultat är klart.
+  div(class="flex flex-col flex-grow text-center")
+    div
+      if total == 0
+        h1 Väntar på start
+        p Testet står i kö och väntar på att starta.
+      else 
+        h1= `${done} / ${total}`
+        p(class="") Testerna körs.
+
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <lottie-player src="/img/loading-animation.json" background="transparent" speed="1" class="mt-0 h-1/4 w-1/4 self-center mb-40" loop autoplay></lottie-player>
