@@ -1,17 +1,43 @@
 extends ../layout
 
 block head
-  <meta http-equiv="refresh" content="2">
+  noscript
+    <meta http-equiv="refresh" content="2">
 
 block content 
+
   div(class="flex flex-col flex-grow text-center")
-    div
-      if total == 0
+    if total === 0
+      div(id="in-queue")
         h1 Väntar på start
-        p Testet står i kö och väntar på att starta.
-      else 
-        h1= `${done} / ${total}`
-        p(class="") Testerna körs.
+        p Testet står i kö och väntar på att komma igång.
+
+    div(id="actual-queue" class=(total === 0 ? 'hidden' : ''))
+      h1
+        <span id="counter">#{done}</span> av <span id="total">#{total}</span>
+      p(class="") Testerna körs.
 
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <lottie-player src="/img/loading-animation.json" background="transparent" speed="1" class="mt-0 h-1/4 w-1/4 self-center mb-40" loop autoplay></lottie-player>
+
+    script.
+      const statusURL = "#{absolutePath(namedPath('test_loading_status', test_id))}"
+
+      setInterval(
+        () => {
+          fetch(statusURL)
+            .then(response => response.json())
+            .then(json => {
+              if (json.done === json.total && json.total !== 0) {
+                window.location = window.location
+                //- window.location.reload(true) // bad scroll pos
+              } else {
+                document.querySelector('#counter').innerText = json.done
+                document.querySelector('#total').innerText = json.total
+                document.querySelector('#in-queue').classList.add('hidden')
+                document.querySelector('#actual-queue').classList.remove('hidden')
+              }
+            })
+        }, 
+        3000
+      )
