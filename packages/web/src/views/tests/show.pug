@@ -34,12 +34,13 @@ mixin group_index(passed, index)
 mixin sigil 
   - var sigil_url = namedURL('domain_sigil', {domain: encodeURIComponent(domain.domain_name), type: 'badge.svg'});
   - var sigil_url_small = namedURL('domain_sigil', {domain: encodeURIComponent(domain.domain_name), type: 'badge-small.svg'});
+  - var domain_url = namedURL('domain_page', {id: domain.domain_name});
   div(class="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 mb-16 w-full mt-6 items-end")
     div(class="mt-4 w-full")
       div(class="mb-4")
         img(src=`${sigil_url}` alt=`Robust-AAA score for ${domain.domain_name}`)
       div(class="mb-4 rounded-lg bg-lightPeach p-4 w-full flex flex-col")
-        - var img_tag = `<a href=""><img src="${sigil_url}" alt="Robust-AAA score for ${domain.domain_name}"/></a>`
+        - var img_tag = `<a href="${domain_url}"><img src="${sigil_url}" alt="Robust-AAA score for ${domain.domain_name}"/></a>`
         button(class="self-end" onClick="copyToClipboard('snippet')")
           img(src="/img/copy.svg")
         div(class="px-2")
@@ -49,7 +50,7 @@ mixin sigil
       div(class="mb-4")
         img(src=`${sigil_url_small}` alt=`Robust-AAA score for ${domain.domain_name}`)
       div(class="mb-4 rounded-lg bg-lightPeach p-6 w-full flex flex-col")
-        - var img_tag = `<a href=""><img src="${sigil_url_small}" alt="Robust-AAA score for ${domain.domain_name}"/></a>`
+        - var img_tag = `<a href="${domain_url}"><img src="${sigil_url_small}" alt="Robust-AAA score for ${domain.domain_name}"/></a>`
         button(class="self-end" onClick="copyToClipboard('snippet-small')")
           img(src="/img/copy.svg")
         div(class="px-2")
