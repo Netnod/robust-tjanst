@@ -9,20 +9,18 @@ block body
     +header('light') 
     div(class="flex flex-col w-full pt-8 sm:pt-28")
       div(class="ml-4 md:ml-0 flex flex-col mb-8 items-center")
-        h1(class="max-w-5xl mx-4 md:mx-8 lg:mx-4 text-peach mb-16 lg:mb-12") Test if your website is Robust with website analysis from a security perspective.
-        div(class="py-4")
+        h1(class="max-w-5xl mx-4 md:mx-8 lg:mx-4 text-peach mb-16 lg:mb-12") Förtjänat du Robust-sigillet? <br/> Testa om din sajt är tillräckligt robust och säker.
+        div(class="py-4 md:w-3/5 lg:w-1/3")
           +search_bar("Skriv in en URL för att starta testet")
-  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto my-2 sm:my-28 flex-grow flex flex-col")
+  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
     section(class="px-4 py-12 sm:px-12 pb-0 flex flex-row items-end")
       h2(class="") Så fungerar det
-      span(class="text-yellow ml-2 animate-bounce") ↓
-
     section(class="text-black p-4 sm:p-12 flex flex-row items-center" )
       div(class="pt-2 flex flex-row flex-grow")
         div
-          h3(class="mb-4") Vi håller koll
-          p Genom reguljära tester av bland annat
-          ul(class="mt-8")
+          h3(class="mb-4") Du Testar! 
+          p Se om din sajt är robust genom reguljära tester av bland annat
+          ul(class="list-disc pl-5")
             li 
               p IPv6
             li 
@@ -38,19 +36,18 @@ block body
     section(class="p-4 sm:p-12 flex flex-row items-center" )
       div(class="pt-2")
         h3(class="mb-4") Vi följer med
-        p Teknologier kommer och går varje år, det är inte lätt att hålla koll.
-        p(class="mt-8") Därför har vi byggt denna tjänst, så att 
-        ul(class="list-disc pl-4")
+        p Teknologier kommer och går varje år, det är inte lätt att hålla koll. Vi har byggt denna tjänst så att:
+        ul(class="list-disc pl-5")
           li 
-            p <strong>Du</strong> kan fokusera på din affär
+            p Du kan fokusera på din affär
           li 
-            p Vi håller dig uppdaterad när ny teknologi bör adopteras
+            p Vi kan hålla dig uppdaterad när ny teknologi bör införlivas
           li 
-            p Vi skapar material som förklarar hur man gör
+            p Vi samlar material som förklarar hur man gör
 
     section(class="text-black p-4 sm:p-12 flex flex-row items-center" )
       div(class="pt-2")
         h3(class="mb-4") Vi lär ut
-        p Vår mission är att hjälpa Sverige på alla möjliga sätt 🇸🇪
+        p Vår mission är att hjälpa dig att se till att du har en Robust och säker sajt.
 
   +footer
