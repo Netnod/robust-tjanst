@@ -22,18 +22,18 @@ block body
     section(class="mb-6")
       h2 Senast utfört test
       table(id="customers" class="table-fixed w-full")
-          tr(class="text-left")
-            th(class="p-2 md:p-6 text-peach bg-black")
+          tr(class="text-left rounded-lg")
+            th(class="p-2 md:p-3 text-peach bg-black")
               h4 Skapat
-            th(class="p-2 md:p-6 text-peach bg-black") 
-              h4 Robust
-            th(class="p-2 md:p-6 text-peach bg-black w-2/12 md:w-fit")    
+            th(class="p-2 md:p-3 text-peach bg-black") 
+              h4 Status
+            th(class="p-2 md:p-3 text-peach bg-black w-2/12 md:w-fit")    
           tr 
-            td(class="p-2 md:p-6") 
+            td(class="p-2 md:p-3") 
                 p= last_test.created_at
-            td(class="p-2 md:p-6") 
-                p= last_test.passed ? 'Ja' : 'Nej'
-            td(class="p-2 md:p-6 flex justify-end") 
+            td(class="p-2 md:p-3 md:pl-3.5") 
+                img(src=`/img/${last_test.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-3")
+            td(class="p-2 md:p-3") 
               a(href=`/test/${last_test.id}`) Visa resultat
     section(class="mb-6")
       h2 Historik
@@ -41,18 +41,18 @@ block body
       if history.length
         table(id="customers" class="table-fixed w-full")
           tr(class="text-left")
-            th(class="p-2 md:p-6 text-peach bg-black")
+            th(class="p-2 md:p-4 text-peach bg-black")
               h4 Skapat
-            th(class="p-2 md:p-6 text-peach bg-black") 
-              h4 Robust 
-            th(class="p-2 md:p-6 text-peach bg-black w-2/12 md:w-fit") 
+            th(class="p-2 md:p-3 text-peach bg-black") 
+              h4 Status 
+            th(class="p-2 md:p-3 text-peach bg-black w-2/12 md:w-fit") 
           each h in history   
             tr 
-              td(class="p-2 md:p-6") 
+              td(class="p-2 md:p-3") 
                   p= h.created_at
-              td(class="p-2 md:p-6") 
-                  p= h.passed ? 'Ja' : 'Nej'
-              td(class="p-2 md:p-6 flex justify-end") 
+              td(class="p-2 md:p-3") 
+                img(src=`/img/${h.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-3")
+              td(class="p-2 md:p-3") 
                 a(href=`/test/${h.id}`) Visa resultat
 
   +footer
