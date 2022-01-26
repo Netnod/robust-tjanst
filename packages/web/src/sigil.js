@@ -1,6 +1,6 @@
 const { getLatestResult } = require("./db/queries/domains")
-const sigilSuccess = require('./assets/robust-badge--animated.js')
-const sigilSuccessSmall = require('./assets/robust-badge--small--animated.js')
+const sigilSuccessBETA = require('./assets/robust-badge--BETA--animated.js')
+const sigilSuccessSmallBETA = require('./assets/robust-badge--small--BETA--animated.js')
 const sigilFail = require('./assets/robust-badge--fail.js')
 async function getSigil(ctx) {
   const {domain, type} = ctx.request.params
@@ -14,10 +14,10 @@ async function getSigil(ctx) {
     // const result = await getLatestResult(conn, domain)
     // TODO: implement check if testes passed or failed 
     if (type === 'badge.svg'){
-      ctx.body = sigilSuccess
+      ctx.body = sigilSuccessBETA
     }
     else {
-      ctx.body = sigilSuccessSmall
+      ctx.body = sigilSuccessSmallBETA
     }
   })
 
