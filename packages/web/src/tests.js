@@ -69,22 +69,39 @@ async function createTest(ctx) {
   await ctx.redirect(ctx.state.namedPath('test_page', {id}))
 }
 
+async function getTestLoadingStatus(ctx) {
+  const {id} = ctx.request.params
+  const {total, done} = await ctx.dbPool.connect(async (connection) => {
+    const test = await connection.one(getTestRunByPublicID(id))
+    const tests = await connection.any(getTestResultByID(test.id))
+
+    const total = tests.length
+    const done = tests.filter(t => t.execution_status !== 'pending').length
+    return {total, done}
+  })
+
+  ctx.type = 'application/json'
+  ctx.body = JSON.stringify({total, done})
+}
+
 async function showTest(ctx) {
   const {id} = ctx.request.params
 
   await ctx.dbPool.connect(async (connection) => {
     const test = await connection.one(getTestRunByPublicID(id))
-    const result = await connection.any(getTestResultByID(test.id))
+    const tests = await connection.any(getTestResultByID(test.id))
 
-    if (result.length === 0 || result.some(test => test.execution_status === 'pending')) { 
-      return ctx.render('tests/loading') 
+    if (tests.length === 0 || tests.some(test => test.execution_status === 'pending')) { 
+      const total = tests.length
+      const done = tests.filter(t => t.execution_status !== 'pending').length
+      return ctx.render('tests/loading', {test_id: test.public_id, total, done}) 
     }
 
-    const allTestsPassed = !result.some(t => !t.test_output.passed)
+    const allTestsPassed = !tests.some(t => !t.test_output.passed)
     const domain = await connection.one(getDomainByID(test.domain_id))
-    const groups = buildGroups(result)
+    const groups = buildGroups(tests)
     await ctx.render('tests/show', {test, allTestsPassed, domain, groups, md: require('markdown-it')()})
   })
 }
 
-module.exports = {createTest, showTest}
+module.exports = {createTest, showTest, getTestLoadingStatus}

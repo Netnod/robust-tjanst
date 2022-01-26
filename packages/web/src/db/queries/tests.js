@@ -14,6 +14,7 @@ function getTestRunByPublicID(public_id) {
   return sql`
     SELECT
       dt.id,
+      dt.public_id,
       dt.domain_id,
       dt.created_at,
       dt.updated_at
