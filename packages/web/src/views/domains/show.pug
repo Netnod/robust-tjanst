@@ -34,8 +34,7 @@ block body
             td(class="p-2 md:p-6") 
                 p= last_test.passed ? 'Ja' : 'Nej'
             td(class="p-2 md:p-6 flex justify-end") 
-              a(href=`/test/${last_test.id}`) 
-                img(src="/img/external-link.svg" class="w-5")
+              a(href=`/test/${last_test.id}`) Visa resultat
     section(class="mb-6")
       h2 Historik
       div(class="grid grid-cols-3 bg-black text-peach")     
@@ -54,7 +53,6 @@ block body
               td(class="p-2 md:p-6") 
                   p= h.passed ? 'Ja' : 'Nej'
               td(class="p-2 md:p-6 flex justify-end") 
-                a(href=`/test/${h.id}`) 
-                  img(src="/img/external-link.svg" class="w-5")
+                a(href=`/test/${h.id}`) Visa resultat
 
   +footer
