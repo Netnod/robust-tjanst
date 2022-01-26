@@ -40,21 +40,21 @@ mixin sigil
         img(src=`${sigil_url}` alt=`Robust-AAA score for ${domain.domain_name}`)
       div(class="mb-4 rounded-lg bg-lightPeach p-4 w-full flex flex-col")
         - var img_tag = `<a href=""><img src="${sigil_url}" alt="Robust-AAA score for ${domain.domain_name}"/></a>`
-        button(class="self-end")
+        button(class="self-end" onClick="copyToClipboard('snippet')")
           img(src="/img/copy.svg")
         div(class="px-2")
           pre(class="whitespace-pre-wrap break-words")
-            code(class="text-base")= img_tag
+            code(class="text-base" id="snippet")= img_tag
     div(class="mt-4 w-full")
       div(class="mb-4")
         img(src=`${sigil_url_small}` alt=`Robust-AAA score for ${domain.domain_name}`)
       div(class="mb-4 rounded-lg bg-lightPeach p-6 w-full flex flex-col")
         - var img_tag = `<a href=""><img src="${sigil_url_small}" alt="Robust-AAA score for ${domain.domain_name}"/></a>`
-        button(class="self-end")
+        button(class="self-end" onClick="copyToClipboard('snippet-small')")
           img(src="/img/copy.svg")
         div(class="px-2")
           pre(class="whitespace-pre-wrap break-words")
-            code(class="text-base")= img_tag
+            code(class="text-base" id="snippet-small")= img_tag
 
 
 mixin start_msg
@@ -115,6 +115,10 @@ block script
   script(type="application/javascript").
     const tests = document.querySelectorAll('.test-group > .test')
     const groups = document.querySelectorAll('.test-group')
+    function copyToClipboard(id) {
+      const copyText = document.getElementById(id)
+      navigator.clipboard.writeText(copyText.textContent);
+    }
       groups.forEach((group) => {
         const togglers = group.querySelectorAll('[data-toggle]')
         const queue = Array.from(group.querySelectorAll('.test.loading'))
