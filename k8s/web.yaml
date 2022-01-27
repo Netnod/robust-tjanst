@@ -30,7 +30,7 @@ spec:
           resources: {}
           env:
             - name: BASE_URL
-              value: "http://robust.gcloud.netnod.se" 
+              value: "https://robust.gcloud.netnod.se" 
             - name: REDIS_PASS
               valueFrom:
                 secretKeyRef:
