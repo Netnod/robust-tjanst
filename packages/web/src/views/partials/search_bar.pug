@@ -2,5 +2,5 @@ mixin search_bar(title)
   div
     h4(class="text-lightPeach mb-4")= title
     form(method="post" action=namedPath('create_test') class="flex flex-1 flex-col lg:flex-row" ) 
-      input(class="rounded-t-lg lg:rounded-t-none lg:rounded-l-lg p-6 border-0 w-full bg-lightPeach" type="text" name="url" placeholder="Ex: http://din.sida.se")
+      input(class="rounded-t-lg lg:rounded-t-none lg:rounded-l-lg p-6 border-0 w-full bg-lightPeach" type="text" name="url" placeholder="Ex: https://example.com")
       button(type="submit" class="rounded-b-lg lg:rounded-b-none lg:rounded-br-lg lg:rounded-tr-lg p-4 border-0 bg-orange uppercase text-lg font-bold lg:w-3/5") Starta test
