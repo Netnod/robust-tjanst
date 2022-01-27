@@ -6,6 +6,12 @@ const { RESULTORS, GROUPINGS, GROUP_DESCRIPTIONS } = require('tests')
 
 const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
 
+const failedMessageFn = () => ({
+  title: "Detta test kraschade :-(",
+  passed: false,
+  description: ""
+})
+
 const buildGroups = (results) => {
   const groups = Object.values(GROUPINGS).reduce(
     (acc, next) => ({
@@ -18,7 +24,7 @@ const buildGroups = (results) => {
     {}
   )
   for (const result of results) {
-    const msgFn = RESULTORS[result.test_name]
+    const msgFn = result.execution_status === 'completed' ? RESULTORS[result.test_name] : failedMessageFn
     if (!msgFn) throw new Error(`No result message function for ${result.test_name}`)
     const group = GROUPINGS[result.test_name]
     if (!group || !groups[group]) throw new Error(`No group for ${result.test_name}`)
@@ -97,7 +103,7 @@ async function showTest(ctx) {
       return ctx.render('tests/loading', {test_id: test.public_id, total, done}) 
     }
 
-    const allTestsPassed = !tests.some(t => !t.test_output.passed)
+    const allTestsPassed = tests.every(t => t.test_output.passed && t.execution_status === 'completed')
     const domain = await connection.one(getDomainByID(test.domain_id))
     const groups = buildGroups(tests)
     await ctx.render('tests/show', {test, allTestsPassed, domain, groups, md: require('markdown-it')()})
