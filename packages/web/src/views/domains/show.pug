@@ -1,17 +1,5 @@
 extends ../base
 
-mixin group_index(data, index)
-  if (index%2 === 0)
-    section(class="bg-lightGray")
-      p= data.id 
-      p= data.passed
-      block 
-  else 
-    section(class="")
-      p= data.id 
-      p= data.passed
-      block 
-
 block body
   include ../partials/header.pug
   include ../partials/footer.pug
@@ -19,9 +7,9 @@ block body
   div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
     h1(class="mb-8")= 'Test historik för ' + domain.domain_name
 
-    section(class="mb-6")
-      h2 Senast utfört test
-      table(id="customers" class="table-fixed w-full")
+    section(class="mb-10")
+      h2(class="mb-5 md:mb-8") Senast utfört test
+      table(id="history" class="table-fixed w-full")
           tr(class="text-left")
             th(class="p-2 md:p-3 text-lightPeach bg-black rounded-tl-lg")
               p Skapat
@@ -35,11 +23,11 @@ block body
                 img(src=`/img/${last_test.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-2")
             td(class="p-2 md:p-3 text-left sm:text-right") 
               a(href=`/test/${last_test.id}`) Visa resultat
-    section(class="mb-6")
-      h2 Historik
+    section(class="mb-10")
+      h2(class="mb-5 md:mb-8") Historik
       div(class="grid grid-cols-3 bg-black text-peach")     
       if history.length
-        table(id="customers" class="table-fixed w-full")
+        table(id="history" class="table-fixed w-full")
           tr(class="text-left")
             th(class="p-2 md:p-4 text-lightPeach bg-black rounded-tl-lg")
               p Skapat
