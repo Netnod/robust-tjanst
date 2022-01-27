@@ -80,17 +80,7 @@ spec:
                 name: web
                 port:
                   number: 3000
-    - host: dev.robust.gcloud.netnod.se
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: web
-                port:
-                  number: 3000
   tls:
-    - hosts:
-        - robust.netnod.se
-      secretName: robust-netnod-se-cert
+  - hosts:
+    - robust.netnod.se
+    secretName: robust-netnod-se-cert
