@@ -65,7 +65,6 @@ async function showDomain(ctx) {
     const last_test = await connection.maybeOne(getLastTestResultForDomain(domain.id))
     const history = await connection.any(getTestHistoryForDomain(domain.id, last_test ? [last_test.id] : []))
 
-    console.log({domain, last_test, history})
     const formattedHistory = history.map((data) => {
       return Object.assign(data, {
         created_at: new Date(data.created_at).toISOString().split('T')[0],
