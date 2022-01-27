@@ -32,8 +32,8 @@ mixin group_index(passed, index)
       block 
 
 mixin sigil 
-  - var sigil_url = namedURL('domain_sigil', {domain: encodeURIComponent(domain.domain_name), type: 'badge.svg'});
-  - var sigil_url_small = namedURL('domain_sigil', {domain: encodeURIComponent(domain.domain_name), type: 'badge-small.svg'});
+  - var sigil_url = namedURL('domain_sigil', {domain: encodeURIComponent(domain.domain_name), type: 'large'});
+  - var sigil_url_small = namedURL('domain_sigil', {domain: encodeURIComponent(domain.domain_name), type: 'small'});
   - var domain_url = namedURL('domain_page', {id: domain.domain_name});
   div(class="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 mb-16 w-full mt-6 items-end")
     div(class="mt-4 w-full")
