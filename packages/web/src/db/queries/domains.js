@@ -79,6 +79,34 @@ function associateAccountWithDomain(account_id, domain_id) {
   `
 }
 
+function getDomainByDomainName(domain_name) {
+  return sql`
+    SELECT
+      d.id,
+      d.domain_name,
+      d.created_at 
+    FROM domains d 
+    WHERE d.domain_name = ${domain_name}
+  `
+}
+
+function getLatestTestResult(domain_id) {
+  return sql`
+    WITH last_test AS (
+      SELECT tr.id, tr.created_at
+      FROM test_runs tr
+      WHERE tr.domain_id = ${domain_id}
+      ORDER BY tr.created_at DESC
+      LIMIT 1
+    )
+    SELECT last_test.id, last_test.created_at, 
+           bool_and((t.test_output -> 'passed')::boolean) as passed
+    FROM last_test
+    INNER JOIN test_results t ON (t.test_run_id = (SELECT id FROM last_test LIMIT 1))
+    GROUP BY last_test.id, last_test.created_at; 
+  `
+}
+
 module.exports = {
   getDomainsForAccount,
   getDomainByID,
@@ -87,4 +115,6 @@ module.exports = {
   insertDomain,
   upsertDomain,
   associateAccountWithDomain,
+  getDomainByDomainName,
+  getLatestTestResult,
 }
