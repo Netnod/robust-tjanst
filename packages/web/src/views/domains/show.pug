@@ -24,9 +24,8 @@ block body
             td(class="p-2 md:p-3 text-left sm:text-right") 
               a(href=`/test/${last_test.public_id}`) Visa resultat
     section(class="mb-10")
-      h2(class="mb-5 md:mb-8") Historik
-      div(class="grid grid-cols-3 bg-black text-peach")     
       if history.length
+        h2(class="mb-5 md:mb-8") Historik   
         table(id="history" class="table-fixed w-full")
           tr(class="text-left")
             th(class="p-2 md:p-4 text-lightPeach bg-black rounded-tl-lg")
