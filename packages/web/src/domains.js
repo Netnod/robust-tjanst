@@ -22,30 +22,30 @@ function getDomainByDomainName(domain_name) {
 function getLastTestResultForDomain(domain_id) {
   return sql`
     WITH last_test AS (
-      SELECT tr.id, tr.created_at
+      SELECT tr.public_id, tr.created_at, tr.id
       FROM test_runs tr
       WHERE tr.domain_id = ${domain_id}
       ORDER BY tr.created_at DESC
       LIMIT 1
     )
 
-    SELECT last_test.id, last_test.created_at, 
+    SELECT last_test.id, last_test.created_at, last_test.public_id,
            bool_and((t.test_output -> 'passed')::boolean) as passed
     FROM last_test
     INNER JOIN test_results t ON (t.test_run_id = (SELECT id FROM last_test LIMIT 1))
-    GROUP BY last_test.id, last_test.created_at; 
+    GROUP BY last_test.id, last_test.public_id, last_test.created_at; 
   `
 }
 
 function getTestHistoryForDomain(domain_id, exclude_test_ids = []) {
   return sql`
-    SELECT tr.id, tr.created_at,
+    SELECT tr.id, tr.created_at, tr.public_id,
            bool_and((t.test_output -> 'passed')::boolean) as passed
     FROM test_runs tr
     INNER JOIN test_results t ON (t.test_run_id = tr.id)
     WHERE domain_id = ${domain_id}
     AND tr.id != ALL(${sql.array(exclude_test_ids, 'int8')})
-    GROUP BY tr.id, tr.created_at
+    GROUP BY tr.id, tr.public_id, tr.created_at
     ORDER BY tr.created_at DESC
     LIMIT 50
   `
