@@ -31,9 +31,9 @@ block body
           tr 
             td(class="p-2 md:p-3") 
                 p= last_test.created_at
-            td(class="p-2 md:p-3 md:pl-3.5") 
-                img(src=`/img/${last_test.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-3")
             td(class="p-2 md:p-3") 
+                img(src=`/img/${last_test.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-2")
+            td(class="p-2 md:p-3 text-left sm:text-right") 
               a(href=`/test/${last_test.id}`) Visa resultat
     section(class="mb-6")
       h2 Historik
@@ -51,8 +51,8 @@ block body
               td(class="p-2 md:p-3") 
                   p= h.created_at
               td(class="p-2 md:p-3") 
-                img(src=`/img/${h.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-3")
-              td(class="p-2 md:p-3") 
+                img(src=`/img/${h.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-2")
+              td(class="p-2 md:p-3 text-left sm:text-right") 
                 a(href=`/test/${h.id}`) Visa resultat
 
   +footer
