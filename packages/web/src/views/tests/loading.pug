@@ -23,6 +23,11 @@ block content
     script.
       const statusURL = "#{absolutePath(namedPath('test_loading_status', test_id))}"
 
+      const counter = document.querySelector('#counter')
+      const total = document.querySelector('#total')
+      const inQueue = document.querySelector('#in-queue')
+      const actualQueue = document.querySelector('#actual-queue')
+
       setInterval(
         () => {
           fetch(statusURL)
@@ -32,10 +37,10 @@ block content
                 window.location = window.location
                 //- window.location.reload(true) // bad scroll pos
               } else {
-                document.querySelector('#counter').innerText = json.done
-                document.querySelector('#total').innerText = json.total
-                document.querySelector('#in-queue').classList.add('hidden')
-                document.querySelector('#actual-queue').classList.remove('hidden')
+                counter.innerText = json.done
+                total.innerText = json.total
+                if (inQueue) inQueue.classList.add('hidden')
+                actualQueue.classList.remove('hidden')
               }
             })
         }, 
