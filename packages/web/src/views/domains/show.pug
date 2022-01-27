@@ -22,12 +22,12 @@ block body
     section(class="mb-6")
       h2 Senast utfört test
       table(id="customers" class="table-fixed w-full")
-          tr(class="text-left rounded-lg")
-            th(class="p-2 md:p-3 text-peach bg-black")
-              h4 Skapat
-            th(class="p-2 md:p-3 text-peach bg-black") 
-              h4 Status
-            th(class="p-2 md:p-3 text-peach bg-black w-2/12 md:w-fit")    
+          tr(class="text-left")
+            th(class="p-2 md:p-3 text-lightPeach bg-black rounded-tl-lg")
+              p Skapat
+            th(class="p-2 md:p-3 text-lightPeach bg-black w-1/4 md:w-fit") 
+              p Status
+            th(class="p-2 md:p-3 text-lightPeach bg-black rounded-tr-lg")  
           tr 
             td(class="p-2 md:p-3") 
                 p= last_test.created_at
@@ -41,11 +41,11 @@ block body
       if history.length
         table(id="customers" class="table-fixed w-full")
           tr(class="text-left")
-            th(class="p-2 md:p-4 text-peach bg-black")
-              h4 Skapat
-            th(class="p-2 md:p-3 text-peach bg-black") 
-              h4 Status 
-            th(class="p-2 md:p-3 text-peach bg-black w-2/12 md:w-fit") 
+            th(class="p-2 md:p-4 text-lightPeach bg-black rounded-tl-lg")
+              p Skapat
+            th(class="p-2 md:p-3 text-lightPeach bg-black w-1/4 md:w-fit") 
+              p Status 
+            th(class="p-2 md:p-3 text-lightPeach bg-black rounded-tr-lg") 
           each h in history   
             tr 
               td(class="p-2 md:p-3") 
