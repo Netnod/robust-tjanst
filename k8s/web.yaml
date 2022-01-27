@@ -30,7 +30,7 @@ spec:
           resources: {}
           env:
             - name: BASE_URL
-              value: "https://robust.netnod.se" 
+              value: "https://robust.gcloud.netnod.se" 
             - name: REDIS_PASS
               valueFrom:
                 secretKeyRef:
@@ -70,16 +70,6 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt"
 spec:
   rules:
-    - host: robust.netnod.se
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: web
-                port:
-                  number: 3000
     - host: dev.robust.gcloud.netnod.se
       http:
         paths:
@@ -91,6 +81,6 @@ spec:
                 port:
                   number: 3000
   tls:
-    - hosts:
-        - robust.netnod.se
-      secretName: robust-netnod-se-cert
+  - hosts:
+    - dev.robust.gcloud.netnod.se
+    secretName: dev-robust-gcloud-netnod-se-cert
