@@ -38,9 +38,9 @@ mixin sigil
   div(class="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 mb-16 w-full mt-6 items-end")
     div(class="mt-4 w-full")
       div(class="mb-4")
-        img(src=`${sigil_url}` alt=`Robust-AAA score for ${domain.domain_name}`)
+        img(src=`${sigil_url}` alt=`${domain.domain_name} är en Robust Tjänst`)
       div(class="mb-4 rounded-lg bg-lightPeach p-4 w-full flex flex-col")
-        - var img_tag = `<a href="${domain_url}"><img src="${sigil_url}" alt="Robust-AAA score for ${domain.domain_name}"/></a>`
+        - var img_tag = `<a href="${domain_url}"><img src="${sigil_url}" alt="${domain.domain_name} är en Robust Tjänst"/></a>`
         button(class="self-end" onClick="copyToClipboard('snippet')")
           img(src="/img/copy.svg")
         div(class="px-2")
@@ -48,9 +48,9 @@ mixin sigil
             code(class="text-base" id="snippet")= img_tag
     div(class="mt-4 w-full")
       div(class="mb-4")
-        img(src=`${sigil_url_small}` alt=`Robust-AAA score for ${domain.domain_name}`)
+        img(src=`${sigil_url_small}` alt=`${domain.domain_name} är en Robust Tjänst`)
       div(class="mb-4 rounded-lg bg-lightPeach p-6 w-full flex flex-col")
-        - var img_tag = `<a href="${domain_url}"><img src="${sigil_url_small}" alt="Robust-AAA score for ${domain.domain_name}"/></a>`
+        - var img_tag = `<a href="${domain_url}"><img src="${sigil_url_small}" alt="${domain.domain_name} är en Robust Tjänst"/></a>`
         button(class="self-end" onClick="copyToClipboard('snippet-small')")
           img(src="/img/copy.svg")
         div(class="px-2")
