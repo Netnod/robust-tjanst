@@ -1,11 +1,4 @@
 const { sql } = require('slonik')
-const {
-  getTopDomains, 
-  getDomainsForAccount, 
-  getDomainForAccountByURL, 
-  insertDomain, 
-  associateAccountWithDomain,
-} = require('./db/queries/domains')
 
 
 function getDomainByDomainName(domain_name) {
