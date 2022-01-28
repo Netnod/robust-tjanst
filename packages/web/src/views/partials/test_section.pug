@@ -1,0 +1,8 @@
+include ./search_bar.pug
+div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto flex-grow flex flex-col") 
+  div(class="rounded-lg bg-rock-wall bg-cover bg-no-repeat bg-black bg-gradient-to-t w-full flex flex-col lg:flex-row lg:justify-around")
+    div(class="pt-8 px-8 lg:pt-16 lg:pl-16 lg:pr-0")
+      h2(class="text-h1 lg:text-xl font-thin text-peach mb-16 lg:mb-12") Testa en till sajt
+      +search_bar("Ange URL för webbplatsen du vill testa")
+    div(class="justify-center self-end w-3/4 lg:w-4/12")
+      img(src="/img/check.svg" class="w-3/4 lg:w-full")
