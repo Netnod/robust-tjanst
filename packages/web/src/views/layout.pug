@@ -5,8 +5,9 @@ block head
 
 block body
   include ./partials/header.pug
-  +header
-  div
+
+  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-12 sm:mt-28")
     block content
-  include ./partials/test_section.pug
+
   include ./partials/footer.pug
+  +footer
