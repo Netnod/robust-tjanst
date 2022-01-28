@@ -10,11 +10,21 @@ build:
   artifacts:
   - image: netnodse/dns-zonemaster
     context: tests/zonemaster/
+    custom:
+      buildCommand: ../../custom-build.sh
   - image: netnodse/ipv6-dns
     context: tests/ipv6-dns/
+    custom:
+      buildCommand: ../../custom-build.sh
   - image: netnodse/https-reachable
     context: tests/https/
+    custom:
+      buildCommand: ../../custom-build.sh
   - image: netnodse/hsts
     context: tests/hsts/
+    custom:
+      buildCommand: ../../custom-build.sh
   - image: netnodse/ipv6-connectivity
     context: tests/ipv6-connectivity
+    custom:
+      buildCommand: ../../custom-build.sh

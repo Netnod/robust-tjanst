@@ -19,21 +19,21 @@ deploy:
         namespace: dev
 ---
 # Deploy services after
-apiVersion: skaffold/v2beta13
+apiVersion: skaffold/v2beta26
 kind: Config
 metadata:
   name: robust-tjanst
 build:
   artifacts:
   - image: netnodse/robust-web
-    docker:
-      dockerfile: Dockerfile.web
+    custom:
+      buildCommand: ./custom-build.sh Dockerfile.web
   - image: netnodse/robust-admin
-    docker:
-      dockerfile: Dockerfile.admin
+    custom:
+      buildCommand: ./custom-build.sh Dockerfile.admin
   - image: netnodse/robust-test-runner
-    docker:
-      dockerfile: Dockerfile.tests
+    custom:
+      buildCommand: ./custom-build.sh Dockerfile.tests
 deploy:
   kubectl:
     defaultNamespace: dev
