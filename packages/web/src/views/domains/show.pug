@@ -1,29 +1,45 @@
-extends ../layout
+extends ../base
 
-block content
+block body
+  include ../partials/header.pug
   include ../partials/footer.pug
-  div(class="col-sm-12 flex flex-col")
-    h1(class="text-3xl mb-8")= domain.domain_name
+  +header 
+  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
+    h1(class="mb-8")= 'Test historik för ' + domain.domain_name
 
-    form(method="post" action=namedPath('create_test'))
-      input(type="hidden" name="domain_id" value=domain.id)
-      input(type="submit" class="btn btn-blue mb-4" value="Run new test")
-
-    h2(class="text-xl mb-1") Test history
-
-    table
-      thead 
-        tr(class="text-left")
-          th Test id
-          th Date
-          th Status 
-          th Score
-
-      tbody
-        each test in history 
+    section(class="mb-10")
+      h2(class="mb-5 md:mb-8") Senast utfört test
+      table(id="history" class="table-fixed w-full")
+          tr(class="text-left")
+            th(class="p-2 md:p-3 text-lightPeach bg-black rounded-tl-lg")
+              p Skapat
+            th(class="p-2 md:p-3 text-lightPeach bg-black w-1/4 md:w-fit") 
+              p Status
+            th(class="p-2 md:p-3 text-lightPeach bg-black rounded-tr-lg")  
           tr 
-            td= test.id 
-            td= formatTimestamp(test.created_at)
-            td= test.test_status 
-            td= test.final_score
+            td(class="p-2 md:p-3") 
+                p= last_test.created_at
+            td(class="p-2 md:p-3") 
+                img(src=`/img/${last_test.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-2")
+            td(class="p-2 md:p-3 text-left sm:text-right") 
+              a(href=`/test/${last_test.public_id}`) Visa resultat
+    section(class="mb-10")
+      if history.length
+        h2(class="mb-5 md:mb-8") Historik   
+        table(id="history" class="table-fixed w-full")
+          tr(class="text-left")
+            th(class="p-2 md:p-4 text-lightPeach bg-black rounded-tl-lg")
+              p Skapat
+            th(class="p-2 md:p-3 text-lightPeach bg-black w-1/4 md:w-fit") 
+              p Status 
+            th(class="p-2 md:p-3 text-lightPeach bg-black rounded-tr-lg") 
+          each h in history   
+            tr 
+              td(class="p-2 md:p-3") 
+                  p= h.created_at
+              td(class="p-2 md:p-3") 
+                img(src=`/img/${h.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-2")
+              td(class="p-2 md:p-3 text-left sm:text-right") 
+                a(href=`/test/${h.public_id}`) Visa resultat
+
   +footer

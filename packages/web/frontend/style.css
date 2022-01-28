@@ -55,10 +55,6 @@ p > a {
   @apply text-blue-400 hover:text-blue-600 cursor-pointer;
 }
 
-.test {
-  /* background-color: #ddd; */
-}
-
 .test.loading .test__result {
   visibility: hidden;
 }
@@ -116,4 +112,24 @@ p > a {
   background-repeat: no-repeat;
   background-size: 100% 49%;
   background-position: bottom;
+}
+
+#history tr:nth-child(even) {
+  @apply bg-lightGray;
+}
+
+#history tr {
+  @apply border-b border-lightBlack;
+}
+
+#history tr:last-child {
+  @apply border-none;
+}
+
+#history tr:last-child td:first-child {
+  @apply rounded-bl-lg;
+}
+
+#history tr:last-child td:last-child {
+  @apply rounded-br-lg;
 }
