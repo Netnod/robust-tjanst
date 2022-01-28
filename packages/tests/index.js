@@ -31,12 +31,14 @@ const tests = [
     image: 'netnodse/ipv6-dns:latest',
     messages: './tests/ipv6-dns/messages.js'
   },
-  {
-    name: 'ipv6-connectivity',
-    group: 'dns',
-    image: 'netnodse/ipv6-connectivity:latest',
-    messages: './tests/ipv6-connectivity/messages.js'
-  }
+  // FIXME: Re-enable this test when we either move to a cluster that supports
+  //        ipv6 or get it working on google cloud
+  // {
+  //   name: 'ipv6-connectivity',
+  //   group: 'dns',
+  //   image: 'netnodse/ipv6-connectivity:latest',
+  //   messages: './tests/ipv6-connectivity/messages.js'
+  // }
 ]
 
 const RESULTORS = tests.reduce((acc, test) => ({
