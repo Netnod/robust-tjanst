@@ -25,7 +25,7 @@ function extractResult(logs) {
   return {passed, details}
 }
 
-module.exports = (test_name, image, connection, resultQueue) => new Worker(test_name, async (job) => {
+module.exports = (test_name, image, concurrency, connection, resultQueue) => new Worker(test_name, async (job) => {
   console.log(`Starting ${test_name}`)
   await job.log(`Starting ${job.name}`)
   const {id, data: { arguments, test_run_id, test_result_id }} = job
@@ -62,4 +62,4 @@ module.exports = (test_name, image, connection, resultQueue) => new Worker(test_
     // await to avoid causing an unhandled promise rejection error
     await deleteTest(podName)
   }
-}, {connection})
+}, {connection, concurrency})

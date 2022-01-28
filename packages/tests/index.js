@@ -11,25 +11,29 @@ const tests = [
     name: 'https-existance',
     group: 'https',
     image: 'netnodse/https-reachable:latest',
-    messages: './tests/https/messages.js'
+    messages: './tests/https/messages.js',
+    concurrency: 1,
   },
   {
     name: 'hsts',
     group: 'https',
     image: 'netnodse/hsts:latest',
-    messages: './tests/hsts/messages.js'
+    messages: './tests/hsts/messages.js',
+    concurrency: 1,
   },
   {
     name: 'zonemaster',
     group: 'dns',
     image: 'netnodse/dns-zonemaster:latest',
-    messages: './tests/zonemaster/messages.js'
+    messages: './tests/zonemaster/messages.js',
+    concurrency: 5,
   },
   {
     name: 'ipv6-dns',
     group: 'dns',
     image: 'netnodse/ipv6-dns:latest',
-    messages: './tests/ipv6-dns/messages.js'
+    messages: './tests/ipv6-dns/messages.js',
+    concurrency: 1,
   },
   // FIXME: Re-enable this test when we either move to a cluster that supports
   //        ipv6 or get it working on google cloud
@@ -37,7 +41,8 @@ const tests = [
   //   name: 'ipv6-connectivity',
   //   group: 'dns',
   //   image: 'netnodse/ipv6-connectivity:latest',
-  //   messages: './tests/ipv6-connectivity/messages.js'
+  //   messages: './tests/ipv6-connectivity/messages.js',
+  //   concurrency: 1,
   // }
 ]
 

@@ -5,7 +5,7 @@ const {tests, testRunQueue, resultQueue, testQueues, connection} = require('./in
 const pool = createPool(process.env.DATABASE_URL)
 
 tests.forEach(test => {
-  const worker = require('./testWorker')(test.name, test.image, connection, resultQueue)
+  const worker = require('./testWorker')(test.name, test.image, test.concurrency, connection, resultQueue)
 
   worker.on('failed', (job, _failedReason) => {
     console.log("a test worker failed: ", {job_id: job.id}, job.data)
