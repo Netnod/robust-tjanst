@@ -1,0 +1,10 @@
+extends ./layout.pug
+
+block content
+  h1 Oops!
+
+  p Någonting gick fel. ¯\_(ツ)_/¯
+
+  if err
+    h4(class="mt-12")= err.name
+    pre(class="overflow-x-scroll py-4")= err.stack
