@@ -9,20 +9,20 @@ html(lang="se")
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-    <meta name="title" content="Förtjänar du Robust-sigillet? Testa om din sajt är tillräckligt robust och säker.">
-    <meta name="description" content="Testa om ni tar säkerhet på allvar och uppfyller de mest grundläggande krav man kan ställa på en webbsida idag.">
+    meta(name="title" content="Förtjänar du Robust-sigillet? Testa om din sajt är tillräckligt robust och säker.")
+    meta(name="description" content="Testa om ni tar säkerhet på allvar och uppfyller de mest grundläggande krav man kan ställa på en webbsida idag.")
+    - var url = absolutePath('/')
+    meta(property="og:type" content="website")
+    meta(property="og:url" content="#{url}")
+    meta(property="og:title" content="Förtjänar du Robust-sigillet? Testa om din sajt är tillräckligt robust och säker.")
+    meta(property="og:description" content="Testa om ni tar säkerhet på allvar och uppfyller de mest grundläggande krav man kan ställa på en webbsida idag.")
+    meta(property="og:image" content="/img/metaImg.png")
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://robust.netnod.se/">
-    <meta property="og:title" content="Förtjänar du Robust-sigillet? Testa om din sajt är tillräckligt robust och säker.">
-    <meta property="og:description" content="Testa om ni tar säkerhet på allvar och uppfyller de mest grundläggande krav man kan ställa på en webbsida idag.">
-    <meta property="og:image" content="/img/metaImg.png">
-
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://robust.netnod.se/">
-    <meta property="twitter:title" content="Förtjänar du Robust-sigillet? Testa om din sajt är tillräckligt robust och säker.">
-    <meta property="twitter:description" content="Testa om ni tar säkerhet på allvar och uppfyller de mest grundläggande krav man kan ställa på en webbsida idag.">
-    <meta property="twitter:image" content="/img/metaImg.png">
+    meta(property="twitter:card" content="summary_large_image")
+    meta(property="twitter:url" content="#{url}")
+    meta(property="twitter:title" content="Förtjänar du Robust-sigillet? Testa om din sajt är tillräckligt robust och säker.")
+    meta(property="twitter:description" content="Testa om ni tar säkerhet på allvar och uppfyller de mest grundläggande krav man kan ställa på en webbsida idag.")
+    meta(property="twitter:image" content="/img/metaImg.png")
   body(class="flex flex-col")
     block body
     block script
