@@ -1,5 +1,4 @@
-//- extends ../layout
-extends ../base.pug
+extends ../layout.pug
 
 mixin toggles
   button(class="toggler flex items-center text-left pl-4 ml-auto justify-end"  data-toggle)
@@ -67,11 +66,8 @@ mixin start_msg
       h1(class="mb-6") Aj då. I dagsläget är din sajt inte Robust.
       p Tråkigt att behöva vara budbärare av dåliga nyheter men din sajt når idag inte upp till säkerhetskraven som krävs för att få bära Robust-sigillet.
       p <i>Läs mer vad du kan göra åt det nedan</i>
-block body
-  include ../partials/header.pug
-  include ../partials/search_bar.pug
-  include ../partials/footer.pug
-  +header
+
+block content
   div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-12 sm:mt-28")
     div(class="flex flex-col mb-16 w-full lg:w-9/12")
        +start_msg
@@ -105,18 +101,9 @@ block body
 
             each test in group.tests
               +test(test)
-    div(class="rounded-lg bg-rock-wall bg-cover bg-no-repeat bg-black bg-gradient-to-t w-full flex flex-col lg:flex-row lg:justify-around")
-      div(class="pt-8 px-8 lg:pt-16 lg:pl-16 lg:pr-0")
-        h2(class="text-h1 lg:text-xl font-thin text-peach mb-16 lg:mb-12") Testa en till sajt
-        +search_bar("Ange URL för webbplatsen du vill testa")
-      div(class="justify-center self-end w-3/4 lg:w-4/12")
-        img(src="/img/check.svg" class="w-3/4 lg:w-full")
-  +footer
-
         
-block script
+block append script
   script(type="application/javascript").
-    const tests = document.querySelectorAll('.test-group > .test')
     const groups = document.querySelectorAll('.test-group')
     function copyToClipboard(id) {
       const copyText = document.getElementById(id)
@@ -132,8 +119,6 @@ block script
               group.classList.toggle('open')
           })
         })
-
-        console.log(queue)
 
         const MAX_TIME = 1000
         const MIN_TIME = 500
