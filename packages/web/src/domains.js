@@ -63,7 +63,7 @@ async function showDomain(ctx) {
   await ctx.dbPool.connect(async (connection) => {
     const domain = await connection.one(getDomainByDomainName(domain_name))
     const last_test = await connection.maybeOne(getLastTestResultForDomain(domain.id))
-    const history = await connection.any(getTestHistoryForDomain(domain.id, last_test ? [last_test.id] : []))
+    const history = last_test ? await connection.any(getTestHistoryForDomain(domain.id, [last_test.id])) : []
 
     const formattedHistory = history.map((data) => {
       return Object.assign(data, {
