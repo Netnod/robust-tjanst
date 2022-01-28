@@ -11,7 +11,7 @@ import('is-docker').then(d => {
   }
 })
 
-const POD_DEADLINE_SECONDS = 60
+const POD_DEADLINE_SECONDS = 120
 const POD_STATUS_POLL_WAIT_TIME_MS = 1000
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
