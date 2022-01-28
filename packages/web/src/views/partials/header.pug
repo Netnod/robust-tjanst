@@ -33,7 +33,7 @@ mixin header(theme)
                           = item.label
 
 
-block script
+block append script
   script(type="application/javascript").
     function handleOnClick() {
       const menu = document.getElementById("mobile-menu")
