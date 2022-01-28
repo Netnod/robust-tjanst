@@ -1,0 +1,10 @@
+extends ./layout.pug
+
+block content
+  h1 Oops!
+
+  p Någonting gick fel. ¯\_(ツ)_/¯
+
+  if err
+    h4(class="mt-12")= err.name
+    pre= err.stack

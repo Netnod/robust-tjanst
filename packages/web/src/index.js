@@ -9,6 +9,7 @@ const koaBody = require('koa-body')
 const koaSession = require('koa-session')
 
 const dbPool = require('./db')
+const { NotFoundError } = require('slonik')
 
 const passport = require('./middleware/auth')
 
@@ -39,7 +40,15 @@ app.on('error', (err, ctx) => {
 app.use(async (ctx, next) => {
   try {
     await next()
+
+    if (ctx.status === 404) {
+      return ctx.render('404')
+    }
   } catch (err) {
+    if (err instanceof NotFoundError) {
+      return ctx.render('404')
+    }
+
     if (err instanceof InvalidSessionError) {
       ctx.session = null
       // TODO: Add flash message explaining what happened
@@ -48,19 +57,13 @@ app.use(async (ctx, next) => {
     }
 
     ctx.status = 500
-    console.log(err)
     if (NODE_ENV === 'production') {
       ctx.body = 'Internal Server Error'
+      await ctx.render('500')
     } else {
-      ctx.body = `
-        <h1>${err.name}</h1>
-
-        <pre>
-          ${err.stack}
-        </pre>
-      `
-      ctx.app.emit('error', err, ctx)
+      await ctx.render('500', {err})
     }
+    ctx.app.emit('error', err, ctx)
   }
 })
 
