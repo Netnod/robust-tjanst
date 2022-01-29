@@ -20,7 +20,7 @@ while [ "x$NS" = x ]; do
     NS=`dig ${ARGDOMAIN} NS +short`
 done
 
-zonemaster-cli "${ARGDOMAIN}" --no-ipv6 --json_stream --json_translate | tr -d '\n' | sed 's/}{/}, {/g' > /tmp/foo
+zonemaster-cli "${ARGDOMAIN}" --json_stream --json_translate --locale sv_SE.UTF-8 | tr -d '\n' | sed 's/}{/}, {/g' > /tmp/foo
 
 ## Output should be
 # '{ passed: true/false, details: { object } }'
