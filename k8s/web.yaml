@@ -30,7 +30,7 @@ spec:
           resources: {}
           env:
             - name: BASE_URL
-              value: "//"
+              value: "https://microk8s-01.robust.netnod.se"
             - name: REDIS_PASS
               valueFrom:
                 secretKeyRef:
