@@ -5,7 +5,7 @@ module.exports = {
   darkMode: 'media', // or 'media' or 'class'
   theme: {
     fontFamily: {
-      sans: ['Roboto'],
+      sans: ['Roboto'], //
     },
     colors: {
       transparent: 'transparent',

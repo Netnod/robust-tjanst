@@ -36,7 +36,7 @@ spec:
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgresql
+                  name: postgresql-postgresql-ha-postgresql
                   key: postgresql-password
             - name: DATABASE_URL
               value: "postgres://$(PGUSER):$(PGPASSWORD)@$(PGHOST)/$(PGDATABASE)"

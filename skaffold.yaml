@@ -10,13 +10,15 @@ deploy:
       - name: redis
         remoteChart: redis
         repo: https://charts.bitnami.com/bitnami
-        namespace: dev
+        namespace: prod
         setValues:
-          replica.replicaCount: 1
+          replica.replicaCount: 3
       - name: postgresql
-        remoteChart: postgresql
+        setValues:
+          volumePermissions.enabled: true
+        remoteChart: postgresql-ha
         repo: https://charts.bitnami.com/bitnami
-        namespace: dev
+        namespace: prod
 ---
 # Deploy services after
 apiVersion: skaffold/v2beta13
@@ -36,7 +38,7 @@ build:
       dockerfile: Dockerfile.tests
 deploy:
   kubectl:
-    defaultNamespace: dev
+    defaultNamespace: prod
     manifests:
     - k8s/admin.yaml
     - k8s/web.yaml

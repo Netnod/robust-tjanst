@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: registry
+  namespace: container-registry
+  annotations:
+    kubernetes.io/ingress.class: "public"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/http2-push-preload: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "500m"
+    nginx.ingress.kubernetes.io/proxy-pass-headers: "Location"
+
+spec:
+  tls:
+  - hosts:
+    - registry.robust.netnod.se
+    secretName: registry-secret-tls
+  rules:
+  - host: registry.robust.netnod.se
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: registry
+            port:
+              number: 5000
