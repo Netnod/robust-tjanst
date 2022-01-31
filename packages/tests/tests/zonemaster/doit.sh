@@ -25,13 +25,10 @@ zonemaster-cli "${ARGDOMAIN}" --no-ipv6 --json_stream --json_translate --locale 
 ## Output should be
 # '{ passed: true/false, details: { object } }'
 
-# A=`grep \"level\":\"ERROR\" /tmp/foo`
-A=`grep -E "\"level\":\"ERROR\"|\"level\":\"CRITICAL\""`
+A="$(grep -E '"level":"(CRITICAL|ERROR)"' /tmp/foo)"
 
-if [ "x$A" = x ]; then
+if [ -z "$A" ];then
     echo "{ \"passed\": true, \"details\": [ "`cat /tmp/foo`" ] }"
 else
     echo "{ \"passed\": false, \"details\": [ "`cat /tmp/foo`" ] }"
 fi
-
-
