@@ -44,8 +44,8 @@ kind: Ingress
 metadata:
   name: admin-ingress
   annotations:
-    kubernetes.io/ingress.class: "traefik-public"
-    cert-manager.io/cluster-issuer: "letsencrypt"
+    kubernetes.io/ingress.class: "public"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   rules:
     - host: admin.robust.gcloud.netnod.se

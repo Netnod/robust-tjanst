@@ -67,7 +67,7 @@ metadata:
   name: web-ingress
   annotations:
     kubernetes.io/ingress.class: "public"
-    cert-manager.io/cluster-issuer: "letsencrypt"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   rules:
     - host: microk8s-01.robust.netnod.se
