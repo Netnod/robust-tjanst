@@ -1,6 +1,6 @@
 FROM node:16.6-alpine3.14
 
-apk add ca-certificates
+RUN apk add ca-certificates
 
 COPY package.json .
 COPY yarn.lock .
