@@ -108,6 +108,8 @@ router.get('/test', ctx => {
 })
 // ----------------- // 
 
+router.get('/about', (ctx) => ctx.render('about'))
+
 router.get('domain_page', '/domain/:id', domains.showDomain)
 
 router.post('create_test', '/test', koaBody(), tests.createTest)
