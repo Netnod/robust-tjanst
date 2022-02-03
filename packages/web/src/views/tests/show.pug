@@ -13,9 +13,8 @@ mixin test(test)
         else
           img(src="/img/red_dot.svg" class="mr-4")
         p(class="ml-2 font-bold")= test.title
-        img(src="/img/loading.svg" class="spinner")
 
-    div(class="test__description ml-12")
+    div(class="test__description ml-0 md:ml-12")
       | !{md.render(test.description)}
 
 mixin result_summary
@@ -119,21 +118,4 @@ block append script
               group.classList.toggle('open')
           })
         })
-
-        const MAX_TIME = 1000
-        const MIN_TIME = 500
-
-        function pop() {
-          if (queue.length === 0) return
-          const test = queue.shift()
-          setTimeout(
-            () => {
-              test.classList.remove('loading')
-              test.querySelector('img.spinner').remove()
-              pop()
-            },
-            Math.random() * (MAX_TIME - MIN_TIME) + MIN_TIME
-          )
-        }
-        pop()
       })
