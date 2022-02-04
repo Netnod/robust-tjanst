@@ -1,5 +1,41 @@
 extends ../layout.pug
 
+block append head
+  title= allTestsPassed ? 'Grattis din sajt är Robust' : 'Din sajt är inte Robust'
+  - var url = absolutePath('/')
+  if (allTestsPassed)
+    - var urlImg = `${absolutePath('/')}img/metaImgSuccess.png`
+    - var title = "Grattis din sajt är Robust"
+    - var description = "Du har förtjänat Robust-sigillet! "
+    meta(name="title" content=title)
+    meta(name="description" content=description)
+    meta(property="og:type" content="website")
+    meta(property="og:url" content=`${url}`)
+    meta(property="og:title" content=title)
+    meta(property="og:description" content=description)
+    meta(property="og:image" content=`${urlImg}`)
+    meta(property="twitter:card" content="summary_large_image")
+    meta(property="twitter:url" content=`${url}`)
+    meta(property="twitter:title" content=title)
+    meta(property="twitter:description" content=description)
+    meta(property="twitter:image" content=`${urlImg}`)
+  else 
+    - var urlImg = `${absolutePath('/')}img/metaImgFail.png`
+    - var title = "Din sajt är inte Robust."
+    - var description = "Din sajt når idag inte upp till säkerhetskraven som krävs för att få bära Robust-sigillet."
+    meta(name="title" content=title)
+    meta(name="description" content=description)
+    meta(property="og:type" content="website")
+    meta(property="og:url" content=`${url}`)
+    meta(property="og:title" content=title)
+    meta(property="og:description" content=description)
+    meta(property="og:image" content=`${urlImg}`)
+    meta(property="twitter:card" content="summary_large_image")
+    meta(property="twitter:url" content=`${url}`)
+    meta(property="twitter:title" content=title)
+    meta(property="twitter:description" content=description)
+    meta(property="twitter:image" content=`${urlImg}`)
+
 mixin toggles
   button(class="toggler flex items-center text-left pl-4 ml-auto justify-end"  data-toggle)
     span(class="icon inline-block text-3xl") ⌃
