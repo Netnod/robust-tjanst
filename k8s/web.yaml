@@ -30,7 +30,7 @@ spec:
           resources: {}
           env:
             - name: BASE_URL
-              value: "https://microk8s-01.robust.netnod.se"
+              value: "https://robustk8s-01.robust.netnod.se"
             - name: REDIS_PASS
               valueFrom:
                 secretKeyRef:
@@ -70,7 +70,7 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   rules:
-    - host: microk8s-01.robust.netnod.se
+    - host: robustk8s-01.robust.netnod.se
       http:
         paths:
           - path: /
@@ -82,5 +82,5 @@ spec:
                   number: 3000
   tls:
   - hosts:
-    - microk8s-01.robust.netnod.se
+    - robustk8s-01.robust.netnod.se
     secretName: prod-robust-gcloud-netnod-se-cert
