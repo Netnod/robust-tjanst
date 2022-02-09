@@ -160,8 +160,10 @@ app.use(async (ctx, next) => {
 // in views rendered by routes
 app.use(router.routes())
 
-// TODO: if (NODE_ENV !== 'production')
-app.use(require('koa-static')((__dirname + '/../public')))
+app.use(require('koa-static')(__dirname + '/../public', {
+  // koa-send is dividing by 1000 -_-
+  maxage: (60 * 60) * 1000
+}))
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
