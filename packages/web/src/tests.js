@@ -6,6 +6,7 @@ const { RESULTORS, GROUPINGS, GROUP_DESCRIPTIONS } = require('tests')
 
 const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
 
+
 const failedMessageFn = () => ({
   title: "Detta test kraschade :-(",
   passed: false,
@@ -67,7 +68,7 @@ async function createTest(ctx) {
     // TODO: Transaction?
     const {domain_id} = await connection.one(upsertDomain(parsedUrl.host))
     const {test_run_id, public_id} = await connection.one(insertNewTestRun(domain_id))
-    await testQueue.add('Test run request', {test_run_id, arguments: parsedUrl})
+    await testQueue.add('Test run request', {test_run_id, domain_id, arguments: parsedUrl})
 
     return public_id 
   })
@@ -110,4 +111,9 @@ async function showTest(ctx) {
   })
 }
 
-module.exports = {createTest, showTest, getTestLoadingStatus}
+module.exports = {
+  testQueue,
+  createTest, 
+  showTest, 
+  getTestLoadingStatus
+}
