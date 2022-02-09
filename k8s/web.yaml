@@ -29,8 +29,6 @@ spec:
             - containerPort: 3000
           resources: {}
           env:
-            - name: BASE_URL
-              value: "https://robust.netnod.se"
             - name: REDIS_PASS
               valueFrom:
                 secretKeyRef:

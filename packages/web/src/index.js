@@ -23,7 +23,7 @@ const fake = require('./fake')
 const { InvalidSessionError } = require('./errors')
 const { format } = require('date-fns')
 
-const {BASE_URL, SIGNED_COOKIE_KEYS, NODE_ENV} = process.env
+const {SIGNED_COOKIE_KEYS, NODE_ENV} = process.env
 
 const app = new Koa()
 
@@ -130,8 +130,11 @@ router.get('fake_test', '/results', fake.test)
 
 // Template helpers. These functions are callable inside views
 app.use(async (ctx, next) => {
+  const { host, protocol } = ctx.request
+  const base_url = `${protocol}://${host}`
+
   ctx.state.absolutePath = (relativePath) => {
-    return new URL(relativePath, BASE_URL).toString()
+    return new URL(relativePath, base_url).toString()
   }
 
   ctx.state.namedPath = (name, ...args) => {
@@ -143,7 +146,7 @@ app.use(async (ctx, next) => {
 
   ctx.state.namedURL = (name, ...args) => {
     const path = ctx.state.namedPath(name, ...args)
-    return new URL(path, BASE_URL).toString()
+    return new URL(path, base_url).toString()
   }
 
   ctx.state.formatTimestamp = (ts) => {
