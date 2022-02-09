@@ -21,7 +21,7 @@ block content
     <lottie-player src="/img/loading-animation.json" background="transparent" speed="1" class="mt-0 h-1/5 w-1/5 self-center mb-40" loop autoplay></lottie-player>
 
     script.
-      const statusURL = "#{absolutePath(namedPath('test_loading_status', test_id))}"
+      const statusURL = "#{namedPath('test_loading_status', test_id)}"
 
       const counter = document.querySelector('#counter')
       const total = document.querySelector('#total')
