@@ -1,10 +1,7 @@
-extends ../base
+extends ../layout
 
-block body
-  include ../partials/header.pug
-  include ../partials/footer.pug
-  +header 
-  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-2 sm:mt-28 flex-grow flex flex-col")
+block content
+  div(class="flex-grow flex flex-col")
     h1(class="mb-8")= 'Test historik för ' + domain.domain_name
 
     section(class="mb-10")
@@ -41,5 +38,3 @@ block body
                 img(src=`/img/${h.passed ? 'icon-success.svg' : 'icon-fail.svg'}` class="md:pl-2")
               td(class="p-2 md:p-3 text-left sm:text-right") 
                 a(href=`/test/${h.public_id}`) Visa resultat
-
-  +footer
