@@ -2,7 +2,7 @@ extends ../layout.pug
 
 block append head
   title= allTestsPassed ? 'Grattis din sajt är Robust' : 'Din sajt är inte Robust'
-  - var url = absolutePath('/')
+  - var url = namedURL('test_page', {id: test.public_id});
   if (allTestsPassed)
     - var urlImg = `${absolutePath('/')}img/metaImgSuccess.png`
     - var title = "Grattis din sajt är Robust"
