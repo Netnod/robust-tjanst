@@ -2,17 +2,5 @@ mixin search_bar(title)
   div
     h4(class="text-lightPeach mb-4")= title
     form(method="post" action=namedPath('create_test') class="flex flex-1 flex-col lg:flex-row") 
-      input(onkeyup="success()" class="rounded-t-lg lg:rounded-t-none lg:rounded-l-lg p-6 border-0 w-full bg-lightPeach" type="url" name="url" placeholder="Ex: https://example.com" id="url-input")
-      button(type="submit" disabled class="rounded-b-lg lg:rounded-b-none lg:rounded-br-lg lg:rounded-tr-lg p-4 border-0 bg-orange uppercase text-lg font-bold lg:w-3/5" id="submit-button") Starta test
-
-  block append script 
-    script(type="application/javascript").
-      function success() {
-      const urlInput = document.getElementById("url-input")
-      const urlBtn = document.getElementById("submit-button")
-        if(urlInput.value === "") { 
-          urlBtn.disabled = true; 
-        } else { 
-          urlBtn.disabled = false;
-        }
-        }
+      input(onkeyup="success()" required class="rounded-t-lg lg:rounded-t-none lg:rounded-l-lg p-6 border-0 w-full bg-lightPeach" type="url" name="url" placeholder="Ex: https://example.com" id="url-input")
+      button(type="submit" class="rounded-b-lg lg:rounded-b-none lg:rounded-br-lg lg:rounded-tr-lg p-4 border-0 bg-orange uppercase text-lg font-bold lg:w-3/5" id="submit-button") Starta test
