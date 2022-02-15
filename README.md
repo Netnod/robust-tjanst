@@ -1,4 +1,5 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Build & Deploy to Prod](https://github.com/Netnod/robust-tjanst/actions/workflows/build-deploy.yaml/badge.svg)](https://github.com/Netnod/robust-tjanst/actions/workflows/build-deploy.yaml)
 
 # Robust Tjänst by Netnod
 
