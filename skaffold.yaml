@@ -7,6 +7,7 @@ deploy:
     - k8s/test-runner-account.yaml
     - k8s/registry.yaml
     - k8s/certManager.yaml
+    - k8s/nginx-config-map.yaml
   helm:
     releases:
       - name: redis
