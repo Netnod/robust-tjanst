@@ -24,6 +24,7 @@
   "homepage": "https://github.com/Netnod/robust-tjanst#readme",
   "dependencies": {
     "@koa/router": "^10.1.0",
+    "apicache": "^1.6.3",
     "bcrypt": "^5.0.1",
     "bullmq": "^1.42.1",
     "date-fns": "^2.23.0",
