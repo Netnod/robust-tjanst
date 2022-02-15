@@ -94,23 +94,31 @@ async function getTestLoadingStatus(ctx) {
 async function showTest(ctx) {
   const {id} = ctx.request.params
   console.log('starting test', id)
-  await ctx.dbPool.connect(async (connection) => {
-    const test = await connection.one(getTestRunByPublicID(id))
-    console.log('found test?', test, id)
-    const tests = await connection.any(getTestResultByID(test.id))
-    console.log('found tests?', tests)
+  try {
 
-    if (tests.length === 0 || tests.some(test => test.execution_status === 'pending')) { 
-      const total = tests.length
-      const done = tests.filter(t => t.execution_status !== 'pending').length
-      return ctx.render('tests/loading', {test_id: test.public_id, total, done}) 
-    }
+    await ctx.dbPool.connect(async (connection) => {
+      const test = await connection.one(getTestRunByPublicID(id))
+      console.log('found test?', test, id)
+      const tests = await connection.any(getTestResultByID(test.id))
+      console.log('found tests?', tests)
 
-    const allTestsPassed = tests.every(t => t.test_output.passed && t.execution_status === 'completed')
-    const domain = await connection.one(getDomainByID(test.domain_id))
-    const groups = buildGroups(tests)
-    await ctx.render('tests/show', {test, allTestsPassed, domain, groups, md: require('markdown-it')()})
-  })
+      if (tests.length === 0 || tests.some(test => test.execution_status === 'pending')) { 
+        const total = tests.length
+        const done = tests.filter(t => t.execution_status !== 'pending').length
+        return ctx.render('tests/loading', {test_id: test.public_id, total, done}) 
+      }
+
+      const allTestsPassed = tests.every(t => t.test_output.passed && t.execution_status === 'completed')
+      const domain = await connection.one(getDomainByID(test.domain_id))
+      const groups = buildGroups(tests)
+      await ctx.render('tests/show', {test, allTestsPassed, domain, groups, md: require('markdown-it')()})
+    })
+  } catch (err) {
+    console.log('error', err)
+    ctx.status = 500
+    ctx.body = err.message
+  }
+
 }
 
 module.exports = {createTest, showTest, getTestLoadingStatus}
