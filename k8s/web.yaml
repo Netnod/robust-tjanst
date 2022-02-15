@@ -72,6 +72,7 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_cache static-cache;
       proxy_cache_valid any 60m;
+      proxy_cache_key "$host$request_uri";
       add_header X-Cache-Status $upstream_cache_status;
 spec:
   rules:
