@@ -66,14 +66,17 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "public"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    # this is too agressive. Better to use etag instead.
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body-size: 8m
     nginx.ingress.kubernetes.io/proxy-buffering: "on"
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_cache static-cache;
-      proxy_cache_valid any 60m;
-      proxy_cache_key "$host$request_uri";
-      add_header X-Cache-Status $upstream_cache_status;
+      /sigil {
+        proxy_cache static-cache;
+        proxy_cache_valid any 60m;
+        proxy_cache_key "$host$request_uri";
+        add_header X-Cache-Status $upstream_cache_status;
+      }
 spec:
   rules:
     - host: robustk8s-01.robust.netnod.se

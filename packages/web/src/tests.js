@@ -116,7 +116,6 @@ async function showTest(ctx) {
   } catch (err) {
     console.log('error', err)
     ctx.status = 500
-    ctx.body = err.message
   }
 
 }
