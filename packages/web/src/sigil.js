@@ -5,6 +5,7 @@ const sigilFailLarge = require('./assets/robust-badge--large--fail--BETA')
 const sigilFailSmall = require('./assets/robust-badge--small--fail--BETA')
 const { sql } = require("slonik")
 const { Queue } = require('bullmq')
+const IORedis = require('ioredis')
 const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
 
 const fileChoice = {
@@ -22,7 +23,7 @@ const fileChoice = {
 //       This query may be doing 2-3 table scans!
 function getLatestValidTestResult(domain_id) {
   return sql`
-    SELECT EVERY((test_results.test_output -> 'passed')::boolean) AS passed, test_results.id AS tr_id
+    SELECT EVERY((test_results.test_output -> 'passed')::boolean) AS passed
     FROM test_runs tr
     INNER JOIN test_results ON test_results.test_run_id = tr.id
     WHERE tr.domain_id = ${domain_id}
@@ -37,27 +38,46 @@ function getLatestValidTestResult(domain_id) {
 async function runOnlyOncePerDomain(domain, fn) {
   const key = `sigil:${domain}`
   const cached = await ctx.redis.get(key)
-  if (cached) return // do nothing if we are already running the test
+  if (cached) return false // do nothing if we are already running the test
 
   // add key to redis with 5 minute ttl and run the test
   await ctx.redis.set(key, 'running', 'EX', 300)
-  fn()
+  await fn()
+  // delete the key
+  await ctx.redis.del(key)
+  return true
 }
 
+async function createAndWaitForTest(domain, pool) {
+  await runOnlyOncePerDomain(domain, async () => {
+    console.log('Running test for domain from sigil', domain)
+    const parsedUrl = parseUrl(`https://${domain}`)
+    const {test_run_id} = await connection.transaction(async trx => {
+      const {domain_id} = await connection.one(upsertDomain(parsedUrl.host))
+       return connection.one(insertNewTestRun(domain_id))
+    })
+    await testQueue.add('Test run request', {test_run_id, arguments: parsedUrl})
 
+    await testQueue
+      .add('Test run request from sigil', {test_run_id, arguments: domain})
+      .waitUntilFinished() // todo: when this happens we should send a 'test running... svg'
+  })
+}
+
+// this is cached for hours to avoid overload and when the cache is empty,
+// we will schedule a new fresh result and schedule a new test
 async function getSigil(ctx) {
   const {domain, type} = ctx.request.params
 
   const pool = ctx.dbPool
-  const {passed, tr_id: test_run_id} = await pool.connect(async conn => {
+
+  await createAndWaitForTest(domain, pool)
+
+  const {passed} = await pool.connect(async conn => {
     const {id: domain_id} = await conn.one(getDomainByDomainName(domain))
     return await conn.one(getLatestValidTestResult(domain_id))
   })
 
-  runOnlyOncePerDomain(domain, async () => {
-    console.log('Running test for domain from sigil', domain)
-    await testQueue.add('Test run request from sigil', {test_run_id, arguments: domain})
-  })
   
   const svg = fileChoice[passed][type]
   ctx.body = svg
