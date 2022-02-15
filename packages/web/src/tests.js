@@ -96,7 +96,9 @@ async function showTest(ctx) {
 
   await ctx.dbPool.connect(async (connection) => {
     const test = await connection.one(getTestRunByPublicID(id))
+    console.log('found test?', test, id)
     const tests = await connection.any(getTestResultByID(test.id))
+    console.log('found tests?', tests)
 
     if (tests.length === 0 || tests.some(test => test.execution_status === 'pending')) { 
       const total = tests.length
