@@ -4,8 +4,16 @@ const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
 const { RESULTORS, GROUPINGS, GROUP_DESCRIPTIONS } = require('tests')
 
+const redis = new IORedis(process.env.REDIS_URL)
+
 const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
 
+async function insertTest(dbPool, domainId) {
+  const reply = await redis.set(`test-lock:${domainId}`, true, "EX", 10, "NX")
+  console.log(reply)
+}
+
+insertTest(null, 1)
 
 const failedMessageFn = () => ({
   title: "Detta test kraschade :-(",
