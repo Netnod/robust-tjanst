@@ -66,6 +66,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "public"
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: 8m
+    nginx.ingress.kubernetes.io/proxy-buffering: "on"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      proxy_cache mycache;
+      proxy_cache_lock on;
+      proxy_cache_valid any 60m;
+      proxy_ignore_headers Cache-Control;
+      add_header X-Cache-Status $upstream_cache_status;
 spec:
   rules:
     - host: robustk8s-01.robust.netnod.se
