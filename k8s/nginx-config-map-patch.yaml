@@ -1,0 +1,12 @@
+# Apply this with kubectl -n ingress patch configmap nginx-load-balancer-microk8s-conf --patch "$(cat nginx-config-map-patch.yaml)"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-load-balancer-microk8s-conf
+  namespace: ingress
+data:
+  proxy-buffering: "on"
+  proxy-buffer-size: 16k
+  proxy-body-size: 8m
+  large-client-header-buffers: "4 16k"
+  use-forwarded-headers: "true"
