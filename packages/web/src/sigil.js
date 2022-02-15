@@ -54,7 +54,7 @@ async function getSigil(ctx) {
     return await conn.one(getLatestValidTestResult(domain_id))
   })
 
-  runOnlyOncePerDomain(domain, () => {
+  runOnlyOncePerDomain(domain, async () => {
     console.log('Running test for domain from sigil', domain)
     await testQueue.add('Test run request from sigil', {test_run_id, arguments: domain})
   })
