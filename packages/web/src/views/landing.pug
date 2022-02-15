@@ -3,12 +3,11 @@ extends base.pug
 
 block body
   include ./partials/header.pug
-  include ./partials/footer.pug
   include ./partials/search_bar.pug
   div(class="pb-12 sm:pb-24 bg-rock-wall bg-cover bg-no-repeat bg-black bg-gradient-to-t")
     +header('light') 
     div(class="flex flex-col w-full pt-8 sm:pt-28")
-      div(class="ml-4 md:ml-0 flex flex-col mb-8 items-center")
+      div(class="mx-4 md:mx-0 flex flex-col mb-8 items-center")
         h1(class="max-w-5xl mx-4 md:mx-8 lg:mx-4 text-peach mb-16 lg:mb-12") Förtjänar du Robust-sigillet? <br/> Testa om din sajt är tillräckligt robust och säker.
         div(class="py-4 md:w-3/5 lg:w-1/3")
           +search_bar("Skriv in en URL för att starta testet")
@@ -45,5 +44,4 @@ block body
       div(class="pt-2")
         h3(class="mb-4") Vi lär ut
         p Vår mission är att hjälpa dig att se till att du har en Robust och säker sajt.
-
-  +footer
+  include ./partials/footer.pug

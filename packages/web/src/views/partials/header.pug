@@ -1,7 +1,7 @@
 - 
   // taken from here https://tailwindui.com/components/application-ui/navigation/navbars
   var links = [
-    {href: '#', label: 'Om oss', current: false}
+    {href: '/about', label: 'Om oss', current: false}
   ]
 mixin header(theme)
   header
@@ -33,7 +33,7 @@ mixin header(theme)
                           = item.label
 
 
-block script
+block append script
   script(type="application/javascript").
     function handleOnClick() {
       const menu = document.getElementById("mobile-menu")

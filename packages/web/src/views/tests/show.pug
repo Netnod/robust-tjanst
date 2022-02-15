@@ -1,5 +1,40 @@
-//- extends ../layout
-extends ../base.pug
+extends ../layout.pug
+
+block append head
+  title= allTestsPassed ? 'Grattis din sajt är Robust' : 'Din sajt är inte Robust'
+  - var url = namedURL('test_page', {id: test.public_id});
+  if (allTestsPassed)
+    - var urlImg = `${absolutePath('/')}img/metaImgSuccess.png`
+    - var title = "Grattis din sajt är Robust"
+    - var description = "Du har förtjänat Robust-sigillet! "
+    meta(name="title" content=title)
+    meta(name="description" content=description)
+    meta(property="og:type" content="website")
+    meta(property="og:url" content=`${url}`)
+    meta(property="og:title" content=title)
+    meta(property="og:description" content=description)
+    meta(property="og:image" content=`${urlImg}`)
+    meta(property="twitter:card" content="summary_large_image")
+    meta(property="twitter:url" content=`${url}`)
+    meta(property="twitter:title" content=title)
+    meta(property="twitter:description" content=description)
+    meta(property="twitter:image" content=`${urlImg}`)
+  else 
+    - var urlImg = `${absolutePath('/')}img/metaImgFail.png`
+    - var title = "Din sajt är inte Robust."
+    - var description = "Din sajt når idag inte upp till säkerhetskraven som krävs för att få bära Robust-sigillet."
+    meta(name="title" content=title)
+    meta(name="description" content=description)
+    meta(property="og:type" content="website")
+    meta(property="og:url" content=`${url}`)
+    meta(property="og:title" content=title)
+    meta(property="og:description" content=description)
+    meta(property="og:image" content=`${urlImg}`)
+    meta(property="twitter:card" content="summary_large_image")
+    meta(property="twitter:url" content=`${url}`)
+    meta(property="twitter:title" content=title)
+    meta(property="twitter:description" content=description)
+    meta(property="twitter:image" content=`${urlImg}`)
 
 mixin toggles
   button(class="toggler flex items-center text-left pl-4 ml-auto justify-end"  data-toggle)
@@ -14,9 +49,8 @@ mixin test(test)
         else
           img(src="/img/red_dot.svg" class="mr-4")
         p(class="ml-2 font-bold")= test.title
-        img(src="/img/loading.svg" class="spinner")
 
-    div(class="test__description ml-12")
+    div(class="test__description ml-0 md:ml-12")
       | !{md.render(test.description)}
 
 mixin result_summary
@@ -67,12 +101,9 @@ mixin start_msg
       h1(class="mb-6") Aj då. I dagsläget är din sajt inte Robust.
       p Tråkigt att behöva vara budbärare av dåliga nyheter men din sajt når idag inte upp till säkerhetskraven som krävs för att få bära Robust-sigillet.
       p <i>Läs mer vad du kan göra åt det nedan</i>
-block body
-  include ../partials/header.pug
-  include ../partials/search_bar.pug
-  include ../partials/footer.pug
-  +header
-  div(class="max-w-5xl lg:w-full mx-6 md:mx-16 lg:mx-auto mt-12 sm:mt-28")
+
+block content
+  div
     div(class="flex flex-col mb-16 w-full lg:w-9/12")
        +start_msg
     if (allTestsPassed) 
@@ -105,18 +136,9 @@ block body
 
             each test in group.tests
               +test(test)
-    div(class="rounded-lg bg-rock-wall bg-cover bg-no-repeat bg-black bg-gradient-to-t w-full flex flex-col lg:flex-row lg:justify-around")
-      div(class="pt-8 px-8 lg:pt-16 lg:pl-16 lg:pr-0")
-        h2(class="text-h1 lg:text-xl font-thin text-peach mb-16 lg:mb-12") Testa en till sajt
-        +search_bar("Ange URL för webbplatsen du vill testa")
-      div(class="justify-center self-end w-3/4 lg:w-4/12")
-        img(src="/img/check.svg" class="w-3/4 lg:w-full")
-  +footer
-
         
-block script
+block append script
   script(type="application/javascript").
-    const tests = document.querySelectorAll('.test-group > .test')
     const groups = document.querySelectorAll('.test-group')
     function copyToClipboard(id) {
       const copyText = document.getElementById(id)
@@ -132,23 +154,4 @@ block script
               group.classList.toggle('open')
           })
         })
-
-        console.log(queue)
-
-        const MAX_TIME = 1000
-        const MIN_TIME = 500
-
-        function pop() {
-          if (queue.length === 0) return
-          const test = queue.shift()
-          setTimeout(
-            () => {
-              test.classList.remove('loading')
-              test.querySelector('img.spinner').remove()
-              pop()
-            },
-            Math.random() * (MAX_TIME - MIN_TIME) + MIN_TIME
-          )
-        }
-        pop()
       })

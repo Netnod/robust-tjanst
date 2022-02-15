@@ -64,9 +64,10 @@ async function createTest(ctx) {
   const parsedUrl = parseUrl(ctx.request.body.url)
 
   const id = await ctx.dbPool.connect(async (connection) => {
-    // TODO: Transaction?
-    const {domain_id} = await connection.one(upsertDomain(parsedUrl.host))
-    const {test_run_id, public_id} = await connection.one(insertNewTestRun(domain_id))
+    const {test_run_id, public_id} = await connection.transaction(async trx => {
+      const {domain_id} = await connection.one(upsertDomain(parsedUrl.host))
+       return connection.one(insertNewTestRun(domain_id))
+    })
     await testQueue.add('Test run request', {test_run_id, arguments: parsedUrl})
 
     return public_id 
