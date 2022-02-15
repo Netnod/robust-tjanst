@@ -9,5 +9,4 @@ COPY packages/tests/ ./packages/tests/
 RUN yarn workspace tests install --frozen-lockfile
 
 WORKDIR ./packages/tests/
-ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 ENTRYPOINT yarn start
