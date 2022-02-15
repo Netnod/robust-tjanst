@@ -93,7 +93,7 @@ async function getTestLoadingStatus(ctx) {
 
 async function showTest(ctx) {
   const {id} = ctx.request.params
-
+  console.log('starting test', id)
   await ctx.dbPool.connect(async (connection) => {
     const test = await connection.one(getTestRunByPublicID(id))
     console.log('found test?', test, id)
