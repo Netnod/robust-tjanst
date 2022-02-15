@@ -6,5 +6,8 @@
     "packages/admin",
     "packages/tests"
   ],
-  "name": "robust-tjanst"
+  "name": "robust-tjanst",
+  "dependencies": {
+    "koa-etag": "^4.0.0"
+  }
 }
