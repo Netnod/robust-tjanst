@@ -163,10 +163,7 @@ app.use(async (ctx, next) => {
 app.use(router.routes())
 
 // TODO: if (NODE_ENV !== 'production')
-app.use(require('koa-etag'))
-app.use(require('koa-static')((__dirname + '/../public'), {
-  maxAge: '36000' // uses milliseconds per docs
-}))
+app.use(require('koa-static')((__dirname + '/../public')))
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
