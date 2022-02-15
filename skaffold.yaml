@@ -5,7 +5,6 @@ deploy:
   kubectl:
     manifests:
     - k8s/test-runner-account.yaml
-    - k8s/nginx-cache.yaml
     - k8s/registry.yaml
     - k8s/certManager.yaml
   helm:
