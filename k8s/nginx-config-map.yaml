@@ -5,9 +5,4 @@ metadata:
   name: nginx-load-balancer-microk8s-conf
   namespace: ingress
 data:
-  proxy-buffering: "on"
-  proxy-buffer-size: 16k
-  proxy-body-size: 8m
-  large-client-header-buffers: "4 16k"
-  use-forwarded-headers: "true"
   http-snippet: "proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=static-cache:10m max_size=10g  inactive=60m use_temp_path=off;"
