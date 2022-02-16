@@ -47,6 +47,7 @@ async function runOnlyOncePerDomain(domain, fn, timeout = 300000) {
   await fn()
   // delete the key
   await redis.del(key)
+  await redis.del(`sigil:${domain}:result`) // also remove old cached result
   return true
 }
 
@@ -61,14 +62,12 @@ async function runAndCache(domain, fn, ttl = 5 * 60 * 60) {
   return result
 }
 
-async function createAndWaitForTest(domain, pool) {
+async function createAndWaitForTest(domain) {
   await runOnlyOncePerDomain(domain, async () => {
     console.log('Running test for domain from sigil', domain)
     const parsedUrl = parseUrl(`https://${domain}`)
-    const {test_run_id} = await connection.transaction(async trx => {
-      const {domain_id} = await connection.one(upsertDomain(parsedUrl.host))
-       return connection.one(insertNewTestRun(domain_id))
-    })
+    const {domain_id} = await connection.one(upsertDomain(parsedUrl.host))
+    const {test_run_id} = await connection.one(insertNewTestRun(domain_id))
     await testQueue.add('Test run request', {test_run_id, arguments: parsedUrl})
 
     await testQueue
@@ -82,8 +81,7 @@ async function createAndWaitForTest(domain, pool) {
 async function getSigil(ctx) {
   const {domain, type} = ctx.request.params
   const passed = await runAndCache(domain, async () => {
-
-    await createAndWaitForTest(domain, pool)
+    await createAndWaitForTest(domain)
 
     const pool = ctx.dbPool
     const {passed} = await pool.connect(async conn => {
