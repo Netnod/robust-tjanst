@@ -35,17 +35,29 @@ function getLatestValidTestResult(domain_id) {
   `
 }
 
-async function runOnlyOncePerDomain(domain, fn) {
-  const key = `sigil:${domain}`
-  const cached = await ctx.redis.get(key)
-  if (cached) return false // do nothing if we are already running the test
+// makes sure we only run a function one time per domain using a semaphore in redis
+async function runOnlyOncePerDomain(domain, fn, timeout = 300000) {
+  const key = `sigil:${domain}:test_running`
+  const semaphore = await ctx.redis.get(key)
+  if (semaphore) return false // do nothing if we are already running the test
 
   // add key to redis with 5 minute ttl and run the test
-  await ctx.redis.set(key, 'running', 'EX', 300)
+  await ctx.redis.set(key, 'running', 'EX', timeout / 1000)
   await fn()
   // delete the key
   await ctx.redis.del(key)
   return true
+}
+
+
+async function runAndCache(domain, fn, ttl = 5 * 60 * 60) {
+  const key = `sigil:${domain}:result`
+  const cache = await ctx.redis.get(key)
+  if (cache) return cache 
+  const result = await fn()
+
+  await ctx.redis.set(key, JSON.stringify(result), 'EX', ttl)
+  return result
 }
 
 async function createAndWaitForTest(domain, pool) {
@@ -68,17 +80,17 @@ async function createAndWaitForTest(domain, pool) {
 // we will schedule a new fresh result and schedule a new test
 async function getSigil(ctx) {
   const {domain, type} = ctx.request.params
+  const passed = await runAndCache(domain, async () => {
 
-  const pool = ctx.dbPool
+    await createAndWaitForTest(domain, pool)
 
-  await createAndWaitForTest(domain, pool)
-
-  const {passed} = await pool.connect(async conn => {
-    const {id: domain_id} = await conn.one(getDomainByDomainName(domain))
-    return await conn.one(getLatestValidTestResult(domain_id))
+    const pool = ctx.dbPool
+    const {passed} = await pool.connect(async conn => {
+      const {id: domain_id} = await conn.one(getDomainByDomainName(domain))
+      return await conn.one(getLatestValidTestResult(domain_id))
+    })
+    return passed
   })
-
-  
   const svg = fileChoice[passed][type]
   ctx.body = svg
   ctx.type = 'image/svg+xml'

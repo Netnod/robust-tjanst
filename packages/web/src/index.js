@@ -7,7 +7,6 @@ const koaLogger = require('koa-logger')
 const koaViews = require('koa-views')
 const koaBody = require('koa-body')
 const koaSession = require('koa-session')
-const apicache = require('apicache')
 
 const dbPool = require('./db')
 const { NotFoundError } = require('slonik')
@@ -27,8 +26,6 @@ const { format } = require('date-fns')
 const {SIGNED_COOKIE_KEYS, NODE_ENV} = process.env
 
 const app = new Koa()
-
-const cache = apicache.middleware
 
 app.use(koaLogger())
 app.keys = SIGNED_COOKIE_KEYS.split(',')
@@ -119,7 +116,7 @@ router.post('create_test', '/test', koaBody(), tests.createTest)
 router.get('test_page', '/test/:id', tests.showTest)
 router.get('test_loading_status', '/test/:id/status', tests.getTestLoadingStatus)
 
-router.get('domain_sigil', '/sigil/:domain/badge-:type(large|small)\.svg', cache('4 hours'), sigil.getSigil)
+router.get('domain_sigil', '/sigil/:domain/badge-:type(large|small)\.svg', sigil.getSigil)
 
 // TODO: Auth check & enforce
 router.get('register', '/accounts/new', accounts.newAccount)
