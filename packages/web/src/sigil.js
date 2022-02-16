@@ -6,7 +6,8 @@ const sigilFailSmall = require('./assets/robust-badge--small--fail--BETA')
 const { sql } = require("slonik")
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
-const testQueue = new Queue('run_tests', {connection: new IORedis(process.env.REDIS_URL)})
+const redis = new IORedis(process.env.REDIS_URL)
+const testQueue = new Queue('run_tests', {connection: redis})
 
 const fileChoice = {
   true: {
@@ -38,25 +39,25 @@ function getLatestValidTestResult(domain_id) {
 // makes sure we only run a function one time per domain using a semaphore in redis
 async function runOnlyOncePerDomain(domain, fn, timeout = 300000) {
   const key = `sigil:${domain}:test_running`
-  const semaphore = await ctx.redis.get(key)
+  const semaphore = await redis.get(key)
   if (semaphore) return false // do nothing if we are already running the test
 
   // add key to redis with 5 minute ttl and run the test
-  await ctx.redis.set(key, 'running', 'EX', timeout / 1000)
+  await redis.set(key, 'running', 'EX', timeout / 1000)
   await fn()
   // delete the key
-  await ctx.redis.del(key)
+  await redis.del(key)
   return true
 }
 
 
 async function runAndCache(domain, fn, ttl = 5 * 60 * 60) {
   const key = `sigil:${domain}:result`
-  const cache = await ctx.redis.get(key)
+  const cache = await redis.get(key)
   if (cache) return cache 
   const result = await fn()
 
-  await ctx.redis.set(key, JSON.stringify(result), 'EX', ttl)
+  await redis.set(key, JSON.stringify(result), 'EX', ttl)
   return result
 }
 
