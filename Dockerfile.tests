@@ -9,4 +9,5 @@ COPY packages/tests/ ./packages/tests/
 RUN yarn workspace tests install --frozen-lockfile
 
 WORKDIR ./packages/tests/
+ENV NODE_EXTRA_CA_CERTS=/var/run/secrets/tokens/ca.crt
 ENTRYPOINT yarn start
