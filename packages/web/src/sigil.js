@@ -6,6 +6,7 @@ const sigilFailSmall = require('./assets/robust-badge--small--fail--BETA')
 const { sql } = require("slonik")
 const { Queue } = require('bullmq')
 const IORedis = require('ioredis')
+const parseUrl = require("./lib/parseUrl")
 const redis = new IORedis(process.env.REDIS_URL)
 const testQueue = new Queue('run_tests', {connection: redis})
 
