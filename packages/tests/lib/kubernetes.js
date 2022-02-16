@@ -49,7 +49,7 @@ const startTest = (image, name, id, arguments) => {
     .then(
       (res) => {
         const pod = {
-          log: () => k8sApi.readNamespacedPodLog(name, namespace, null, true).then(({response}) => { 
+          log: () => k8sApi.readNamespacedPodLog(name, namespace, null, true, true /* skip tls check */).then(({response}) => { 
             if (typeof response.body === "object") {
               // It is unclear why this happens
               return JSON.stringify(response.body)
