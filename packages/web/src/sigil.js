@@ -63,7 +63,7 @@ async function runAndCache(domain, fn, ttl = 5 * 60 * 60) {
   return result
 }
 
-async function createAndWaitForTest(domain) {
+async function createAndWaitForTest(domain, connection) {
   await runOnlyOncePerDomain(domain, async () => {
     console.log('Running test for domain from sigil', domain)
     const parsedUrl = parseUrl(`https://${domain}`)
@@ -82,7 +82,7 @@ async function createAndWaitForTest(domain) {
 async function getSigil(ctx) {
   const {domain, type} = ctx.request.params
   const passed = await runAndCache(domain, async () => {
-    await createAndWaitForTest(domain)
+    await createAndWaitForTest(domain, connection)
 
     const pool = ctx.dbPool
     const {passed} = await pool.connect(async conn => {
