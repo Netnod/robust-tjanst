@@ -79,7 +79,7 @@ metadata:
     #  }
 spec:
   rules:
-    - host: robustk8s-01.robust.netnod.se
+    - host: robust.netnod.se
       http:
         paths:
           - path: /
@@ -91,5 +91,5 @@ spec:
                   number: 3000
   tls:
   - hosts:
-    - robustk8s-01.robust.netnod.se
-    secretName: prod-robust-gcloud-netnod-se-cert
+    - robust.netnod.se
+    secretName: robust-netnod-se-cert
