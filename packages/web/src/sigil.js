@@ -67,8 +67,11 @@ async function createAndWaitForTest(domain, connection) {
   await runOnlyOncePerDomain(domain, async () => {
     console.log('Running test for domain from sigil', domain)
     const parsedUrl = parseUrl(`https://${domain}`)
-    const {domain_id} = await connection.one(upsertDomain(parsedUrl.host))
-    const {test_run_id} = await connection.one(insertNewTestRun(domain_id))
+    const test_run_id = await connection.transaction(async (trx) => {
+      const {domain_id} = await trx.one(upsertDomain(parsedUrl.host))
+      const {test_run_id} = await trx.one(insertNewTestRun(domain_id))
+      return test_run_id
+    })
     await testQueue.add('Test run request', {test_run_id, arguments: parsedUrl})
 
     await testQueue
