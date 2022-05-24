@@ -35,15 +35,13 @@ const tests = [
     messages: './tests/ipv6-dns/messages.js',
     concurrency: 1,
   },
-  // FIXME: Re-enable this test when we either move to a cluster that supports
-  //        ipv6 or get it working on google cloud
-  // {
-  //   name: 'ipv6-connectivity',
-  //   group: 'dns',
-  //   image: 'netnodse/ipv6-connectivity:latest',
-  //   messages: './tests/ipv6-connectivity/messages.js',
-  //   concurrency: 1,
-  // }
+  {
+    name: 'ipv6-connectivity',
+    group: 'dns',
+    image: 'netnodse/ipv6-connectivity:latest',
+    messages: './tests/ipv6-connectivity/messages.js',
+    concurrency: 1,
+  }
 ]
 
 const RESULTORS = tests.reduce((acc, test) => ({
@@ -68,3 +66,4 @@ module.exports = {
   GROUPINGS,
   GROUP_DESCRIPTIONS,
 }
+//

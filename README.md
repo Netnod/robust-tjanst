@@ -22,7 +22,7 @@ We are just getting started. These are some milestones that we think will be imp
 - [x] Logotype and badge design
 - [x] Build an open source community 
 - [x] Implement basic tests for minimum requirements
-- [ ] Register and run tests in background <- we/you are here ❤️
+- [x] Register and run tests in background <- we/you are here ❤️
 - [ ] Launch 🎉
 - [ ] Continue developing as open source
 - [ ] Spread the word
