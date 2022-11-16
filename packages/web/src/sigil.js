@@ -85,10 +85,10 @@ async function createAndWaitForTest(domain, connection) {
 async function getSigil(ctx) {
   const {domain, type} = ctx.request.params
   const passed = await runAndCache(domain, async () => {
-    await createAndWaitForTest(domain, connection)
 
     const pool = ctx.dbPool
     const {passed} = await pool.connect(async conn => {
+      await createAndWaitForTest(domain, conn)
       const {id: domain_id} = await conn.one(getDomainByDomainName(domain))
       return await conn.one(getLatestValidTestResult(domain_id))
     })
