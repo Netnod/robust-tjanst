@@ -1,4 +1,5 @@
 const { upsertDomain, getDomainByDomainName } = require("./db/queries/domains")
+const { insertNewTestRun } = require('./db/queries/tests')
 const sigilSuccessLarge = require('./assets/robust-badge--large--success--BETA')
 const sigilSuccessSmall = require('./assets/robust-badge--small--success--BETA')
 const sigilFailLarge = require('./assets/robust-badge--large--fail--BETA')
