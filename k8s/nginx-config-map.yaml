@@ -1,0 +1,8 @@
+# Apply this with kubectl -n ingress patch configmap nginx-load-balancer-microk8s-conf --patch "$(cat nginx-config-map-patch.yaml)"
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-load-balancer-microk8s-conf
+  namespace: ingress
+data:
+  http-snippet: "proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=static-cache:10m max_size=10g  inactive=60m use_temp_path=off;"

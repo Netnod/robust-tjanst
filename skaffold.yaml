@@ -5,18 +5,24 @@ deploy:
   kubectl:
     manifests:
     - k8s/test-runner-account.yaml
+    - k8s/registry.yaml
+    - k8s/certManager.yaml
+    - k8s/nginx-config-map.yaml
   helm:
     releases:
       - name: redis
         remoteChart: redis
         repo: https://charts.bitnami.com/bitnami
-        namespace: dev
+        namespace: prod
         setValues:
-          replica.replicaCount: 1
+          replica.replicaCount: 3
       - name: postgresql
-        remoteChart: postgresql
+        setValues:
+          volumePermissions.enabled: true
+        remoteChart: postgresql-ha
+        version: 9.4.11
         repo: https://charts.bitnami.com/bitnami
-        namespace: dev
+        namespace: prod
 ---
 # Deploy services after
 apiVersion: skaffold/v2beta13
@@ -36,7 +42,7 @@ build:
       dockerfile: Dockerfile.tests
 deploy:
   kubectl:
-    defaultNamespace: dev
+    defaultNamespace: prod
     manifests:
     - k8s/admin.yaml
     - k8s/web.yaml

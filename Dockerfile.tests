@@ -1,5 +1,7 @@
 FROM node:16.6-alpine3.14
 
+RUN apk add ca-certificates
+
 COPY package.json .
 COPY yarn.lock .
 COPY packages/tests/ ./packages/tests/
@@ -7,4 +9,5 @@ COPY packages/tests/ ./packages/tests/
 RUN yarn workspace tests install --frozen-lockfile
 
 WORKDIR ./packages/tests/
+ENV NODE_TLS_REJECT_UNAUTHORIZED=0
 ENTRYPOINT yarn start
