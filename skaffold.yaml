@@ -20,7 +20,7 @@ deploy:
         setValues:
           volumePermissions.enabled: true
         remoteChart: postgresql-ha
-        version: 10.0.7
+        version: 9.4.11
         repo: https://charts.bitnami.com/bitnami
         namespace: prod
 ---
