@@ -75,9 +75,7 @@ async function createAndWaitForTest(domain, connection) {
     })
     await testQueue.add('Test run request', {test_run_id, arguments: parsedUrl})
 
-    await testQueue
-      .add('Test run request from sigil', {test_run_id, arguments: domain})
-      .waitUntilFinished() // todo: when this happens we should send a 'test running... svg'
+    await testQueue.add('Test run request from sigil', {test_run_id, arguments: domain})
   })
 }
 
